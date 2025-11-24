@@ -1,6 +1,6 @@
-# Healthy Eats - Luxury MVP
+# Flean-Meals MVP - v1
 
-A polished, professional prototype for a healthy food delivery platform, designed to impress tier-1 VCs and HNI investors.
+A polished, professional prototype for a healthy food delivery platform.
 
 ## 🎨 Design Philosophy
 
