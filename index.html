@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLEAN - Home</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-brand">
+      <h1>FLEAN</h1>
+      <p class="tagline">Healthy Kitchens <span class="tagline-dot">·</span> Tasty Food</p>
+    </div>
+    <div id="goalIndicator" class="goal-indicator"></div>
+  </header>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Search for healthy meals">
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Carousel -->
+    <section class="hero-carousel">
+      <div class="carousel-container">
+        <div class="carousel-track">
+          <div class="carousel-slide mint">
+            <h2>Certified Clean Kitchens</h2>
+            <p>Every kitchen partner is hygiene-certified and regularly audited</p>
+            <button class="carousel-cta">Explore →</button>
+          </div>
+          <div class="carousel-slide yellow">
+            <h2>No Palm Oil Ever</h2>
+            <p>We never compromise on ingredients—quality you can trust</p>
+            <button class="carousel-cta">Learn More →</button>
+          </div>
+          <div class="carousel-slide pink">
+            <h2>Macro-Perfect Meals</h2>
+            <p>Track your nutrition goals with every delicious bite</p>
+            <button class="carousel-cta">Browse Menu →</button>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-dots">
+        <span class="carousel-dot active"></span>
+        <span class="carousel-dot"></span>
+        <span class="carousel-dot"></span>
+      </div>
+    </section>
+
+    <!-- Category Chips -->
+    <section class="category-section">
+      <div class="category-chips">
+        <button class="chip">Tikka & Kebabs</button>
+        <button class="chip">Wraps & Sandwiches</button>
+        <button class="chip">Salads</button>
+        <button class="chip">Rice & Grain Bowls</button>
+        <button class="chip">Burrito Bowls</button>
+        <button class="chip">Thalis & Khichdi</button>
+      </div>
+    </section>
+
+    <!-- Filter Row -->
+    <section class="filter-section">
+      <div class="filter-group">
+        <label class="filter-chip">
+          <input type="radio" name="type" value="veg" checked>
+          <span>Veg</span>
+        </label>
+        <label class="filter-chip">
+          <input type="radio" name="type" value="nonveg">
+          <span>Non-Veg</span>
+        </label>
+      </div>
+      <div class="filter-group">
+        <label class="filter-chip">
+          <input type="radio" name="price" value="1" checked>
+          <span>₹</span>
+        </label>
+        <label class="filter-chip">
+          <input type="radio" name="price" value="2">
+          <span>₹₹</span>
+        </label>
+        <label class="filter-chip">
+          <input type="radio" name="price" value="3">
+          <span>₹₹₹</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Feed -->
+    <section class="feed" id="feed">
+      <!-- Dishes will be rendered here by JavaScript -->
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-section">
+      <h2 class="section-title">Why Choose Us?</h2>
+      <div class="why-choose-grid">
+        <div class="why-card green">
+          <div class="why-card-title">Zero Refined Oil</div>
+          <p class="why-card-desc">Only cold-pressed and traditional oils</p>
+        </div>
+        <div class="why-card peach">
+          <div class="why-card-title">Certified Organic</div>
+          <p class="why-card-desc">Sourced from verified organic farms</p>
+        </div>
+        <div class="why-card yellow">
+          <div class="why-card-title">Clean Kitchens</div>
+          <p class="why-card-desc">Hygiene audits every month</p>
+        </div>
+        <div class="why-card pink">
+          <div class="why-card-title">Macro Tracking</div>
+          <p class="why-card-desc">Every meal labeled with nutrition data</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Action Button -->
+  <button class="fab" id="personalizationFAB" aria-label="Open personalization settings"></button>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="goals.html" class="nav-item">
+      <span class="nav-icon"><img src="assets/images/Goals.png" alt="Goals" class="nav-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"><span style="display: none;">🎯</span></span>
+      <span class="nav-label">Goals</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">⋯</span>
+      <span class="nav-label">More</span>
+    </a>
+  </nav>
+
+  <!-- Cart Notification -->
+  <div class="cart-notification" style="display: none;">
+    <div class="cart-info">
+      <div class="cart-icon">🛒</div>
+      <div class="cart-text">
+        <div class="cart-title">1 item Added</div>
+        <div class="cart-savings">You're saving ₹30 on this order</div>
+      </div>
+    </div>
+    <button class="view-cart-btn" onclick="window.location.href='#'">
+      View Cart →
+    </button>
+  </div>
+
+  <!-- Subcategory Screen (FirstClub-style) -->
+  <div class="subcategory-overlay" id="subcategoryOverlay">
+    <div class="subcategory-content">
+      <div class="subcategory-header">
+        <button class="subcategory-back" id="subcategoryBack" aria-label="Go back">←</button>
+        <div class="subcategory-header-text">
+          <h2 id="subcategoryTitle">Choose Category</h2>
+          <p class="subcategory-subtitle" id="subcategorySubtitle">Select a specific type</p>
+        </div>
+      </div>
+      
+      <div class="subcategory-hero">
+        <div class="subcategory-hero-icon" id="subcategoryHeroIcon">🥗</div>
+        <h1 class="subcategory-hero-title" id="subcategoryHeroTitle">Salads</h1>
+        <p class="subcategory-hero-subtitle">Fresh, healthy and delicious</p>
+      </div>
+      
+      <div class="subcategory-list" id="subcategoryList">
+        <!-- Subcategories will be dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Personalisation Overlay -->
+  <div class="overlay" id="personalizationOverlay">
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2>Customize Your Preferences</h2>
+        <button class="close-btn" id="closeOverlay" aria-label="Close">×</button>
+      </div>
+      
+      <div class="overlay-body">
+        <!-- Macros -->
+        <div class="pref-section">
+          <h3>Select Macros</h3>
+          <div class="slider-group">
+            <label>
+              Protein: <span id="proteinValue">30</span>g
+              <input type="range" id="proteinSlider" min="10" max="50" step="5" value="30">
+            </label>
+          </div>
+          <div class="slider-group">
+            <label>
+              Carbs: <span id="carbsValue">45</span>g
+              <input type="range" id="carbsSlider" min="10" max="80" step="5" value="45">
+            </label>
+          </div>
+          <div class="slider-group">
+            <label>
+              Fibre: <span id="fibreValue">15</span>g
+              <input type="range" id="fibreSlider" min="5" max="30" step="5" value="15">
+            </label>
+          </div>
+        </div>
+
+        <!-- Avoidants -->
+        <div class="pref-section">
+          <h3>Select Avoidants</h3>
+          <div class="palm-oil-container">
+            <label class="checkbox-label disabled">
+              <input type="checkbox" name="avoid" value="noPalmOil" id="noPalmOilCheckbox">
+              <span>No Palm Oil</span>
+            </label>
+            <span class="palm-oil-note">We keep this filter always on.</span>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" name="avoid" value="noSugar">
+            <span>No Sugar</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="avoid" value="noRefinedFlour">
+            <span>No Refined Flour</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="avoid" value="noArtificial">
+            <span>No Artificial Additives</span>
+          </label>
+        </div>
+
+        <!-- Desirables -->
+        <div class="pref-section">
+          <h3>Select Desirables</h3>
+          <label class="checkbox-label">
+            <input type="checkbox" name="desire" value="coldPressedOil">
+            <span>Cold Pressed Oil</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="desire" value="ghee">
+            <span>Ghee</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="desire" value="organic">
+            <span>Organic</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="save-btn" id="savePreferences">Save & Customize</button>
+    </div>
+  </div>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
