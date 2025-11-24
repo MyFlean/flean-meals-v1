@@ -416,43 +416,48 @@ body {
    ═══════════════════════════════════════════════════════════════════ */
 .fab {
   position: fixed;
-  bottom: 90px;
+  bottom: 110px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--forest-green) 0%, var(--dark-forest) 100%);
-  color: white;
-  border: none;
-  border-radius: 28px;
-  padding: 0.85rem 2rem;
+  background: linear-gradient(135deg, var(--forest-green) 0%, var(--accent-green) 100%);
+  color: var(--cream);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 32px;
+  padding: 1rem 2.25rem;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(30, 95, 60, 0.35);
+  box-shadow: 0 10px 30px rgba(30, 95, 60, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 99;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.95rem;
+  gap: 0.75rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.3px;
-  backdrop-filter: blur(10px);
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(12px);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .fab:hover {
-  transform: translateX(-50%) translateY(-4px);
-  box-shadow: 0 12px 32px rgba(30, 95, 60, 0.45);
+  transform: translateX(-50%) translateY(-5px) scale(1.03);
+  box-shadow: 0 14px 40px rgba(30, 95, 60, 0.5), 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .fab:active {
-  transform: translateX(-50%) translateY(-1px);
+  transform: translateX(-50%) translateY(-2px) scale(0.98);
+  box-shadow: 0 8px 24px rgba(30, 95, 60, 0.4);
 }
 
 .fab::before {
-  content: '⚙️';
-  font-size: 1.1rem;
+  content: '✨';
+  font-size: 1.2rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 .fab::after {
   content: 'Customize';
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1493,8 +1498,9 @@ body {
   }
   
   .fab {
-    bottom: 100px;
-    padding: 1rem 2.5rem;
+    bottom: 120px;
+    padding: 1.1rem 2.75rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -1518,8 +1524,8 @@ body {
   }
   
   .fab {
-    bottom: 85px;
-    padding: 0.75rem 1.75rem;
-    font-size: 0.9rem;
+    bottom: 100px;
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
   }
 }
