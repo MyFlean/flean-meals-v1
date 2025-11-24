@@ -758,9 +758,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initCategoryChips();
     initSubcategoryOverlay();
     initHeroCarousel();
-  } else if (path.includes('goals.html')) {
+  } else if (path.includes('goals.html') || path.includes('/goals')) {
     renderGoals();
-  } else if (path.includes('dish.html')) {
+  } else if (path.includes('dish.html') || path.includes('/dish')) {
     renderDishDetails();
   }
 });
