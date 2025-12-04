@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>Product — Flean Market</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Additional Product Detail Styles */
+    .product-detail-page {
+      min-height: 100vh;
+      padding-bottom: 120px;
+    }
+    
+    .detail-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+    
+    .detail-header.scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .detail-header .back-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .detail-header .action-btns {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .detail-header .action-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .product-image-hero {
+      position: relative;
+      height: 350px;
+      background: var(--slate-100);
+    }
+    
+    .product-image-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .product-image-hero .health-badge {
+      position: absolute;
+      bottom: -30px;
+      right: 1.5rem;
+      width: 80px;
+      height: 80px;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+    
+    .product-info {
+      padding: 2.5rem 1.5rem 1.5rem;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      margin-top: -1.5rem;
+      position: relative;
+      z-index: 5;
+    }
+    
+    .product-delivery-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--emerald-50);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .product-delivery-info strong {
+      color: var(--emerald-700);
+    }
+    
+    .product-detail-brand {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-500);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .product-detail-title {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .stars {
+      color: #fbbf24;
+    }
+    
+    .rating-text {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+    }
+    
+    .product-detail-desc {
+      font-size: 1rem;
+      color: var(--slate-600);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .detail-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .detail-section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .ingredients-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .ingredient-chip {
+      padding: 0.5rem 1rem;
+      background: var(--slate-100);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--slate-700);
+    }
+    
+    .ingredient-chip.good {
+      background: var(--emerald-100);
+      color: var(--emerald-700);
+    }
+    
+    .ingredient-chip.bad {
+      background: var(--red-light);
+      color: #b91c1c;
+    }
+    
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    
+    .nutrition-item {
+      text-align: center;
+      padding: 1rem;
+      background: var(--slate-50);
+      border-radius: var(--radius-lg);
+    }
+    
+    .nutrition-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--emerald-700);
+      display: block;
+    }
+    
+    .nutrition-label {
+      font-size: 0.75rem;
+      color: var(--slate-500);
+      text-transform: uppercase;
+    }
+    
+    /* Tinder-style Swap Carousel */
+    .swap-carousel-section {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--emerald-50) 0%, var(--bg-secondary) 100%);
+    }
+    
+    .swap-carousel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .swap-carousel-header h3 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .swap-carousel-hint {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .swap-carousel {
+      position: relative;
+      height: 320px;
+      perspective: 1000px;
+    }
+    
+    .swap-card-stack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .swap-tinder-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      overflow: hidden;
+      cursor: grab;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+      transform-origin: center bottom;
+    }
+    
+    .swap-tinder-card:active {
+      cursor: grabbing;
+    }
+    
+    .swap-tinder-card.card-1 {
+      z-index: 3;
+      transform: translateY(0) scale(1);
+    }
+    
+    .swap-tinder-card.card-2 {
+      z-index: 2;
+      transform: translateY(12px) scale(0.95);
+      opacity: 0.7;
+    }
+    
+    .swap-tinder-card.card-3 {
+      z-index: 1;
+      transform: translateY(24px) scale(0.9);
+      opacity: 0.4;
+    }
+    
+    .swap-tinder-card.swiping-left {
+      transform: translateX(-120%) rotate(-15deg);
+      opacity: 0;
+    }
+    
+    .swap-tinder-card.swiping-right {
+      transform: translateX(120%) rotate(15deg);
+      opacity: 0;
+    }
+    
+    .swap-card-image {
+      height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .swap-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .swap-card-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .swap-card-body {
+      padding: 1rem;
+    }
+    
+    .swap-card-brand {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate-500);
+    }
+    
+    .swap-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0.25rem 0;
+    }
+    
+    .swap-card-score {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+    
+    .swap-card-score-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--slate-200);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    
+    .swap-card-score-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+    
+    .swap-card-score-fill.good { background: var(--emerald-500); }
+    .swap-card-score-fill.mid { background: var(--amber); }
+    .swap-card-score-fill.low { background: var(--red); }
+    
+    .swap-card-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--emerald-700);
+    }
+    
+    .swap-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .swap-action-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .swap-action-btn.skip {
+      background: var(--slate-100);
+      color: var(--slate-600);
+    }
+    
+    .swap-action-btn.like {
+      background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));
+      color: white;
+    }
+    
+    .swap-action-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .swap-action-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .swap-empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--slate-500);
+    }
+    
+    .swap-empty-state span {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .sticky-cart-bar {
+      position: fixed;
+      bottom: 70px;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.5rem;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--slate-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      z-index: 90;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .cart-bar-price {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .cart-bar-price .price {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    
+    .cart-bar-price .unit {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+    }
+    
+    .cart-bar-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--emerald-600), var(--emerald-700));
+      color: white;
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+      transition: all 0.2s ease;
+    }
+    
+    .cart-bar-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(5, 150, 105, 0.4);
+    }
+  </style>
+</head>
+<body data-page="product" class="product-detail-page">
+  <!-- Floating Header -->
+  <header class="detail-header" id="detailHeader">
+    <button class="back-btn" onclick="window.history.back()">←</button>
+    <div class="action-btns">
+      <button class="action-btn" onclick="shareProduct()">📤</button>
+      <button class="action-btn" onclick="toggleFavorite()" id="favBtn">🤍</button>
+    </div>
+  </header>
+
+  <!-- Product Content -->
+  <div id="productDetail">
+    <!-- Content rendered via JS -->
+    <div style="padding: 3rem; text-align: center;">
+      <div class="loader-dot" style="width: 40px; height: 40px; background: var(--emerald-500); border-radius: 50%; margin: 0 auto; animation: loader-bounce 1s infinite;"></div>
+      <p style="margin-top: 1rem; color: var(--slate-500);">Loading product...</p>
+    </div>
+  </div>
+
+  <!-- Cart Toast -->
+  <div class="cart-toast" id="cartToast">
+    <div class="toast-content">
+      <span class="toast-icon">✅</span>
+      <div class="toast-text">
+        <strong id="toastTitle">Added to cart</strong>
+        <span id="toastSubtitle">View cart to checkout</span>
+      </div>
+    </div>
+    <button class="toast-action" onclick="window.location.href='index.html'">Continue</button>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+      <span class="nav-indicator"></span>
+    </a>
+    <a href="flean_finds.html" class="nav-item">
+      <span class="nav-icon">💎</span>
+      <span class="nav-label">Flean Finds</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+    </a>
+  </nav>
+
+  <script src="assets/script.js"></script>
+  <script>
+    // Enhanced Product Detail Rendering
+    function renderEnhancedProductDetail() {
+      const container = document.getElementById('productDetail');
+      const productId = new URLSearchParams(window.location.search).get('id');
+      
+      // Find product from global products array
+      const product = products.find(p => p.id === productId);
+      
+      if (!product) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 4rem 2rem;">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">🤷</div>
+            <h2 style="font-family: var(--font-serif); margin-bottom: 0.5rem;">Product Not Found</h2>
+            <p style="color: var(--slate-500); margin-bottom: 1.5rem;">This product may have been removed or doesn't exist.</p>
+            <a href="index.html" style="display: inline-flex; padding: 0.75rem 1.5rem; background: var(--emerald-600); color: white; border-radius: 999px; font-weight: 600; text-decoration: none;">
+              ← Back to Home
+            </a>
+          </div>
+        `;
+        return;
+      }
+      
+      const badgeClass = product.healthScore >= 75 ? 'good' : product.healthScore >= 50 ? 'mid' : 'low';
+      const swap = window.productSwaps?.[product.id];
+      const swapProduct = swap ? products.find(p => p.id === swap.swapId) : null;
+      
+      // Get related products
+      const relatedProducts = products
+        .filter(p => p.category === product.category && p.id !== product.id)
+        .slice(0, 5);
+      
+      container.innerHTML = `
+        <!-- Hero Image -->
+        <div class="product-image-hero">
+          <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x350?text=Product'">
+          <div class="health-badge ${badgeClass}">
+            <strong>${product.healthScore}</strong>
+            <span>/100</span>
+          </div>
+        </div>
+        
+        <!-- Product Info -->
+        <div class="product-info">
+          <!-- Verification Badge -->
+          <div class="product-delivery-info">
+            <span>✓</span>
+            <span><strong>Flean-verified</strong> · Scored & analyzed for you</span>
+          </div>
+          
+          <p class="product-detail-brand">${product.brand}</p>
+          <h1 class="product-detail-title">${product.name}</h1>
+          
+          <div class="product-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-text">4.2 (128 reviews)</span>
+          </div>
+          
+          <p class="product-detail-desc">${product.description}</p>
+          
+          <!-- Tags -->
+          <div class="detail-section">
+            <div class="ingredients-list">
+              ${product.tags.map(tag => `<span class="ingredient-chip good">✓ ${tag}</span>`).join('')}
+              ${product.watchouts.map(w => `<span class="ingredient-chip bad">⚠️ ${w}</span>`).join('')}
+            </div>
+          </div>
+          
+          <!-- Nutrition Info -->
+          ${product.macros ? `
+            <div class="detail-section">
+              <h3 class="detail-section-title">📊 Nutrition per serving</h3>
+              <div class="nutrition-grid">
+                ${Object.entries(product.macros).map(([key, val]) => `
+                  <div class="nutrition-item">
+                    <span class="nutrition-value">${val}</span>
+                    <span class="nutrition-label">${key}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+          
+          <!-- Health Score Breakdown -->
+          <div class="detail-section">
+            <h3 class="detail-section-title">🏥 Health Score Breakdown</h3>
+            <div style="background: ${badgeClass === 'good' ? 'var(--emerald-50)' : badgeClass === 'mid' ? 'var(--amber-light)' : 'var(--red-light)'}; border-radius: var(--radius-lg); padding: 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span style="font-weight: 600;">Overall Score</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: ${badgeClass === 'good' ? 'var(--emerald-700)' : badgeClass === 'mid' ? '#d97706' : 'var(--red)'};">${product.healthScore}/100</span>
+              </div>
+              <div style="background: rgba(0,0,0,0.1); border-radius: 999px; height: 8px; overflow: hidden;">
+                <div style="width: ${product.healthScore}%; height: 100%; background: ${badgeClass === 'good' ? 'var(--emerald-500)' : badgeClass === 'mid' ? 'var(--amber)' : 'var(--red)'}; border-radius: 999px; transition: width 1s ease;"></div>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--slate-600); margin-top: 0.75rem;">
+                ${badgeClass === 'good' ? '✅ Green light! Your body will thank you later.' : 
+                  badgeClass === 'mid' ? '⚠️ It\'s complicated. Good enough for a cheat day.' :
+                  '❌ Our AI is giving you the side-eye. Check the swap below!'}
+              </p>
+            </div>
+          </div>
+          
+          <!-- Smart Swap -->
+          ${swap && swapProduct && product.healthScore < 70 ? `
+            <div class="detail-section">
+              <h3 class="detail-section-title">💡 Plot twist: There's a better option</h3>
+              <div style="background: linear-gradient(135deg, var(--emerald-50), white); border: 2px solid var(--emerald-200); border-radius: var(--radius-xl); padding: 1.25rem;">
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                  <img src="${swapProduct.image}" alt="${swapProduct.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-lg);" onerror="this.src='https://via.placeholder.com/80'">
+                  <div style="flex: 1;">
+                    <p style="font-size: 0.75rem; color: var(--slate-500); margin-bottom: 0.25rem;">${swapProduct.brand}</p>
+                    <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">${swapProduct.name}</h4>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem; background: var(--emerald-100); color: var(--emerald-700); border-radius: 999px; font-size: 0.75rem; font-weight: 700;">
+                        ⭐ ${swapProduct.healthScore}/100
+                      </span>
+                      <span style="font-weight: 700;">₹${swapProduct.price}</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                  <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Why it's better:</p>
+                  <ul style="font-size: 0.85rem; color: var(--slate-600); padding-left: 1rem;">
+                    ${swap.reasons.slice(0, 3).map(r => `<li style="margin-bottom: 0.25rem;">✅ ${r}</li>`).join('')}
+                  </ul>
+                </div>
+                <button onclick="navigateToProduct('${swapProduct.id}')" style="width: 100%; padding: 0.75rem; background: var(--emerald-600); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer;">
+                  Try This Instead →
+                </button>
+              </div>
+            </div>
+          ` : ''}
+          
+          <!-- Product Details -->
+          <div class="detail-section">
+            <h3 class="detail-section-title">📝 Product Details</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500);">Category</span>
+                <span style="font-weight: 500;">${product.category.replace('-', ' & ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500);">Unit</span>
+                <span style="font-weight: 500;">${product.unit}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500);">Shelf Life</span>
+                <span style="font-weight: 500;">6 months</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                <span style="color: var(--slate-500);">Country of Origin</span>
+                <span style="font-weight: 500;">India</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Swipe for Better Swaps -->
+        ${relatedProducts.length > 0 ? `
+          <div class="swap-carousel-section">
+            <div class="swap-carousel-header">
+              <h3>🔄 Swipe for Swaps</h3>
+              <span class="swap-carousel-hint">← Skip · Like →</span>
+            </div>
+            <div class="swap-carousel" id="swapCarousel">
+              <div class="swap-card-stack" id="swapCardStack">
+                ${relatedProducts.slice(0, 3).map((p, i) => {
+                  const scoreClass = p.healthScore >= 75 ? 'good' : p.healthScore >= 50 ? 'mid' : 'low';
+                  return `
+                    <div class="swap-tinder-card card-${i + 1}" data-id="${p.id}" data-index="${i}">
+                      <div class="swap-card-image">
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x140?text=Product'">
+                        <span class="swap-card-badge">${p.healthScore}/100</span>
+                      </div>
+                      <div class="swap-card-body">
+                        <span class="swap-card-brand">${p.brand}</span>
+                        <h4 class="swap-card-title">${p.name}</h4>
+                        <div class="swap-card-score">
+                          <div class="swap-card-score-bar">
+                            <div class="swap-card-score-fill ${scoreClass}" style="width: ${p.healthScore}%"></div>
+                          </div>
+                          <span style="font-size: 0.8rem; font-weight: 600; color: var(--slate-600);">${p.healthScore}/100</span>
+                        </div>
+                        <span class="swap-card-price">₹${p.price}</span>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+            <div class="swap-actions">
+              <button class="swap-action-btn skip" onclick="swipeCard('left')" title="Skip">✕</button>
+              <button class="swap-action-btn like" onclick="swipeCard('right')" title="Add to cart">💚</button>
+            </div>
+          </div>
+        ` : ''}
+        
+        <!-- Sticky Cart Bar -->
+        <div class="sticky-cart-bar">
+          <div class="cart-bar-price">
+            <span class="price">₹${product.price}</span>
+            <span class="unit">${product.unit}</span>
+          </div>
+          <button class="cart-bar-btn" onclick="addToCart('${product.id}')">
+            🛒 Add to Cart
+          </button>
+        </div>
+      `;
+      
+      // Update page title
+      document.title = `${product.name} — Flean`;
+    }
+    
+    function shareProduct() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Check out this healthy product on Flean!',
+          url: window.location.href
+        });
+      } else {
+        // Fallback - copy to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Link copied!', 'Share this product with friends');
+      }
+    }
+    
+    let isFavorite = false;
+    function toggleFavorite() {
+      isFavorite = !isFavorite;
+      const btn = document.getElementById('favBtn');
+      btn.textContent = isFavorite ? '❤️' : '🤍';
+      btn.style.animation = 'none';
+      btn.offsetHeight;
+      btn.style.animation = 'badge-pop 0.3s ease-out';
+      
+      if (isFavorite) {
+        showToast('Added to favorites', 'Find it in your profile');
+      }
+    }
+    
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('detailHeader');
+      if (header) {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+      }
+    });
+    
+    // Tinder-style Swap Card Logic
+    let currentSwapIndex = 0;
+    let swapProducts = [];
+    
+    function initSwipeCards() {
+      const cards = document.querySelectorAll('.swap-tinder-card');
+      swapProducts = Array.from(cards).map(card => card.dataset.id);
+      
+      cards.forEach(card => {
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        
+        card.addEventListener('touchstart', (e) => {
+          if (card.classList.contains('card-1')) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+          }
+        });
+        
+        card.addEventListener('touchmove', (e) => {
+          if (!isDragging) return;
+          currentX = e.touches[0].clientX - startX;
+          card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
+        });
+        
+        card.addEventListener('touchend', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          
+          if (Math.abs(currentX) > 100) {
+            swipeCard(currentX > 0 ? 'right' : 'left');
+          } else {
+            card.style.transform = '';
+          }
+        });
+        
+        // Mouse events for desktop
+        card.addEventListener('mousedown', (e) => {
+          if (card.classList.contains('card-1')) {
+            startX = e.clientX;
+            isDragging = true;
+            card.style.cursor = 'grabbing';
+          }
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+          if (!isDragging || !card.classList.contains('card-1')) return;
+          currentX = e.clientX - startX;
+          card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
+        });
+        
+        document.addEventListener('mouseup', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          card.style.cursor = 'grab';
+          
+          if (Math.abs(currentX) > 100) {
+            swipeCard(currentX > 0 ? 'right' : 'left');
+          } else {
+            card.style.transform = '';
+          }
+          currentX = 0;
+        });
+      });
+    }
+    
+    function swipeCard(direction) {
+      const topCard = document.querySelector('.swap-tinder-card.card-1');
+      if (!topCard) return;
+      
+      const productId = topCard.dataset.id;
+      
+      // Animate the swipe
+      topCard.classList.add(direction === 'right' ? 'swiping-right' : 'swiping-left');
+      
+      // If swiped right (liked), add to cart
+      if (direction === 'right') {
+        addToCart(productId);
+      }
+      
+      // After animation, reorganize cards
+      setTimeout(() => {
+        topCard.remove();
+        
+        const remainingCards = document.querySelectorAll('.swap-tinder-card');
+        if (remainingCards.length === 0) {
+          // Show empty state
+          const stack = document.getElementById('swapCardStack');
+          if (stack) {
+            stack.innerHTML = `
+              <div class="swap-empty-state">
+                <span>✨</span>
+                <p>You've seen all swaps!</p>
+              </div>
+            `;
+          }
+          return;
+        }
+        
+        // Update card positions
+        remainingCards.forEach((card, index) => {
+          card.className = 'swap-tinder-card card-' + (index + 1);
+          card.style.transform = '';
+        });
+        
+        // Reinitialize swipe
+        initSwipeCards();
+      }, 300);
+    }
+    
+    // Init on load
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        renderEnhancedProductDetail();
+        setTimeout(initSwipeCards, 100);
+      }, 500);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>Your Flean Profile — Health Journey</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="profile">
+  <!-- Profile Hero -->
+  <section class="profile-hero">
+    <a href="index.html" class="back-link" style="color: white; position: absolute; top: 1rem; left: 1rem;">← Back</a>
+    <div class="profile-avatar">👤</div>
+    <h1 class="profile-name">Priyam</h1>
+    <span class="profile-badge">✅ Certified Label Reader</span>
+  </section>
+
+  <!-- Profile Layout -->
+  <div class="profile-layout">
+    <!-- Flean Score Card -->
+    <section class="score-card">
+      <div class="score-ring" data-score="78" style="--score: 78">
+        <svg viewBox="0 0 160 160">
+          <circle class="bg" cx="80" cy="80" r="70"></circle>
+          <circle class="progress" cx="80" cy="80" r="70"></circle>
+        </svg>
+        <div class="score-value">
+          <strong>78</strong>
+          <span>/100</span>
+        </div>
+      </div>
+      <div>
+        <span class="score-label">Your Flean Score</span>
+        <h2 class="score-title">Top 15%! Your cart is basically a gym membership 💪</h2>
+        <div class="score-stats">
+          <div class="score-stat">
+            <span>🏆</span>
+            <span>Healthier than 85% of users</span>
+          </div>
+          <div class="score-stat">
+            <span>✅</span>
+            <span>87% good choices (your mom would be proud)</span>
+          </div>
+          <div class="score-stat">
+            <span>🛡️</span>
+            <span>Dodged 23 sketchy additives</span>
+          </div>
+          <div class="score-stat">
+            <span>🔄</span>
+            <span>12 smart swaps (big brain energy)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+      <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.25rem; text-align: center; border: 1px solid var(--slate-200);">
+        <span style="font-size: 1.75rem; display: block; margin-bottom: 0.5rem;">🛒</span>
+        <strong style="font-size: 1.5rem; color: var(--emerald-700);">47</strong>
+        <p style="font-size: 0.75rem; color: var(--slate-500);">Orders</p>
+      </div>
+      <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.25rem; text-align: center; border: 1px solid var(--slate-200);">
+        <span style="font-size: 1.75rem; display: block; margin-bottom: 0.5rem;">💚</span>
+        <strong style="font-size: 1.5rem; color: var(--emerald-700);">156</strong>
+        <p style="font-size: 0.75rem; color: var(--slate-500);">Products</p>
+      </div>
+      <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.25rem; text-align: center; border: 1px solid var(--slate-200);">
+        <span style="font-size: 1.75rem; display: block; margin-bottom: 0.5rem;">⭐</span>
+        <strong style="font-size: 1.5rem; color: var(--emerald-700);">12</strong>
+        <p style="font-size: 0.75rem; color: var(--slate-500);">Favorites</p>
+      </div>
+    </section>
+
+    <!-- Recent Orders -->
+    <section class="profile-summary">
+      <h3>📦 Recent Orders</h3>
+      <div class="summary-list">
+        <div class="summary-item">
+          <span>Order #FL2847</span>
+          <strong style="color: var(--emerald-600);">Delivered ✓</strong>
+        </div>
+        <div class="summary-item">
+          <span>Order #FL2831</span>
+          <strong style="color: var(--emerald-600);">Delivered ✓</strong>
+        </div>
+        <div class="summary-item">
+          <span>Order #FL2819</span>
+          <strong style="color: var(--emerald-600);">Delivered ✓</strong>
+        </div>
+      </div>
+      <button style="width: 100%; padding: 0.75rem; background: var(--slate-100); color: var(--slate-700); border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer;">
+        View All Orders →
+      </button>
+    </section>
+
+    <!-- Your Preferences -->
+    <section class="profile-summary">
+      <h3>⚙️ Your Preferences</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+        <span style="padding: 0.5rem 1rem; background: var(--emerald-100); color: var(--emerald-700); border-radius: 999px; font-size: 0.85rem; font-weight: 600;">🛡️ No Palm Oil</span>
+        <span style="padding: 0.5rem 1rem; background: var(--red-light); color: #b91c1c; border-radius: 999px; font-size: 0.85rem; font-weight: 600;">🚫 No MSG</span>
+        <span style="padding: 0.5rem 1rem; background: var(--emerald-100); color: var(--emerald-700); border-radius: 999px; font-size: 0.85rem; font-weight: 600;">🌿 Organic</span>
+        <span style="padding: 0.5rem 1rem; background: var(--emerald-100); color: var(--emerald-700); border-radius: 999px; font-size: 0.85rem; font-weight: 600;">💪 High Protein</span>
+      </div>
+      <button style="width: 100%; padding: 0.75rem; background: var(--emerald-600); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer;">
+        ✨ Change your mind (we don't judge)
+      </button>
+    </section>
+
+    <!-- The Flean Mandate -->
+    <section class="profile-mandate">
+      <h3>🛡️ The Flean Promise</h3>
+      <div class="mandate-grid">
+        <div class="mandate-item">
+          <span class="mandate-item-icon">🚫</span>
+          <div>
+            <h4>300+ Additives Ghosted</h4>
+            <p>Palm oil, trans fats, MSG — we've blocked their number. They're never getting through.</p>
+          </div>
+        </div>
+        <div class="mandate-item">
+          <span class="mandate-item-icon">🧠</span>
+          <div>
+            <h4>AI That Did the Homework</h4>
+            <p>Our algorithm analyzed 50,000+ products using peer-reviewed research. So you can shop, not study.</p>
+          </div>
+        </div>
+        <div class="mandate-item">
+          <span class="mandate-item-icon">🔍</span>
+          <div>
+            <h4>No Fine Print BS</h4>
+            <p>Full ingredient breakdown. What's bad, what's good, why it matters. In plain English.</p>
+          </div>
+        </div>
+        <div class="mandate-item">
+          <span class="mandate-item-icon">🔄</span>
+          <div>
+            <h4>Swaps, Not Shame</h4>
+            <p>Found something meh? We'll show you something better. Zero lectures, zero guilt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="profile-summary">
+      <h3>🏅 Achievements</h3>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 1rem;">
+        <div style="text-align: center;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">🌱</div>
+          <span style="font-size: 0.7rem; color: var(--slate-600);">First Order</span>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #34d399, #10b981); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">🔄</div>
+          <span style="font-size: 0.7rem; color: var(--slate-600);">10 Swaps</span>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #a78bfa, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">🏆</div>
+          <span style="font-size: 0.7rem; color: var(--slate-600);">Top 15%</span>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 60px; height: 60px; background: var(--slate-200); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem; opacity: 0.5;">🎯</div>
+          <span style="font-size: 0.7rem; color: var(--slate-400);">Score 90+</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Actions -->
+    <section style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <button style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--slate-200); border-radius: var(--radius-lg); text-align: left; cursor: pointer;">
+        <span style="font-size: 1.25rem;">📍</span>
+        <div>
+          <strong style="display: block; font-size: 0.95rem;">Saved Addresses</strong>
+          <span style="font-size: 0.8rem; color: var(--slate-500);">2 addresses saved</span>
+        </div>
+        <span style="margin-left: auto; color: var(--slate-400);">→</span>
+      </button>
+      <button style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--slate-200); border-radius: var(--radius-lg); text-align: left; cursor: pointer;">
+        <span style="font-size: 1.25rem;">💳</span>
+        <div>
+          <strong style="display: block; font-size: 0.95rem;">Payment Methods</strong>
+          <span style="font-size: 0.8rem; color: var(--slate-500);">1 card saved</span>
+        </div>
+        <span style="margin-left: auto; color: var(--slate-400);">→</span>
+      </button>
+      <button style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--slate-200); border-radius: var(--radius-lg); text-align: left; cursor: pointer;">
+        <span style="font-size: 1.25rem;">🔔</span>
+        <div>
+          <strong style="display: block; font-size: 0.95rem;">Notifications</strong>
+          <span style="font-size: 0.8rem; color: var(--slate-500);">Manage alerts</span>
+        </div>
+        <span style="margin-left: auto; color: var(--slate-400);">→</span>
+      </button>
+      <button style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--slate-200); border-radius: var(--radius-lg); text-align: left; cursor: pointer;">
+        <span style="font-size: 1.25rem;">❓</span>
+        <div>
+          <strong style="display: block; font-size: 0.95rem;">Help & Support</strong>
+          <span style="font-size: 0.8rem; color: var(--slate-500);">FAQs, chat support</span>
+        </div>
+        <span style="margin-left: auto; color: var(--slate-400);">→</span>
+      </button>
+    </section>
+
+    <!-- Sign Out -->
+    <button style="width: 100%; padding: 1rem; background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: var(--radius-lg); font-weight: 600; margin-top: 1rem; cursor: pointer;">
+      Sign Out
+    </button>
+
+    <!-- App Version -->
+    <p style="text-align: center; font-size: 0.8rem; color: var(--slate-400); margin-top: 1rem;">
+      Flean v1.0.0 · Made with 💚 and too much black coffee in Noida
+    </p>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="flean_finds.html" class="nav-item">
+      <span class="nav-icon">💎</span>
+      <span class="nav-label">Flean Finds</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+      <span class="nav-indicator"></span>
+    </a>
+  </nav>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
