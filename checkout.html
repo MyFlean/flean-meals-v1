@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>Checkout — Flean</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .checkout-page { padding-bottom: 160px; }
+    
+    .checkout-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-elevated);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    
+    .checkout-header h1 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .checkout-header h1 a {
+      color: var(--charcoal);
+      text-decoration: none;
+    }
+    
+    /* Progress Steps */
+    .checkout-progress {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--slate-50);
+    }
+    
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--slate-400);
+    }
+    
+    .progress-step.active {
+      color: var(--emerald-600);
+      font-weight: 600;
+    }
+    
+    .progress-step.done {
+      color: var(--emerald-600);
+    }
+    
+    .progress-step .step-num {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--slate-200);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .progress-step.active .step-num {
+      background: var(--emerald-600);
+      color: white;
+    }
+    
+    .progress-step.done .step-num {
+      background: var(--emerald-600);
+      color: white;
+    }
+    
+    .progress-line {
+      width: 30px;
+      height: 2px;
+      background: var(--slate-200);
+    }
+    
+    .progress-line.done {
+      background: var(--emerald-600);
+    }
+    
+    .checkout-content { padding: 1rem; }
+    
+    /* Section Cards */
+    .checkout-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--slate-200);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid var(--slate-100);
+    }
+    
+    .section-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .section-header .change-btn {
+      color: var(--emerald-600);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .section-body { padding: 1rem; }
+    
+    /* Address Section */
+    .address-card {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .address-card.selected {
+      border-color: var(--emerald-500);
+      background: var(--emerald-50);
+    }
+    
+    .address-card + .address-card {
+      margin-top: 0.75rem;
+    }
+    
+    .address-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--slate-300);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .address-card.selected .address-radio {
+      border-color: var(--emerald-600);
+    }
+    
+    .address-card.selected .address-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--emerald-600);
+      border-radius: 50%;
+    }
+    
+    .address-details h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .address-label {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      background: var(--emerald-100);
+      color: var(--emerald-700);
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .address-details p {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+      line-height: 1.4;
+    }
+    
+    .address-details .phone {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+      margin-top: 0.25rem;
+    }
+    
+    .add-address-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.875rem;
+      margin-top: 0.75rem;
+      border: 2px dashed var(--slate-300);
+      border-radius: var(--radius-lg);
+      color: var(--slate-600);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    /* Delivery Time */
+    .time-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .time-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+    }
+    
+    .time-option.selected {
+      border-color: var(--emerald-500);
+      background: var(--emerald-50);
+    }
+    
+    .time-icon {
+      font-size: 1.5rem;
+    }
+    
+    .time-details h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    
+    .time-details p {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+    }
+    
+    .time-badge {
+      margin-left: auto;
+      padding: 0.25rem 0.5rem;
+      background: var(--emerald-600);
+      color: white;
+      border-radius: var(--radius-sm);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    
+    /* Payment Options */
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+    }
+    
+    .payment-option.selected {
+      border-color: var(--emerald-500);
+      background: var(--emerald-50);
+    }
+    
+    .payment-icon {
+      font-size: 1.5rem;
+    }
+    
+    .payment-details h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    
+    .payment-details p {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+    }
+    
+    /* Order Summary */
+    .order-summary {
+      background: var(--slate-50);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.35rem 0;
+      font-size: 0.85rem;
+    }
+    
+    .summary-row span:first-child { color: var(--slate-600); }
+    
+    .summary-row.total {
+      padding-top: 0.75rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--slate-200);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    
+    /* Flean Points */
+    .flean-points {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--gold-light) 0%, white 100%);
+      border-radius: var(--radius-lg);
+      margin-top: 1rem;
+    }
+    
+    .flean-points span:first-child { font-size: 1.5rem; }
+    
+    .flean-points p {
+      font-size: 0.85rem;
+      color: var(--slate-700);
+    }
+    
+    .flean-points strong { color: var(--emerald-700); }
+    
+    /* Sticky Place Order Bar */
+    .place-order-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.5rem calc(1rem + env(safe-area-inset-bottom));
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--slate-200);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .order-eta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--slate-600);
+    }
+    
+    .order-eta strong { color: var(--emerald-600); }
+    
+    .place-order-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--emerald-600) 0%, var(--emerald-700) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+    }
+    
+    .place-order-btn:disabled {
+      background: var(--slate-300);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body data-page="checkout" class="checkout-page">
+  <!-- Header -->
+  <header class="checkout-header">
+    <h1>
+      <a href="cart.html">←</a>
+      Checkout
+    </h1>
+  </header>
+
+  <!-- Progress -->
+  <div class="checkout-progress">
+    <div class="progress-step done">
+      <span class="step-num">✓</span>
+      <span>Cart</span>
+    </div>
+    <div class="progress-line done"></div>
+    <div class="progress-step active">
+      <span class="step-num">2</span>
+      <span>Checkout</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step">
+      <span class="step-num">3</span>
+      <span>Done</span>
+    </div>
+  </div>
+
+  <!-- Checkout Content -->
+  <main class="checkout-content">
+    <!-- Delivery Address -->
+    <section class="checkout-section">
+      <div class="section-header">
+        <h2>📍 Delivery Address</h2>
+        <button class="change-btn" onclick="window.location.href='addresses.html'">Manage</button>
+      </div>
+      <div class="section-body">
+        <div class="address-card selected" onclick="selectAddress(this)">
+          <div class="address-radio"></div>
+          <div class="address-details">
+            <h3>Priyam <span class="address-label">Home</span></h3>
+            <p>Amrapali Sapphire, Tower Jade, Flat 1204<br>Sector 45, Noida - 201301</p>
+            <span class="phone">+91 98765 43210</span>
+          </div>
+        </div>
+        <div class="address-card" onclick="selectAddress(this)">
+          <div class="address-radio"></div>
+          <div class="address-details">
+            <h3>Priyam <span class="address-label">Work</span></h3>
+            <p>Advant Tower, 5th Floor<br>Sector 142, Noida - 201305</p>
+            <span class="phone">+91 98765 43210</span>
+          </div>
+        </div>
+        <button class="add-address-btn" onclick="window.location.href='addresses.html'">
+          + Add New Address
+        </button>
+      </div>
+    </section>
+
+    <!-- Delivery Time -->
+    <section class="checkout-section">
+      <div class="section-header">
+        <h2>⏰ Delivery Time</h2>
+      </div>
+      <div class="section-body">
+        <div class="time-options">
+          <div class="time-option selected" onclick="selectTime(this)">
+            <span class="time-icon">⚡</span>
+            <div class="time-details">
+              <h3>Express Delivery</h3>
+              <p>Get it in 10-15 minutes</p>
+            </div>
+            <span class="time-badge">FASTEST</span>
+          </div>
+          <div class="time-option" onclick="selectTime(this)">
+            <span class="time-icon">📅</span>
+            <div class="time-details">
+              <h3>Schedule for Later</h3>
+              <p>Choose a convenient time slot</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment Method -->
+    <section class="checkout-section">
+      <div class="section-header">
+        <h2>💳 Payment Method</h2>
+      </div>
+      <div class="section-body">
+        <div class="payment-options">
+          <div class="payment-option selected" onclick="selectPayment(this)">
+            <span class="payment-icon">💵</span>
+            <div class="payment-details">
+              <h3>Cash on Delivery</h3>
+              <p>Pay when your order arrives</p>
+            </div>
+          </div>
+          <div class="payment-option" onclick="selectPayment(this)">
+            <span class="payment-icon">📱</span>
+            <div class="payment-details">
+              <h3>UPI</h3>
+              <p>GPay, PhonePe, Paytm</p>
+            </div>
+          </div>
+          <div class="payment-option" onclick="selectPayment(this)">
+            <span class="payment-icon">💳</span>
+            <div class="payment-details">
+              <h3>Credit / Debit Card</h3>
+              <p>Visa, Mastercard, RuPay</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Summary -->
+    <section class="checkout-section">
+      <div class="section-header">
+        <h2>📋 Order Summary</h2>
+      </div>
+      <div class="section-body">
+        <div class="order-summary" id="orderSummary">
+          <!-- Rendered via JS -->
+        </div>
+        <div class="flean-points">
+          <span>🌱</span>
+          <p>You'll earn <strong>15 Flean Points</strong> with this order</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Place Order Bar -->
+  <div class="place-order-bar">
+    <div class="order-eta">
+      <span>🚀</span> Arriving in <strong>10-15 minutes</strong>
+    </div>
+    <button class="place-order-btn" onclick="placeOrder()">
+      Place Order · <span id="totalAmount">₹0</span>
+    </button>
+  </div>
+
+  <script src="assets/script.js"></script>
+  <script>
+    function renderOrderSummary() {
+      const summaryEl = document.getElementById('orderSummary');
+      const totalEl = document.getElementById('totalAmount');
+      
+      const cart = JSON.parse(localStorage.getItem('fleanCart') || '[]');
+      
+      if (cart.length === 0) {
+        window.location.href = 'cart.html';
+        return;
+      }
+      
+      const cartItems = cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        return product ? { ...product, qty: item.qty } : null;
+      }).filter(Boolean);
+      
+      const itemCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const deliveryFee = subtotal >= 200 ? 0 : 25;
+      const platformFee = 2;
+      const total = subtotal + deliveryFee + platformFee;
+      
+      summaryEl.innerHTML = `
+        <div class="summary-row">
+          <span>Items (${itemCount})</span>
+          <span>₹${subtotal}</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery</span>
+          <span style="color: ${deliveryFee === 0 ? 'var(--emerald-600)' : 'inherit'}">${deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`}</span>
+        </div>
+        <div class="summary-row">
+          <span>Platform Fee</span>
+          <span>₹${platformFee}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>₹${total}</span>
+        </div>
+      `;
+      
+      totalEl.textContent = `₹${total}`;
+    }
+    
+    function selectAddress(el) {
+      document.querySelectorAll('.address-card').forEach(card => card.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    
+    function selectTime(el) {
+      document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    
+    function selectPayment(el) {
+      document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    
+    function placeOrder() {
+      const btn = document.querySelector('.place-order-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="load-more-spinner" style="display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;"></span> Processing...';
+      
+      // Save order to history
+      const cart = JSON.parse(localStorage.getItem('fleanCart') || '[]');
+      const orders = JSON.parse(localStorage.getItem('fleanOrders') || '[]');
+      
+      const cartItems = cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        return product ? { ...product, qty: item.qty } : null;
+      }).filter(Boolean);
+      
+      const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const total = subtotal + (subtotal >= 200 ? 0 : 25) + 2;
+      
+      const newOrder = {
+        id: 'FL' + Date.now().toString().slice(-7),
+        date: new Date().toISOString(),
+        items: cartItems,
+        total: total,
+        status: 'confirmed',
+        address: 'Amrapali Sapphire, Sector 45, Noida'
+      };
+      
+      orders.unshift(newOrder);
+      localStorage.setItem('fleanOrders', JSON.stringify(orders));
+      localStorage.setItem('fleanCart', '[]');
+      localStorage.setItem('lastOrderId', newOrder.id);
+      
+      // Navigate to confirmation
+      setTimeout(() => {
+        window.location.href = 'order_confirmation.html';
+      }, 1500);
+    }
+    
+    // Init
+    document.addEventListener('DOMContentLoaded', renderOrderSummary);
+  </script>
+</body>
+</html>
+

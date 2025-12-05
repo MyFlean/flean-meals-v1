@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>Login — Flean</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-primary);
+    }
+    
+    .login-header {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .login-logo {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .login-brand {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--emerald-700);
+    }
+    
+    .login-tagline {
+      font-size: 0.9rem;
+      color: var(--slate-500);
+      margin-top: 0.25rem;
+    }
+    
+    .login-content {
+      flex: 1;
+      padding: 2rem 1.5rem;
+    }
+    
+    .login-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .login-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    
+    .login-subtitle {
+      font-size: 0.9rem;
+      color: var(--slate-500);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    /* Phone Input */
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .input-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      margin-bottom: 0.5rem;
+    }
+    
+    .phone-input-wrapper {
+      display: flex;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    
+    .phone-input-wrapper:focus-within {
+      border-color: var(--emerald-500);
+    }
+    
+    .country-code {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 1rem;
+      background: var(--slate-50);
+      border-right: 1px solid var(--slate-200);
+      font-weight: 600;
+      color: var(--slate-700);
+    }
+    
+    .phone-input {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    
+    .phone-input:focus {
+      outline: none;
+    }
+    
+    .phone-input::placeholder {
+      color: var(--slate-400);
+      letter-spacing: normal;
+    }
+    
+    /* OTP Input */
+    .otp-section {
+      display: none;
+    }
+    
+    .otp-section.active {
+      display: block;
+    }
+    
+    .otp-sent-to {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .otp-sent-to strong {
+      color: var(--charcoal);
+    }
+    
+    .otp-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .otp-input {
+      width: 50px;
+      height: 56px;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    
+    .otp-input:focus {
+      border-color: var(--emerald-500);
+      outline: none;
+    }
+    
+    .otp-input.filled {
+      border-color: var(--emerald-500);
+      background: var(--emerald-50);
+    }
+    
+    .resend-row {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--slate-500);
+    }
+    
+    .resend-btn {
+      color: var(--emerald-600);
+      font-weight: 600;
+    }
+    
+    .resend-btn:disabled {
+      color: var(--slate-400);
+    }
+    
+    /* Buttons */
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--emerald-600) 0%, var(--emerald-700) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+      transition: all 0.2s ease;
+    }
+    
+    .login-btn:disabled {
+      background: var(--slate-300);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    
+    .login-btn:not(:disabled):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+    }
+    
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--slate-600);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Terms */
+    .login-terms {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--slate-500);
+      margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+    
+    .login-terms a {
+      color: var(--emerald-600);
+      font-weight: 500;
+    }
+    
+    /* Features */
+    .login-features {
+      padding: 2rem 1.5rem;
+      background: var(--slate-50);
+    }
+    
+    .features-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .features-list {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--slate-600);
+    }
+    
+    .feature-item span:first-child {
+      font-size: 1.25rem;
+    }
+  </style>
+</head>
+<body class="login-page">
+  <!-- Header -->
+  <header class="login-header">
+    <div class="login-logo">🥬</div>
+    <h1 class="login-brand">Flean</h1>
+    <p class="login-tagline">India's first health-scored grocery platform</p>
+  </header>
+
+  <!-- Login Content -->
+  <main class="login-content">
+    <div class="login-card">
+      <!-- Phone Section -->
+      <div id="phoneSection">
+        <h2 class="login-title">Welcome to Flean</h2>
+        <p class="login-subtitle">Enter your mobile number to continue</p>
+        
+        <div class="input-group">
+          <label class="input-label">Mobile Number</label>
+          <div class="phone-input-wrapper">
+            <div class="country-code">
+              <span>🇮🇳</span>
+              <span>+91</span>
+            </div>
+            <input type="tel" class="phone-input" id="phoneInput" placeholder="98765 43210" maxlength="12" autocomplete="tel">
+          </div>
+        </div>
+        
+        <button class="login-btn" id="sendOtpBtn" disabled onclick="sendOtp()">
+          Send OTP
+        </button>
+        
+        <p class="login-terms">
+          By continuing, you agree to our<br>
+          <a href="#">Terms of Service</a> & <a href="#">Privacy Policy</a>
+        </p>
+      </div>
+      
+      <!-- OTP Section -->
+      <div id="otpSection" class="otp-section">
+        <button class="back-btn" onclick="showPhoneSection()">
+          ← Change Number
+        </button>
+        
+        <h2 class="login-title">Verify OTP</h2>
+        <p class="otp-sent-to">
+          We've sent a 6-digit code to<br>
+          <strong id="maskedPhone">+91 98*** ***10</strong>
+        </p>
+        
+        <div class="otp-inputs">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+        </div>
+        
+        <button class="login-btn" id="verifyOtpBtn" disabled onclick="verifyOtp()">
+          Verify & Continue
+        </button>
+        
+        <div class="resend-row">
+          <span id="resendTimer">Resend OTP in 00:30</span>
+          <button class="resend-btn" id="resendBtn" disabled onclick="resendOtp()">Resend OTP</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Features -->
+  <footer class="login-features">
+    <p class="features-title">Why Flean?</p>
+    <div class="features-list">
+      <div class="feature-item">
+        <span>🛡️</span>
+        <span>300+ additives banned</span>
+      </div>
+      <div class="feature-item">
+        <span>📊</span>
+        <span>50,000+ products scored</span>
+      </div>
+      <div class="feature-item">
+        <span>⚡</span>
+        <span>10 min delivery</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const phoneInput = document.getElementById('phoneInput');
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const phoneSection = document.getElementById('phoneSection');
+    const otpSection = document.getElementById('otpSection');
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const resendBtn = document.getElementById('resendBtn');
+    const resendTimer = document.getElementById('resendTimer');
+    const maskedPhone = document.getElementById('maskedPhone');
+    
+    let countdownInterval;
+    let userPhone = '';
+    
+    // Format phone number as user types
+    phoneInput.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '').slice(0, 10);
+      if (value.length > 5) {
+        value = value.slice(0, 5) + ' ' + value.slice(5);
+      }
+      e.target.value = value;
+      
+      const digits = value.replace(/\s/g, '');
+      sendOtpBtn.disabled = digits.length !== 10;
+    });
+    
+    // Send OTP
+    function sendOtp() {
+      userPhone = phoneInput.value.replace(/\s/g, '');
+      const masked = `+91 ${userPhone.slice(0, 2)}*** ***${userPhone.slice(-2)}`;
+      maskedPhone.textContent = masked;
+      
+      phoneSection.style.display = 'none';
+      otpSection.classList.add('active');
+      
+      startResendTimer();
+      otpInputs[0].focus();
+    }
+    
+    // OTP Input handling
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', (e) => {
+        const value = e.target.value.replace(/\D/g, '');
+        e.target.value = value.slice(0, 1);
+        
+        if (value && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+        
+        e.target.classList.toggle('filled', value.length > 0);
+        checkOtpComplete();
+      });
+      
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      });
+      
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+        paste.split('').forEach((char, i) => {
+          if (otpInputs[i]) {
+            otpInputs[i].value = char;
+            otpInputs[i].classList.add('filled');
+          }
+        });
+        checkOtpComplete();
+      });
+    });
+    
+    function checkOtpComplete() {
+      const otp = Array.from(otpInputs).map(input => input.value).join('');
+      verifyOtpBtn.disabled = otp.length !== 6;
+    }
+    
+    // Verify OTP
+    function verifyOtp() {
+      const otp = Array.from(otpInputs).map(input => input.value).join('');
+      
+      verifyOtpBtn.disabled = true;
+      verifyOtpBtn.innerHTML = '<span style="display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;"></span> Verifying...';
+      
+      // Simulate verification
+      setTimeout(() => {
+        // Save auth state
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('userPhone', userPhone);
+        localStorage.setItem('userName', 'Priyam');
+        
+        // Redirect to home
+        window.location.href = 'index.html';
+      }, 1500);
+    }
+    
+    // Resend timer
+    function startResendTimer() {
+      let seconds = 30;
+      resendBtn.disabled = true;
+      resendBtn.style.display = 'none';
+      resendTimer.style.display = 'inline';
+      
+      countdownInterval = setInterval(() => {
+        seconds--;
+        resendTimer.textContent = `Resend OTP in 00:${seconds.toString().padStart(2, '0')}`;
+        
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          resendTimer.style.display = 'none';
+          resendBtn.style.display = 'inline';
+          resendBtn.disabled = false;
+        }
+      }, 1000);
+    }
+    
+    function resendOtp() {
+      startResendTimer();
+      // Show toast or notification
+    }
+    
+    function showPhoneSection() {
+      clearInterval(countdownInterval);
+      otpSection.classList.remove('active');
+      phoneSection.style.display = 'block';
+      otpInputs.forEach(input => {
+        input.value = '';
+        input.classList.remove('filled');
+      });
+    }
+    
+    // Check if already logged in
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      // Already logged in, could redirect to home
+      // window.location.href = 'index.html';
+    }
+  </script>
+  
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</body>
+</html>
+

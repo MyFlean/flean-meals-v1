@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>Saved Addresses — Flean</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .addresses-page { padding-bottom: 100px; }
+    
+    .addresses-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-elevated);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--slate-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .addresses-header h1 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .addresses-header h1 a {
+      color: var(--charcoal);
+      text-decoration: none;
+    }
+    
+    .add-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 1rem;
+      background: var(--emerald-600);
+      color: white;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .addresses-content { padding: 1rem; }
+    
+    /* Address Cards */
+    .address-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .address-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 2px solid var(--slate-200);
+      padding: 1.25rem;
+      position: relative;
+    }
+    
+    .address-card.default {
+      border-color: var(--emerald-400);
+      background: var(--emerald-50);
+    }
+    
+    .address-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    
+    .address-type {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .address-type-icon {
+      font-size: 1.25rem;
+    }
+    
+    .address-type h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    
+    .address-labels {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .address-label {
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .address-label.default {
+      background: var(--emerald-600);
+      color: white;
+    }
+    
+    .address-label.type {
+      background: var(--slate-200);
+      color: var(--slate-600);
+    }
+    
+    .address-details {
+      font-size: 0.9rem;
+      color: var(--slate-600);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+    
+    .address-phone {
+      font-size: 0.85rem;
+      color: var(--slate-500);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .address-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--slate-200);
+    }
+    
+    .address-action {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-600);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .address-action.edit { color: var(--emerald-600); }
+    .address-action.delete { color: var(--red); }
+    .address-action.set-default { color: var(--slate-600); }
+    
+    /* Add/Edit Form Modal */
+    .address-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .address-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .address-modal-content {
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      overflow: hidden;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .address-modal.active .address-modal-content {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    
+    .modal-header h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--slate-100);
+      border-radius: var(--radius-full);
+      font-size: 1.25rem;
+      color: var(--slate-600);
+    }
+    
+    .modal-body {
+      padding: 1.25rem;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--emerald-500);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    .address-type-selector {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .type-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 2px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .type-option.selected {
+      border-color: var(--emerald-500);
+      background: var(--emerald-50);
+    }
+    
+    .type-option input { display: none; }
+    
+    .default-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--slate-50);
+      border-radius: var(--radius-lg);
+    }
+    
+    .default-checkbox input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--emerald-600);
+    }
+    
+    .modal-footer {
+      padding: 1.25rem;
+      border-top: 1px solid var(--slate-200);
+    }
+    
+    .save-address-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--emerald-600) 0%, var(--emerald-700) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+    }
+  </style>
+</head>
+<body data-page="addresses" class="addresses-page">
+  <!-- Header -->
+  <header class="addresses-header">
+    <h1>
+      <a href="profile.html">←</a>
+      Saved Addresses
+    </h1>
+    <button class="add-btn" onclick="openAddressModal()">
+      + Add New
+    </button>
+  </header>
+
+  <!-- Addresses Content -->
+  <main class="addresses-content" id="addressesContent">
+    <!-- Content rendered via JS -->
+  </main>
+
+  <!-- Add/Edit Address Modal -->
+  <div class="address-modal" id="addressModal">
+    <div class="address-modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Address</h2>
+        <button class="modal-close" onclick="closeAddressModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="addressForm">
+          <input type="hidden" id="addressId" value="">
+          
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" id="addressName" placeholder="Enter full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Mobile Number</label>
+            <input type="tel" class="form-input" id="addressPhone" placeholder="10-digit mobile number" maxlength="10" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Pincode</label>
+            <input type="text" class="form-input" id="addressPincode" placeholder="6-digit pincode" maxlength="6" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Address Line 1</label>
+            <input type="text" class="form-input" id="addressLine1" placeholder="House/Flat no., Building name" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Address Line 2 (Optional)</label>
+            <input type="text" class="form-input" id="addressLine2" placeholder="Street, Area">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input type="text" class="form-input" id="addressCity" placeholder="City" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">State</label>
+              <input type="text" class="form-input" id="addressState" placeholder="State" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Save As</label>
+            <div class="address-type-selector">
+              <label class="type-option selected" onclick="selectType(this)">
+                <input type="radio" name="addressType" value="home" checked>
+                <span>🏠</span> Home
+              </label>
+              <label class="type-option" onclick="selectType(this)">
+                <input type="radio" name="addressType" value="work">
+                <span>🏢</span> Work
+              </label>
+              <label class="type-option" onclick="selectType(this)">
+                <input type="radio" name="addressType" value="other">
+                <span>📍</span> Other
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="default-checkbox">
+              <input type="checkbox" id="isDefault">
+              <span>Set as default address</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="save-address-btn" onclick="saveAddress()">Save Address</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="flean_finds.html" class="nav-item">
+      <span class="nav-icon">💎</span>
+      <span class="nav-label">Flean Finds</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+      <span class="nav-indicator"></span>
+    </a>
+  </nav>
+
+  <script>
+    // Initialize sample addresses
+    function initAddresses() {
+      let addresses = JSON.parse(localStorage.getItem('fleanAddresses') || '[]');
+      
+      if (addresses.length === 0) {
+        addresses = [
+          {
+            id: '1',
+            name: 'Priyam',
+            phone: '9876543210',
+            line1: 'Amrapali Sapphire, Tower Jade, Flat 1204',
+            line2: '',
+            city: 'Noida',
+            state: 'Uttar Pradesh',
+            pincode: '201301',
+            type: 'home',
+            isDefault: true
+          },
+          {
+            id: '2',
+            name: 'Priyam',
+            phone: '9876543210',
+            line1: 'Advant Tower, 5th Floor',
+            line2: '',
+            city: 'Noida',
+            state: 'Uttar Pradesh',
+            pincode: '201305',
+            type: 'work',
+            isDefault: false
+          }
+        ];
+        localStorage.setItem('fleanAddresses', JSON.stringify(addresses));
+      }
+      
+      return addresses;
+    }
+    
+    function renderAddresses() {
+      const content = document.getElementById('addressesContent');
+      const addresses = initAddresses();
+      
+      content.innerHTML = `
+        <div class="address-list">
+          ${addresses.map(addr => `
+            <div class="address-card ${addr.isDefault ? 'default' : ''}" data-id="${addr.id}">
+              <div class="address-card-header">
+                <div class="address-type">
+                  <span class="address-type-icon">${addr.type === 'home' ? '🏠' : addr.type === 'work' ? '🏢' : '📍'}</span>
+                  <h3>${addr.type.charAt(0).toUpperCase() + addr.type.slice(1)}</h3>
+                </div>
+                <div class="address-labels">
+                  ${addr.isDefault ? '<span class="address-label default">Default</span>' : ''}
+                </div>
+              </div>
+              <p class="address-details">
+                ${addr.name}<br>
+                ${addr.line1}${addr.line2 ? ', ' + addr.line2 : ''}<br>
+                ${addr.city}, ${addr.state} - ${addr.pincode}
+              </p>
+              <span class="address-phone">📱 +91 ${addr.phone}</span>
+              <div class="address-actions">
+                <button class="address-action edit" onclick="editAddress('${addr.id}')">✏️ Edit</button>
+                ${!addr.isDefault ? `<button class="address-action set-default" onclick="setDefault('${addr.id}')">⭐ Set Default</button>` : ''}
+                <button class="address-action delete" onclick="deleteAddress('${addr.id}')">🗑️ Delete</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    
+    function openAddressModal(address = null) {
+      const modal = document.getElementById('addressModal');
+      const title = document.getElementById('modalTitle');
+      
+      if (address) {
+        title.textContent = 'Edit Address';
+        document.getElementById('addressId').value = address.id;
+        document.getElementById('addressName').value = address.name;
+        document.getElementById('addressPhone').value = address.phone;
+        document.getElementById('addressPincode').value = address.pincode;
+        document.getElementById('addressLine1').value = address.line1;
+        document.getElementById('addressLine2').value = address.line2 || '';
+        document.getElementById('addressCity').value = address.city;
+        document.getElementById('addressState').value = address.state;
+        document.getElementById('isDefault').checked = address.isDefault;
+        
+        document.querySelectorAll('.type-option').forEach(opt => {
+          opt.classList.remove('selected');
+          if (opt.querySelector('input').value === address.type) {
+            opt.classList.add('selected');
+            opt.querySelector('input').checked = true;
+          }
+        });
+      } else {
+        title.textContent = 'Add New Address';
+        document.getElementById('addressForm').reset();
+        document.getElementById('addressId').value = '';
+        document.querySelectorAll('.type-option').forEach((opt, i) => {
+          opt.classList.toggle('selected', i === 0);
+        });
+      }
+      
+      modal.classList.add('active');
+    }
+    
+    function closeAddressModal() {
+      document.getElementById('addressModal').classList.remove('active');
+    }
+    
+    function selectType(el) {
+      document.querySelectorAll('.type-option').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input').checked = true;
+    }
+    
+    function editAddress(id) {
+      const addresses = JSON.parse(localStorage.getItem('fleanAddresses') || '[]');
+      const address = addresses.find(a => a.id === id);
+      if (address) {
+        openAddressModal(address);
+      }
+    }
+    
+    function setDefault(id) {
+      let addresses = JSON.parse(localStorage.getItem('fleanAddresses') || '[]');
+      addresses = addresses.map(a => ({ ...a, isDefault: a.id === id }));
+      localStorage.setItem('fleanAddresses', JSON.stringify(addresses));
+      renderAddresses();
+    }
+    
+    function deleteAddress(id) {
+      if (confirm('Delete this address?')) {
+        let addresses = JSON.parse(localStorage.getItem('fleanAddresses') || '[]');
+        addresses = addresses.filter(a => a.id !== id);
+        localStorage.setItem('fleanAddresses', JSON.stringify(addresses));
+        renderAddresses();
+      }
+    }
+    
+    function saveAddress() {
+      const id = document.getElementById('addressId').value || Date.now().toString();
+      const newAddress = {
+        id: id,
+        name: document.getElementById('addressName').value,
+        phone: document.getElementById('addressPhone').value,
+        pincode: document.getElementById('addressPincode').value,
+        line1: document.getElementById('addressLine1').value,
+        line2: document.getElementById('addressLine2').value,
+        city: document.getElementById('addressCity').value,
+        state: document.getElementById('addressState').value,
+        type: document.querySelector('input[name="addressType"]:checked').value,
+        isDefault: document.getElementById('isDefault').checked
+      };
+      
+      let addresses = JSON.parse(localStorage.getItem('fleanAddresses') || '[]');
+      
+      // If setting as default, unset others
+      if (newAddress.isDefault) {
+        addresses = addresses.map(a => ({ ...a, isDefault: false }));
+      }
+      
+      const existingIndex = addresses.findIndex(a => a.id === id);
+      if (existingIndex >= 0) {
+        addresses[existingIndex] = newAddress;
+      } else {
+        addresses.push(newAddress);
+      }
+      
+      localStorage.setItem('fleanAddresses', JSON.stringify(addresses));
+      closeAddressModal();
+      renderAddresses();
+    }
+    
+    // Init
+    document.addEventListener('DOMContentLoaded', renderAddresses);
+    
+    // Close modal on backdrop click
+    document.getElementById('addressModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        closeAddressModal();
+      }
+    });
+  </script>
+</body>
+</html>
+

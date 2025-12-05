@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>Welcome to Flean</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      background: #faf9f7;
+      overflow: hidden;
+    }
+    
+    .onboarding {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Skip Button */
+    .skip-btn {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #64748b;
+      z-index: 100;
+    }
+    
+    /* Slides Container */
+    .slides {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+    
+    .slide {
+      min-width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide-icon {
+      font-size: 5rem;
+      margin-bottom: 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .slide-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+      max-width: 320px;
+    }
+    
+    .slide-title span {
+      color: #059669;
+    }
+    
+    .slide-text {
+      font-size: 1rem;
+      color: #64748b;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+    
+    /* Slide Specific Styles */
+    .slide-1 { background: linear-gradient(180deg, #ecfdf5 0%, #faf9f7 100%); }
+    .slide-2 { background: linear-gradient(180deg, #fef3c7 0%, #faf9f7 100%); }
+    .slide-3 { background: linear-gradient(180deg, #f0f9ff 0%, #faf9f7 100%); }
+    .slide-4 { background: linear-gradient(180deg, #ecfdf5 0%, #faf9f7 100%); }
+    
+    /* Bottom Section */
+    .bottom-section {
+      padding: 2rem;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    /* Progress Dots */
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    
+    .dot.active {
+      width: 24px;
+      border-radius: 999px;
+      background: #059669;
+    }
+    
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+    }
+    
+    .btn-full {
+      flex: none;
+      width: 100%;
+    }
+    
+    /* Features List */
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2rem 0;
+      text-align: left;
+      max-width: 280px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ecfdf5;
+      border-radius: 12px;
+      font-size: 1.25rem;
+    }
+    
+    .feature-text {
+      font-size: 0.9rem;
+      color: #334155;
+    }
+    
+    .feature-text strong {
+      display: block;
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <div class="onboarding">
+    <!-- Skip Button -->
+    <button class="skip-btn" onclick="skipOnboarding()">Skip</button>
+
+    <!-- Slides -->
+    <div class="slides" id="slides">
+      <!-- Slide 1: Health Scores -->
+      <div class="slide slide-1">
+        <div class="slide-icon">📊</div>
+        <h1 class="slide-title">Every Product, <span>Health-Scored</span></h1>
+        <p class="slide-text">50,000+ groceries rated on a 100-point scale. No guessing, no label-reading, just smart shopping.</p>
+      </div>
+      
+      <!-- Slide 2: Banned Additives -->
+      <div class="slide slide-2">
+        <div class="slide-icon">🛡️</div>
+        <h1 class="slide-title">300+ Harmful Additives <span>Banned</span></h1>
+        <p class="slide-text">Palm oil, MSG, trans fats, artificial sweeteners — we've blocked them all. Shop with confidence.</p>
+      </div>
+      
+      <!-- Slide 3: Smart Swaps -->
+      <div class="slide slide-3">
+        <div class="slide-icon">🔄</div>
+        <h1 class="slide-title">Healthier Alternatives, <span>Instantly</span></h1>
+        <p class="slide-text">Searching for Maggi? We'll show you Slurrp Farm Millet Noodles. Better choices, same convenience.</p>
+      </div>
+      
+      <!-- Slide 4: Get Started -->
+      <div class="slide slide-4">
+        <div class="slide-icon">🥬</div>
+        <h1 class="slide-title">Welcome to <span>Flean</span></h1>
+        <div class="features-list">
+          <div class="feature-item">
+            <span class="feature-icon">✓</span>
+            <span class="feature-text"><strong>Flean-verified products</strong>Scored & analyzed for you</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <span class="feature-text"><strong>10-minute delivery</strong>Health doesn't wait</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">💚</span>
+            <span class="feature-text"><strong>No hidden nasties</strong>Ever.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+      <div class="progress-dots" id="progressDots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      
+      <div class="btn-row" id="btnRow">
+        <button class="btn btn-secondary" id="backBtn" onclick="prevSlide()" style="display: none;">Back</button>
+        <button class="btn btn-primary" id="nextBtn" onclick="nextSlide()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 4;
+    const slides = document.getElementById('slides');
+    const dots = document.querySelectorAll('.dot');
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    function updateUI() {
+      // Move slides
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+      
+      // Update buttons
+      backBtn.style.display = currentSlide > 0 ? 'block' : 'none';
+      
+      if (currentSlide === totalSlides - 1) {
+        nextBtn.textContent = 'Get Started';
+        nextBtn.classList.add('btn-full');
+        backBtn.style.display = 'none';
+      } else {
+        nextBtn.textContent = 'Next';
+        nextBtn.classList.remove('btn-full');
+      }
+    }
+    
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateUI();
+      } else {
+        completeOnboarding();
+      }
+    }
+    
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateUI();
+      }
+    }
+    
+    function skipOnboarding() {
+      completeOnboarding();
+    }
+    
+    function completeOnboarding() {
+      localStorage.setItem('hasCompletedOnboarding', 'true');
+      window.location.href = 'login.html';
+    }
+    
+    // Touch/Swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    slides.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    slides.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    
+    function handleSwipe() {
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && currentSlide < totalSlides - 1) {
+          nextSlide();
+        } else if (diff < 0 && currentSlide > 0) {
+          prevSlide();
+        }
+      }
+    }
+    
+    // Check if already onboarded
+    if (localStorage.getItem('hasCompletedOnboarding') === 'true') {
+      window.location.href = localStorage.getItem('isAuthenticated') === 'true' ? 'index.html' : 'login.html';
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b52">
+  <title>My Orders — Flean</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .orders-page { padding-bottom: 100px; }
+    
+    .orders-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-elevated);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    
+    .orders-header h1 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .orders-header h1 a {
+      color: var(--charcoal);
+      text-decoration: none;
+    }
+    
+    /* Filter Tabs */
+    .order-filters {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem;
+      overflow-x: auto;
+      background: var(--slate-50);
+    }
+    
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--slate-600);
+      white-space: nowrap;
+    }
+    
+    .filter-tab.active {
+      background: var(--emerald-600);
+      border-color: var(--emerald-600);
+      color: white;
+    }
+    
+    .orders-content { padding: 1rem; }
+    
+    /* Empty State */
+    .orders-empty {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    
+    .orders-empty-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .orders-empty h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .orders-empty p {
+      color: var(--slate-500);
+      margin-bottom: 1.5rem;
+    }
+    
+    .orders-empty-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: var(--emerald-600);
+      color: white;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    
+    /* Order Cards */
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .order-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--slate-200);
+      overflow: hidden;
+    }
+    
+    .order-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid var(--slate-100);
+    }
+    
+    .order-id {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    
+    .order-date {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+    }
+    
+    .order-status {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .order-status.delivered {
+      background: var(--emerald-100);
+      color: var(--emerald-700);
+    }
+    
+    .order-status.confirmed {
+      background: var(--amber-light);
+      color: #92400e;
+    }
+    
+    .order-status.cancelled {
+      background: var(--red-light);
+      color: #b91c1c;
+    }
+    
+    .order-card-body {
+      padding: 1rem;
+    }
+    
+    .order-items-preview {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .order-item-thumb {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      border: 1px solid var(--slate-200);
+    }
+    
+    .order-item-more {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      background: var(--slate-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--slate-500);
+    }
+    
+    .order-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--slate-100);
+    }
+    
+    .order-total {
+      font-size: 0.9rem;
+      color: var(--slate-600);
+    }
+    
+    .order-total strong {
+      font-size: 1.1rem;
+      color: var(--charcoal);
+    }
+    
+    .order-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .order-action-btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .order-action-btn.primary {
+      background: var(--emerald-600);
+      color: white;
+    }
+    
+    .order-action-btn.secondary {
+      background: var(--slate-100);
+      color: var(--slate-700);
+    }
+    
+    /* Order Detail Expandable */
+    .order-detail {
+      display: none;
+      padding: 1rem;
+      background: var(--slate-50);
+      border-top: 1px solid var(--slate-200);
+    }
+    
+    .order-detail.active { display: block; }
+    
+    .order-detail-section {
+      margin-bottom: 1rem;
+    }
+    
+    .order-detail-section h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .order-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .order-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+    
+    .order-item-row span:first-child {
+      color: var(--slate-600);
+    }
+    
+    .order-address {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body data-page="orders" class="orders-page">
+  <!-- Header -->
+  <header class="orders-header">
+    <h1>
+      <a href="profile.html">←</a>
+      My Orders
+    </h1>
+  </header>
+
+  <!-- Filters -->
+  <div class="order-filters">
+    <button class="filter-tab active" onclick="filterOrders('all', this)">All Orders</button>
+    <button class="filter-tab" onclick="filterOrders('delivered', this)">Delivered</button>
+    <button class="filter-tab" onclick="filterOrders('confirmed', this)">In Progress</button>
+    <button class="filter-tab" onclick="filterOrders('cancelled', this)">Cancelled</button>
+  </div>
+
+  <!-- Orders Content -->
+  <main class="orders-content" id="ordersContent">
+    <!-- Content rendered via JS -->
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="flean_finds.html" class="nav-item">
+      <span class="nav-icon">💎</span>
+      <span class="nav-label">Flean Finds</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+      <span class="nav-indicator"></span>
+    </a>
+  </nav>
+
+  <script src="assets/script.js"></script>
+  <script>
+    // Sample orders if none exist
+    function initSampleOrders() {
+      const orders = JSON.parse(localStorage.getItem('fleanOrders') || '[]');
+      
+      if (orders.length === 0) {
+        const sampleOrders = [
+          {
+            id: 'FL2847392',
+            date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            items: [
+              { name: 'Greek Yogurt — Mixed Berries', brand: 'Epigamia', qty: 2, price: 85, image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=100' },
+              { name: 'Roasted Mixed Nuts', brand: 'Farmley', qty: 1, price: 199, image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=100' },
+              { name: 'Cold Pressed Orange Juice', brand: 'Raw Pressery', qty: 1, price: 120, image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=100' }
+            ],
+            total: 489,
+            status: 'delivered',
+            address: 'Amrapali Sapphire, Sector 45, Noida'
+          },
+          {
+            id: 'FL2831456',
+            date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+            items: [
+              { name: 'Millet Muesli — Crunchy', brand: 'Soulfull', qty: 1, price: 299, image: 'https://images.unsplash.com/photo-1517093157656-b9eccef91cb1?w=100' },
+              { name: 'A2 Desi Cow Ghee', brand: 'Two Brothers', qty: 1, price: 750, image: 'https://images.unsplash.com/photo-1631898039984-fd5e255d7c86?w=100' }
+            ],
+            total: 1051,
+            status: 'delivered',
+            address: 'Amrapali Sapphire, Sector 45, Noida'
+          },
+          {
+            id: 'FL2819723',
+            date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+            items: [
+              { name: 'Tulsi Green Tea', brand: 'Organic India', qty: 2, price: 225, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=100' },
+              { name: 'Vienna Roast Coffee', brand: 'Blue Tokai', qty: 1, price: 450, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=100' }
+            ],
+            total: 902,
+            status: 'delivered',
+            address: 'Advant Tower, Sector 142, Noida'
+          }
+        ];
+        
+        localStorage.setItem('fleanOrders', JSON.stringify(sampleOrders));
+        return sampleOrders;
+      }
+      
+      return orders;
+    }
+    
+    let currentFilter = 'all';
+    
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return date.toLocaleDateString('en-IN', options);
+    }
+    
+    function renderOrders() {
+      const content = document.getElementById('ordersContent');
+      let orders = initSampleOrders();
+      
+      if (currentFilter !== 'all') {
+        orders = orders.filter(order => order.status === currentFilter);
+      }
+      
+      if (orders.length === 0) {
+        content.innerHTML = `
+          <div class="orders-empty">
+            <div class="orders-empty-icon">📦</div>
+            <h2>No orders yet</h2>
+            <p>Start shopping to see your orders here</p>
+            <a href="index.html" class="orders-empty-btn">
+              Start Shopping →
+            </a>
+          </div>
+        `;
+        return;
+      }
+      
+      content.innerHTML = `
+        <div class="orders-list">
+          ${orders.map(order => `
+            <div class="order-card" data-order-id="${order.id}">
+              <div class="order-card-header">
+                <div>
+                  <div class="order-id">#${order.id}</div>
+                  <div class="order-date">${formatDate(order.date)}</div>
+                </div>
+                <span class="order-status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+              </div>
+              <div class="order-card-body">
+                <div class="order-items-preview">
+                  ${order.items.slice(0, 3).map(item => `
+                    <img src="${item.image}" alt="${item.name}" class="order-item-thumb" onerror="this.src='https://via.placeholder.com/50'">
+                  `).join('')}
+                  ${order.items.length > 3 ? `<div class="order-item-more">+${order.items.length - 3}</div>` : ''}
+                </div>
+                <div class="order-summary">
+                  <div class="order-total">
+                    ${order.items.length} items · <strong>₹${order.total}</strong>
+                  </div>
+                  <div class="order-actions">
+                    <button class="order-action-btn secondary" onclick="toggleOrderDetail('${order.id}')">Details</button>
+                    <button class="order-action-btn primary" onclick="reorderItems('${order.id}')">Reorder</button>
+                  </div>
+                </div>
+              </div>
+              <div class="order-detail" id="detail-${order.id}">
+                <div class="order-detail-section">
+                  <h4>Items Ordered</h4>
+                  <div class="order-items-list">
+                    ${order.items.map(item => `
+                      <div class="order-item-row">
+                        <span>${item.name} × ${item.qty}</span>
+                        <span>₹${item.price * item.qty}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+                <div class="order-detail-section">
+                  <h4>Delivered To</h4>
+                  <p class="order-address">${order.address}</p>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    
+    function filterOrders(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+      btn.classList.add('active');
+      renderOrders();
+    }
+    
+    function toggleOrderDetail(orderId) {
+      const detail = document.getElementById(`detail-${orderId}`);
+      detail.classList.toggle('active');
+    }
+    
+    function reorderItems(orderId) {
+      const orders = JSON.parse(localStorage.getItem('fleanOrders') || '[]');
+      const order = orders.find(o => o.id === orderId);
+      
+      if (order) {
+        // Add items to cart
+        const cart = order.items.map(item => ({
+          id: item.id || item.name.toLowerCase().replace(/\s/g, '-'),
+          qty: item.qty
+        }));
+        
+        localStorage.setItem('fleanCart', JSON.stringify(cart));
+        window.location.href = 'cart.html';
+      }
+    }
+    
+    // Init
+    document.addEventListener('DOMContentLoaded', renderOrders);
+  </script>
+</body>
+</html>
+
