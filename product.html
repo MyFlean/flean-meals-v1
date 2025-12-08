@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Additional Product Detail Styles */
     .product-detail-page {
       min-height: 100vh;
       padding-bottom: 120px;
@@ -36,7 +35,8 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
-    .detail-header .back-btn {
+    .detail-header .back-btn,
+    .detail-header .action-btn {
       width: 44px;
       height: 44px;
       display: flex;
@@ -54,524 +54,343 @@
       display: flex;
       gap: 0.5rem;
     }
-    
-    .detail-header .action-btn {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 50%;
-      font-size: 1.25rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border: none;
-      cursor: pointer;
-    }
-    
+
     /* ═══════════════════════════════════════════════════════════════════
-       MAGNETIC PEEK - 3D Nudge Swap System
-       Creative UX for unhealthy products with better alternatives
+       NUDGE SWAP HERO - The Magic Card Stack
        ═══════════════════════════════════════════════════════════════════ */
     
-    .hero-swap-container {
+    .nudge-hero-container {
       position: relative;
-      height: 380px;
-      perspective: 1200px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      height: 420px;
+      perspective: 1500px;
+      overflow: visible;
+      margin-bottom: 1rem;
     }
     
-    /* The healthier alternative card (behind) */
-    .peek-card {
+    /* The card stack wrapper */
+    .card-stack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+    
+    /* Back card - The healthier option */
+    .back-card {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: linear-gradient(145deg, var(--emerald-50) 0%, var(--emerald-100) 100%);
-      display: flex;
-      flex-direction: column;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .hero-swap-container.nudging .peek-card,
-    .hero-swap-container.swiping .peek-card {
-      opacity: 1;
-    }
-    
-    .peek-card-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-    }
-    
-    .peek-card-image {
-      flex: 1;
-      position: relative;
-      border-radius: 16px;
+      height: 380px;
+      background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+      border-radius: 0 0 24px 24px;
       overflow: hidden;
-      margin-bottom: 0.75rem;
+      z-index: 1;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     }
     
-    .peek-card-image img {
+    .back-card-image {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+    
+    .back-card-content {
+      padding: 1rem 1.25rem;
+    }
+    
+    .back-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .back-card-badge .score-up {
+      background: rgba(255,255,255,0.25);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+    }
+    
+    .back-card-brand {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748b;
+      margin-bottom: 0.2rem;
+    }
+    
+    .back-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 0.3rem;
+    }
+    
+    .back-card-reason {
+      font-size: 0.8rem;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    /* Front card - The current product */
+    .front-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 380px;
+      background: white;
+      border-radius: 0 0 24px 24px;
+      overflow: hidden;
+      z-index: 10;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+      transform-origin: center bottom;
+      cursor: grab;
+      touch-action: pan-y;
+      will-change: transform;
+    }
+    
+    .front-card:active {
+      cursor: grabbing;
+    }
+    
+    .front-card-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
     
-    .peek-card-image::after {
+    .front-card .health-badge {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    
+    .front-card .health-badge.low {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+    
+    .front-card .health-badge.mid {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+    
+    .front-card .health-badge.good {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    
+    .front-card .health-badge strong {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    
+    .front-card .health-badge span {
+      font-size: 0.6rem;
+      opacity: 0.9;
+    }
+    
+    /* The nudge animation */
+    @keyframes nudge-peek {
+      0%, 100% {
+        transform: translateX(0) rotateY(0) scale(1);
+      }
+      20% {
+        transform: translateX(-100px) rotateY(-12deg) scale(0.96);
+      }
+      30% {
+        transform: translateX(-120px) rotateY(-15deg) scale(0.95);
+      }
+      50% {
+        transform: translateX(-100px) rotateY(-12deg) scale(0.96);
+      }
+      70% {
+        transform: translateX(-50px) rotateY(-6deg) scale(0.98);
+      }
+    }
+    
+    .front-card.nudging {
+      animation: nudge-peek 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .front-card.nudging::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+      background: linear-gradient(90deg, rgba(16,185,129,0.15) 0%, transparent 40%);
+      pointer-events: none;
     }
     
-    .peek-card-badge {
+    /* Swipe out animation */
+    .front-card.swiped-out {
+      animation: swipe-away 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    @keyframes swipe-away {
+      to {
+        transform: translateX(-150%) rotateY(-30deg) scale(0.8);
+        opacity: 0;
+      }
+    }
+    
+    /* Swipe hint indicator */
+    .swipe-hint {
       position: absolute;
-      top: 1rem;
+      bottom: 1rem;
       left: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
-      background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));
-      color: white;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-      z-index: 2;
-    }
-    
-    .peek-card-badge .score-bump {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.15rem 0.4rem;
-      background: rgba(255,255,255,0.25);
-      border-radius: 6px;
-      font-size: 0.7rem;
-    }
-    
-    .peek-card-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1.25rem;
-      color: white;
-      z-index: 2;
-    }
-    
-    .peek-card-brand {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.85;
-      margin-bottom: 0.25rem;
-    }
-    
-    .peek-card-title {
-      font-family: var(--font-serif);
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    
-    .peek-card-reason {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-      opacity: 0.95;
-    }
-    
-    .peek-card-swipe-hint {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      background: linear-gradient(135deg, var(--emerald-600), var(--emerald-700));
-      color: white;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-    
-    .peek-card-swipe-hint .swipe-arrow {
-      display: inline-flex;
-      animation: swipe-hint-arrow 1.5s ease-in-out infinite;
-    }
-    
-    @keyframes swipe-hint-arrow {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(8px); }
-    }
-    
-    /* The main hero card (front - the unhealthy product) */
-    .hero-main-card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 5;
-      transform-style: preserve-3d;
-      transform-origin: center center;
-      will-change: transform;
-      transition: transform 0.1s ease-out;
-      cursor: grab;
-    }
-    
-    .hero-main-card:active {
-      cursor: grabbing;
-    }
-    
-    .hero-main-card.nudging {
-      animation: magnetic-nudge 3s ease-in-out;
-    }
-    
-    @keyframes magnetic-nudge {
-      0% {
-        transform: translateX(0) rotateY(0) scale(1);
-      }
-      15% {
-        transform: translateX(-60px) rotateY(-8deg) scale(0.98);
-      }
-      25% {
-        transform: translateX(-80px) rotateY(-10deg) scale(0.97);
-      }
-      35% {
-        transform: translateX(-60px) rotateY(-8deg) scale(0.98);
-      }
-      50% {
-        transform: translateX(-70px) rotateY(-9deg) scale(0.975);
-      }
-      70% {
-        transform: translateX(-30px) rotateY(-4deg) scale(0.99);
-      }
-      85% {
-        transform: translateX(-10px) rotateY(-1deg) scale(0.995);
-      }
-      100% {
-        transform: translateX(0) rotateY(0) scale(1);
-      }
-    }
-    
-    .hero-main-card.swiping-out {
-      transition: transform 0.4s cubic-bezier(0.32, 0, 0.67, 0);
-      transform: translateX(-120%) rotateY(-25deg) scale(0.9);
-    }
-    
-    .hero-main-card-inner {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      background: var(--slate-100);
-      box-shadow: 
-        0 10px 40px rgba(0,0,0,0.2),
-        0 0 0 1px rgba(0,0,0,0.05);
-    }
-    
-    .hero-main-card-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    /* Nudge indicator on the card */
-    .nudge-indicator {
-      position: absolute;
-      right: -8px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.75rem 0.5rem;
-      background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));
-      color: white;
-      border-radius: 12px 0 0 12px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      box-shadow: -4px 0 12px rgba(16, 185, 129, 0.4);
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 10;
-    }
-    
-    .hero-swap-container.nudging .nudge-indicator,
-    .hero-swap-container.has-swap:hover .nudge-indicator {
-      opacity: 1;
-      transform: translateY(-50%) translateX(0);
-    }
-    
-    .nudge-indicator .nudge-icon {
-      font-size: 1.1rem;
-    }
-    
-    .nudge-indicator .nudge-text {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      transform: rotate(180deg);
-    }
-    
-    /* Swipe progress overlay */
-    .swipe-progress-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, 
-        rgba(16, 185, 129, 0.15) 0%, 
-        transparent 30%);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      pointer-events: none;
-      z-index: 8;
-    }
-    
-    .hero-swap-container.swiping .swipe-progress-overlay {
-      opacity: 1;
-    }
-    
-    /* The health badge on hero */
-    .hero-main-card .health-badge {
-      position: absolute;
-      bottom: -30px;
-      right: 1.5rem;
-      width: 80px;
-      height: 80px;
-      font-size: 1.25rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      z-index: 10;
-    }
-    
-    /* Standard hero for healthy products (no swap) */
-    .product-image-hero {
-      position: relative;
-      height: 350px;
-      background: var(--slate-100);
-    }
-    
-    .product-image-hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .product-image-hero .health-badge {
-      position: absolute;
-      bottom: -30px;
-      right: 1.5rem;
-      width: 80px;
-      height: 80px;
-      font-size: 1.25rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      z-index: 10;
-    }
-    
-    /* Floating swap suggestion pill */
-    .swap-suggestion-pill {
-      position: absolute;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
       color: white;
       border-radius: 999px;
       font-size: 0.75rem;
       font-weight: 600;
       z-index: 15;
       opacity: 0;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(10px);
+      transition: all 0.4s ease;
     }
     
-    .hero-swap-container.nudging .swap-suggestion-pill,
-    .hero-swap-container.has-swap:not(.swiping) .swap-suggestion-pill {
+    .nudge-hero-container.show-hint .swipe-hint {
       opacity: 1;
-      animation: pill-bounce 2s ease-in-out infinite 3.5s;
+      transform: translateY(0);
     }
     
-    @keyframes pill-bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-4px); }
+    .swipe-hint-arrow {
+      animation: swipe-arrow-move 1s ease-in-out infinite;
     }
     
-    .swap-suggestion-pill .pill-icon {
-      display: flex;
-      animation: wiggle 0.5s ease-in-out infinite;
-      animation-play-state: paused;
+    @keyframes swipe-arrow-move {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-5px); }
     }
     
-    .hero-swap-container:hover .swap-suggestion-pill .pill-icon {
-      animation-play-state: running;
-    }
-    
-    @keyframes wiggle {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-10deg); }
-      75% { transform: rotate(10deg); }
-    }
-    
-    /* Nudge indicator pulse effect */
-    .nudge-indicator::before {
-      content: '';
+    /* Better choice banner on back card */
+    .better-choice-banner {
       position: absolute;
-      inset: -4px;
-      background: linear-gradient(135deg, var(--emerald-400), var(--emerald-500));
-      border-radius: 14px 0 0 14px;
-      opacity: 0;
-      animation: nudge-pulse 2s ease-in-out infinite;
-      z-index: -1;
-    }
-    
-    @keyframes nudge-pulse {
-      0%, 100% { opacity: 0; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.1); }
-    }
-    
-    /* Enhanced shadow on card during drag */
-    .hero-swap-container.swiping .hero-main-card-inner {
-      box-shadow: 
-        0 20px 60px rgba(0,0,0,0.3),
-        0 0 0 1px rgba(0,0,0,0.05);
-    }
-    
-    /* Reveal shimmer effect on peek card */
-    .peek-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.4),
-        transparent
-      );
-      z-index: 10;
-      pointer-events: none;
-    }
-    
-    .hero-swap-container.nudging .peek-card::before {
-      animation: shimmer-reveal 1.5s ease-out 0.5s;
-    }
-    
-    @keyframes shimmer-reveal {
-      0% { left: -100%; }
-      100% { left: 200%; }
-    }
-    
-    /* Score comparison floating badge */
-    .score-comparison-badge {
-      position: absolute;
-      top: 50%;
+      top: 1rem;
       left: 1rem;
-      transform: translateY(-50%);
+      right: 1rem;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(135deg, #059669, #047857);
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+      z-index: 2;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       STANDARD HERO (for healthy products)
+       ═══════════════════════════════════════════════════════════════════ */
+    
+    .standard-hero {
+      position: relative;
+      height: 380px;
+      background: var(--slate-100);
+    }
+    
+    .standard-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .standard-hero .health-badge {
+      position: absolute;
+      bottom: -30px;
+      right: 1.5rem;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 12;
-    }
-    
-    .hero-swap-container.nudging .score-comparison-badge,
-    .hero-swap-container.swiping .score-comparison-badge {
-      opacity: 1;
-    }
-    
-    .score-comparison-badge .old-score {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      color: #ef4444;
-      font-size: 0.8rem;
+      justify-content: center;
       font-weight: 700;
-      text-decoration: line-through;
-      opacity: 0.7;
+      color: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 10;
     }
     
-    .score-comparison-badge .new-score {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      color: var(--emerald-600);
-      font-size: 1.1rem;
-      font-weight: 800;
+    .standard-hero .health-badge.good {
+      background: linear-gradient(135deg, #10b981, #059669);
     }
     
-    .score-comparison-badge .arrow {
-      font-size: 1rem;
-      color: var(--emerald-500);
+    .standard-hero .health-badge.mid {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
     }
     
-    /* Touch feedback ripple */
-    .hero-main-card::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(16, 185, 129, 0.2);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s ease, height 0.3s ease;
-      pointer-events: none;
-      z-index: 20;
+    .standard-hero .health-badge.low {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
     }
     
-    .hero-main-card:active::after {
-      width: 200px;
-      height: 200px;
+    .standard-hero .health-badge strong {
+      font-size: 1.5rem;
+      line-height: 1;
     }
+    
+    .standard-hero .health-badge span {
+      font-size: 0.65rem;
+      opacity: 0.9;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       PRODUCT INFO SECTION
+       ═══════════════════════════════════════════════════════════════════ */
     
     .product-info {
-      padding: 2.5rem 1.5rem 1.5rem;
+      padding: 2rem 1.5rem 1.5rem;
       background: var(--bg-card);
-      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      border-radius: 24px 24px 0 0;
       margin-top: -1.5rem;
       position: relative;
       z-index: 5;
     }
     
-    .product-delivery-info {
+    .product-verification {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.75rem 1rem;
       background: var(--emerald-50);
-      border-radius: var(--radius-lg);
+      border-radius: 12px;
       margin-bottom: 1.5rem;
       font-size: 0.9rem;
     }
     
-    .product-delivery-info strong {
+    .product-verification strong {
       color: var(--emerald-700);
     }
     
-    .product-detail-brand {
+    .product-brand {
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.15em;
@@ -580,7 +399,7 @@
       margin-bottom: 0.25rem;
     }
     
-    .product-detail-title {
+    .product-title {
       font-family: var(--font-serif);
       font-size: 1.75rem;
       font-weight: 700;
@@ -604,7 +423,7 @@
       color: var(--slate-600);
     }
     
-    .product-detail-desc {
+    .product-desc {
       font-size: 1rem;
       color: var(--slate-600);
       line-height: 1.6;
@@ -625,27 +444,23 @@
       gap: 0.5rem;
     }
     
-    .ingredients-list {
+    .tags-list {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
     }
     
-    .ingredient-chip {
+    .tag-chip {
       padding: 0.5rem 1rem;
-      background: var(--slate-100);
-      border-radius: 999px;
-      font-size: 0.85rem;
-      color: var(--slate-700);
-    }
-    
-    .ingredient-chip.good {
       background: var(--emerald-100);
       color: var(--emerald-700);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
     
-    .ingredient-chip.bad {
-      background: var(--red-light);
+    .tag-chip.warning {
+      background: #fee2e2;
       color: #b91c1c;
     }
     
@@ -659,7 +474,7 @@
       text-align: center;
       padding: 1rem;
       background: var(--slate-50);
-      border-radius: var(--radius-lg);
+      border-radius: 12px;
     }
     
     .nutrition-value {
@@ -670,219 +485,12 @@
     }
     
     .nutrition-label {
-      font-size: 0.75rem;
-      color: var(--slate-500);
-      text-transform: uppercase;
-    }
-    
-    /* Tinder-style Swap Carousel */
-    .swap-carousel-section {
-      padding: 1.5rem;
-      background: linear-gradient(135deg, var(--emerald-50) 0%, var(--bg-secondary) 100%);
-    }
-    
-    .swap-carousel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    
-    .swap-carousel-header h3 {
-      font-family: var(--font-serif);
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .swap-carousel-hint {
-      font-size: 0.8rem;
-      color: var(--slate-500);
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-    
-    .swap-carousel {
-      position: relative;
-      height: 320px;
-      perspective: 1000px;
-    }
-    
-    .swap-card-stack {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-    
-    .swap-tinder-card {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-      overflow: hidden;
-      cursor: grab;
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-      transform-origin: center bottom;
-    }
-    
-    .swap-tinder-card:active {
-      cursor: grabbing;
-    }
-    
-    .swap-tinder-card.card-1 {
-      z-index: 3;
-      transform: translateY(0) scale(1);
-    }
-    
-    .swap-tinder-card.card-2 {
-      z-index: 2;
-      transform: translateY(12px) scale(0.95);
-      opacity: 0.7;
-    }
-    
-    .swap-tinder-card.card-3 {
-      z-index: 1;
-      transform: translateY(24px) scale(0.9);
-      opacity: 0.4;
-    }
-    
-    .swap-tinder-card.swiping-left {
-      transform: translateX(-120%) rotate(-15deg);
-      opacity: 0;
-    }
-    
-    .swap-tinder-card.swiping-right {
-      transform: translateX(120%) rotate(15deg);
-      opacity: 0;
-    }
-    
-    .swap-card-image {
-      height: 140px;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .swap-card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .swap-card-badge {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      padding: 0.35rem 0.75rem;
-      background: var(--emerald-600);
-      color: white;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-    
-    .swap-card-body {
-      padding: 1rem;
-    }
-    
-    .swap-card-brand {
       font-size: 0.7rem;
+      color: var(--slate-500);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--slate-500);
     }
     
-    .swap-card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin: 0.25rem 0;
-    }
-    
-    .swap-card-score {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin: 0.5rem 0;
-    }
-    
-    .swap-card-score-bar {
-      flex: 1;
-      height: 6px;
-      background: var(--slate-200);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    
-    .swap-card-score-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.5s ease;
-    }
-    
-    .swap-card-score-fill.good { background: var(--emerald-500); }
-    .swap-card-score-fill.mid { background: var(--amber); }
-    .swap-card-score-fill.low { background: var(--red); }
-    
-    .swap-card-price {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--emerald-700);
-    }
-    
-    .swap-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    
-    .swap-action-btn {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .swap-action-btn.skip {
-      background: var(--slate-100);
-      color: var(--slate-600);
-    }
-    
-    .swap-action-btn.like {
-      background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));
-      color: white;
-    }
-    
-    .swap-action-btn:hover {
-      transform: scale(1.1);
-    }
-    
-    .swap-action-btn:active {
-      transform: scale(0.95);
-    }
-    
-    .swap-empty-state {
-      text-align: center;
-      padding: 2rem;
-      color: var(--slate-500);
-    }
-    
-    .swap-empty-state span {
-      font-size: 3rem;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    
+    /* Sticky Cart Bar */
     .sticky-cart-bar {
       position: fixed;
       bottom: 70px;
@@ -924,7 +532,7 @@
       background: linear-gradient(135deg, var(--emerald-600), var(--emerald-700));
       color: white;
       border: none;
-      border-radius: var(--radius-xl);
+      border-radius: 16px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
@@ -950,7 +558,6 @@
 
   <!-- Product Content -->
   <div id="productDetail">
-    <!-- Content rendered via JS -->
     <div style="padding: 3rem; text-align: center;">
       <div class="loader-dot" style="width: 40px; height: 40px; background: var(--emerald-500); border-radius: 50%; margin: 0 auto; animation: loader-bounce 1s infinite;"></div>
       <p style="margin-top: 1rem; color: var(--slate-500);">Loading product...</p>
@@ -988,20 +595,223 @@
 
   <script src="assets/script.js"></script>
   <script>
-    // Enhanced Product Detail Rendering
-    function renderEnhancedProductDetail() {
+    // ═══════════════════════════════════════════════════════════════════
+    // PRODUCT DATA - Inline for reliability
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const productData = {
+      'maggi-masala': {
+        id: 'maggi-masala',
+        name: 'Maggi Masala Noodles',
+        brand: 'Nestlé',
+        description: 'Classic instant noodles with refined flour and MSG — convenient but not ideal for regular consumption.',
+        category: 'pantry',
+        price: 12,
+        unit: 'pack',
+        image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=400',
+        tags: ['Quick Meal'],
+        watchouts: ['Refined Flour', 'Palm Oil', 'Added Sugar', 'High Sodium', 'MSG'],
+        healthScore: 32,
+        swap: {
+          id: 'slurrp-millet',
+          name: 'Millet & Veggie Noodles',
+          brand: 'Slurrp Farm',
+          image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400',
+          healthScore: 88,
+          price: 45,
+          reason: 'Whole millet grains vs refined flour'
+        }
+      },
+      'slurrp-millet': {
+        id: 'slurrp-millet',
+        name: 'Millet & Veggie Noodles',
+        brand: 'Slurrp Farm',
+        description: 'Little millet noodles with hidden veggies, no preservatives or artificial colors.',
+        category: 'pantry',
+        price: 45,
+        unit: 'pack',
+        image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400',
+        tags: ['No Preservatives', 'Whole Grain', 'High Fiber', 'No Added Sugar', 'No MSG'],
+        watchouts: [],
+        healthScore: 88,
+        swap: null
+      },
+      'lays-classic': {
+        id: 'lays-classic',
+        name: 'Classic Salted Chips',
+        brand: "Lay's",
+        description: 'Crispy potato chips fried in palm oil with high sodium content.',
+        category: 'snacks',
+        price: 20,
+        unit: 'pack',
+        image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400',
+        tags: ['Popular Choice'],
+        watchouts: ['Palm Oil', 'High Sodium', 'Refined Oil'],
+        healthScore: 28,
+        swap: {
+          id: 'farmley-nuts',
+          name: 'Roasted Mixed Nuts',
+          brand: 'Farmley',
+          image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400',
+          healthScore: 91,
+          price: 199,
+          reason: 'Heart-healthy fats vs refined oils'
+        }
+      },
+      'farmley-nuts': {
+        id: 'farmley-nuts',
+        name: 'Roasted Mixed Nuts',
+        brand: 'Farmley',
+        description: 'Dry roasted almonds, cashews, and walnuts with no added oil or salt.',
+        category: 'snacks',
+        price: 199,
+        unit: '200g',
+        image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400',
+        tags: ['No Added Salt', 'No Oil', 'High Protein', 'Heart Healthy'],
+        watchouts: [],
+        healthScore: 91,
+        swap: null
+      },
+      'good-day-butter': {
+        id: 'good-day-butter',
+        name: 'Good Day Butter Cookies',
+        brand: 'Britannia',
+        description: 'Popular tea-time biscuits rich in refined flour and refined sugar.',
+        category: 'sweets',
+        price: 35,
+        unit: 'pack',
+        image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400',
+        tags: ['Tea Time Classic'],
+        watchouts: ['Refined Flour', 'Added Sugar', 'Artificial Colors', 'Palm Oil'],
+        healthScore: 38,
+        swap: {
+          id: 'yogabar-cookies',
+          name: 'Oats & Dark Chocolate Cookies',
+          brand: 'Yoga Bar',
+          image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
+          healthScore: 82,
+          price: 89,
+          reason: 'Rolled oats instead of refined flour'
+        }
+      },
+      'yogabar-cookies': {
+        id: 'yogabar-cookies',
+        name: 'Oats & Dark Chocolate Cookies',
+        brand: 'Yoga Bar',
+        description: 'Slow-baked cookies with rolled oats, dark chocolate, and jaggery.',
+        category: 'sweets',
+        price: 89,
+        unit: 'pack',
+        image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
+        tags: ['Whole Grain', 'No Preservatives', 'No Refined Sugar', 'High Fiber'],
+        watchouts: [],
+        healthScore: 82,
+        swap: null
+      },
+      'hersheys-syrup': {
+        id: 'hersheys-syrup',
+        name: 'Chocolate Syrup',
+        brand: "Hershey's",
+        description: 'Sweet chocolate syrup made with high fructose corn syrup.',
+        category: 'sweets',
+        price: 199,
+        unit: 'bottle',
+        image: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400',
+        tags: ['Dessert Topping'],
+        watchouts: ['High Fructose Corn Syrup', 'Added Sugar', 'Artificial Flavors'],
+        healthScore: 22,
+        swap: {
+          id: 'natures-cocoa',
+          name: 'Organic Cacao Powder',
+          brand: 'Nature',
+          image: 'https://images.unsplash.com/photo-1610611826689-1a5f5db2a9f4?w=400',
+          healthScore: 95,
+          price: 350,
+          reason: 'Raw cacao with antioxidants'
+        }
+      },
+      'natures-cocoa': {
+        id: 'natures-cocoa',
+        name: 'Organic Cacao Powder',
+        brand: 'Nature',
+        description: 'Raw organic cacao powder, unsweetened, full of antioxidants.',
+        category: 'organic',
+        price: 350,
+        unit: '200g',
+        image: 'https://images.unsplash.com/photo-1610611826689-1a5f5db2a9f4?w=400',
+        tags: ['Organic', 'No Sugar', 'Raw', 'Antioxidants', 'Superfood'],
+        watchouts: [],
+        healthScore: 95,
+        swap: null
+      },
+      'tropicana-delight': {
+        id: 'tropicana-delight',
+        name: 'Mixed Fruit Juice',
+        brand: 'Tropicana',
+        description: 'Packaged fruit juice from concentrate with added sugar.',
+        category: 'beverages',
+        price: 45,
+        unit: '1L',
+        image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400',
+        tags: ['Vitamin C Added'],
+        watchouts: ['Added Sugar', 'From Concentrate', 'Preservatives'],
+        healthScore: 42,
+        swap: {
+          id: 'raw-pressery-orange',
+          name: 'Cold Pressed Orange Juice',
+          brand: 'Raw Pressery',
+          image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400',
+          healthScore: 94,
+          price: 120,
+          reason: 'Cold pressed, not from concentrate'
+        }
+      },
+      'raw-pressery-orange': {
+        id: 'raw-pressery-orange',
+        name: 'Cold Pressed Orange Juice',
+        brand: 'Raw Pressery',
+        description: 'Freshly cold-pressed Valencia oranges with no added sugar or preservatives.',
+        category: 'beverages',
+        price: 120,
+        unit: '1L',
+        image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400',
+        tags: ['Cold Pressed', 'No Added Sugar', 'No Preservatives', '100% Natural'],
+        watchouts: [],
+        healthScore: 94,
+        swap: null
+      }
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // RENDER PRODUCT DETAIL
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function renderProduct() {
       const container = document.getElementById('productDetail');
       const productId = new URLSearchParams(window.location.search).get('id');
       
-      // Find product from global products array
-      const product = products.find(p => p.id === productId);
+      // Try local data first, then global
+      let product = productData[productId];
+      if (!product && window.products) {
+        const globalProduct = window.products.find(p => p.id === productId);
+        if (globalProduct) {
+          product = {
+            ...globalProduct,
+            swap: window.productSwaps?.[productId] ? {
+              id: window.productSwaps[productId].swapId,
+              ...window.products.find(p => p.id === window.productSwaps[productId].swapId),
+              reason: window.productSwaps[productId].reasons?.[0]
+            } : null
+          };
+        }
+      }
       
       if (!product) {
         container.innerHTML = `
           <div style="text-align: center; padding: 4rem 2rem;">
             <div style="font-size: 5rem; margin-bottom: 1rem;">🤷</div>
             <h2 style="font-family: var(--font-serif); margin-bottom: 0.5rem;">Product Not Found</h2>
-            <p style="color: var(--slate-500); margin-bottom: 1.5rem;">This product may have been removed or doesn't exist.</p>
+            <p style="color: var(--slate-500); margin-bottom: 1.5rem;">This product may have been removed.</p>
             <a href="index.html" style="display: inline-flex; padding: 0.75rem 1.5rem; background: var(--emerald-600); color: white; border-radius: 999px; font-weight: 600; text-decoration: none;">
               ← Back to Home
             </a>
@@ -1011,80 +821,53 @@
       }
       
       const badgeClass = product.healthScore >= 75 ? 'good' : product.healthScore >= 50 ? 'mid' : 'low';
-      const swap = window.productSwaps?.[product.id];
-      const swapProduct = swap ? products.find(p => p.id === swap.swapId) : null;
-      
-      // Get related products
-      const relatedProducts = products
-        .filter(p => p.category === product.category && p.id !== product.id)
-        .slice(0, 5);
-      
-      // Check if this product has a swap and is below the health threshold
-      const HEALTH_THRESHOLD = 50; // Products below this score get the nudge
-      const hasSwapNudge = swap && swapProduct && product.healthScore < HEALTH_THRESHOLD;
+      const NUDGE_THRESHOLD = 50;
+      const showNudge = product.swap && product.healthScore < NUDGE_THRESHOLD;
       
       container.innerHTML = `
-        <!-- Hero Image with Magnetic Peek (for unhealthy products) -->
-        ${hasSwapNudge ? `
-          <div class="hero-swap-container has-swap" id="heroSwapContainer" data-swap-id="${swapProduct.id}">
-            <!-- Peek Card (Healthier Alternative - Behind) -->
-            <div class="peek-card" id="peekCard">
-              <div class="peek-card-content">
-                <div class="peek-card-image">
-                  <img src="${swapProduct.image}" alt="${swapProduct.name}" onerror="this.src='https://via.placeholder.com/400x350?text=Better+Choice'">
-                  <div class="peek-card-badge">
-                    <span>⭐ ${swapProduct.healthScore}/100</span>
-                    <span class="score-bump">+${swapProduct.healthScore - product.healthScore} pts</span>
+        ${showNudge ? `
+          <!-- NUDGE HERO - Card Stack with Animation -->
+          <div class="nudge-hero-container" id="nudgeHero">
+            <div class="card-stack">
+              <!-- Back Card - The Better Choice -->
+              <div class="back-card" id="backCard">
+                <div class="better-choice-banner">
+                  <span>✨</span>
+                  <span>Swipe to see a healthier choice</span>
+                </div>
+                <img class="back-card-image" src="${product.swap.image}" alt="${product.swap.name}" onerror="this.src='https://via.placeholder.com/400x240?text=Better+Choice'">
+                <div class="back-card-content">
+                  <div class="back-card-badge">
+                    <span>⭐ ${product.swap.healthScore}/100</span>
+                    <span class="score-up">+${product.swap.healthScore - product.healthScore} pts</span>
                   </div>
-                  <div class="peek-card-info">
-                    <p class="peek-card-brand">${swapProduct.brand}</p>
-                    <h3 class="peek-card-title">${swapProduct.name}</h3>
-                    <p class="peek-card-reason">
-                      <span>✨</span>
-                      ${swap.reasons[0]}
-                    </p>
-                  </div>
+                  <p class="back-card-brand">${product.swap.brand}</p>
+                  <h3 class="back-card-title">${product.swap.name}</h3>
+                  <p class="back-card-reason">
+                    <span>✓</span>
+                    ${product.swap.reason}
+                  </p>
                 </div>
               </div>
-              <div class="peek-card-swipe-hint">
-                <span>Swipe to discover this healthier option</span>
-                <span class="swipe-arrow">→</span>
+              
+              <!-- Front Card - Current Product -->
+              <div class="front-card" id="frontCard" data-swap-id="${product.swap.id}">
+                <img class="front-card-image" src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x380?text=Product'">
+                <div class="health-badge ${badgeClass}">
+                  <strong>${product.healthScore}</strong>
+                  <span>/100</span>
+                </div>
+                <div class="swipe-hint">
+                  <span class="swipe-hint-arrow">👈</span>
+                  <span>Swipe for better</span>
+                </div>
               </div>
-            </div>
-            
-            <!-- Main Hero Card (Current Product - Front) -->
-            <div class="hero-main-card" id="heroMainCard">
-              <div class="hero-main-card-inner">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x350?text=Product'">
-                <div class="swipe-progress-overlay"></div>
-              </div>
-              <div class="health-badge ${badgeClass}">
-                <strong>${product.healthScore}</strong>
-                <span>/100</span>
-              </div>
-              <div class="nudge-indicator">
-                <span class="nudge-icon">💚</span>
-                <span class="nudge-text">Better</span>
-              </div>
-            </div>
-            
-            <!-- Score Comparison Badge -->
-            <div class="score-comparison-badge">
-              <span class="old-score">${product.healthScore}</span>
-              <span class="arrow">↓</span>
-              <span class="new-score">${swapProduct.healthScore}</span>
-            </div>
-            
-            <!-- Floating Swap Suggestion -->
-            <div class="swap-suggestion-pill">
-              <span class="pill-icon">👈</span>
-              <span>Swipe for a healthier pick</span>
             </div>
           </div>
         ` : `
-          <!-- Standard Hero (for healthy products) -->
-          <div class="product-image-hero">
-            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x350?text=Product'">
+          <!-- Standard Hero -->
+          <div class="standard-hero">
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x380?text=Product'">
             <div class="health-badge ${badgeClass}">
               <strong>${product.healthScore}</strong>
               <span>/100</span>
@@ -1094,169 +877,48 @@
         
         <!-- Product Info -->
         <div class="product-info">
-          <!-- Verification Badge -->
-          <div class="product-delivery-info">
+          <div class="product-verification">
             <span>✓</span>
             <span><strong>Flean-verified</strong> · Scored & analyzed for you</span>
           </div>
           
-          <p class="product-detail-brand">${product.brand}</p>
-          <h1 class="product-detail-title">${product.name}</h1>
+          <p class="product-brand">${product.brand}</p>
+          <h1 class="product-title">${product.name}</h1>
           
           <div class="product-rating">
             <span class="stars">★★★★☆</span>
             <span class="rating-text">4.2 (128 reviews)</span>
           </div>
           
-          <p class="product-detail-desc">${product.description}</p>
+          <p class="product-desc">${product.description}</p>
           
           <!-- Tags -->
           <div class="detail-section">
-            <div class="ingredients-list">
-              ${product.tags.map(tag => `<span class="ingredient-chip good">✓ ${tag}</span>`).join('')}
-              ${product.watchouts.map(w => `<span class="ingredient-chip bad">⚠️ ${w}</span>`).join('')}
+            <div class="tags-list">
+              ${product.tags.map(tag => `<span class="tag-chip">✓ ${tag}</span>`).join('')}
+              ${product.watchouts.map(w => `<span class="tag-chip warning">⚠️ ${w}</span>`).join('')}
             </div>
           </div>
           
-          <!-- Nutrition Info -->
-          ${product.macros ? `
-            <div class="detail-section">
-              <h3 class="detail-section-title">📊 Nutrition per serving</h3>
-              <div class="nutrition-grid">
-                ${Object.entries(product.macros).map(([key, val]) => `
-                  <div class="nutrition-item">
-                    <span class="nutrition-value">${val}</span>
-                    <span class="nutrition-label">${key}</span>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-          
-          <!-- Health Score Breakdown -->
+          <!-- Health Score -->
           <div class="detail-section">
-            <h3 class="detail-section-title">🏥 Health Score Breakdown</h3>
-            <div style="background: ${badgeClass === 'good' ? 'var(--emerald-50)' : badgeClass === 'mid' ? 'var(--amber-light)' : 'var(--red-light)'}; border-radius: var(--radius-lg); padding: 1rem;">
+            <h3 class="detail-section-title">🏥 Health Score</h3>
+            <div style="background: ${badgeClass === 'good' ? 'var(--emerald-50)' : badgeClass === 'mid' ? '#fef3c7' : '#fee2e2'}; border-radius: 12px; padding: 1rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                 <span style="font-weight: 600;">Overall Score</span>
-                <span style="font-size: 1.25rem; font-weight: 800; color: ${badgeClass === 'good' ? 'var(--emerald-700)' : badgeClass === 'mid' ? '#d97706' : 'var(--red)'};">${product.healthScore}/100</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: ${badgeClass === 'good' ? 'var(--emerald-700)' : badgeClass === 'mid' ? '#d97706' : '#dc2626'};">${product.healthScore}/100</span>
               </div>
               <div style="background: rgba(0,0,0,0.1); border-radius: 999px; height: 8px; overflow: hidden;">
-                <div style="width: ${product.healthScore}%; height: 100%; background: ${badgeClass === 'good' ? 'var(--emerald-500)' : badgeClass === 'mid' ? 'var(--amber)' : 'var(--red)'}; border-radius: 999px; transition: width 1s ease;"></div>
+                <div style="width: ${product.healthScore}%; height: 100%; background: ${badgeClass === 'good' ? 'var(--emerald-500)' : badgeClass === 'mid' ? '#f59e0b' : '#ef4444'}; border-radius: 999px;"></div>
               </div>
               <p style="font-size: 0.85rem; color: var(--slate-600); margin-top: 0.75rem;">
                 ${badgeClass === 'good' ? '✅ Green light! Your body will thank you later.' : 
                   badgeClass === 'mid' ? '⚠️ It\'s complicated. Good enough for a cheat day.' :
-                  '❌ Our AI is giving you the side-eye. Check the swap below!'}
+                  '❌ Our AI is giving you the side-eye. Try the swap above!'}
               </p>
             </div>
           </div>
-          
-          <!-- Smart Swap (only show if NOT using hero nudge) -->
-          ${swap && swapProduct && product.healthScore < 70 && !hasSwapNudge ? `
-            <div class="detail-section">
-              <h3 class="detail-section-title">💡 Plot twist: There's a better option</h3>
-              <div style="background: linear-gradient(135deg, var(--emerald-50), white); border: 2px solid var(--emerald-200); border-radius: var(--radius-xl); padding: 1.25rem;">
-                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-                  <img src="${swapProduct.image}" alt="${swapProduct.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-lg);" onerror="this.src='https://via.placeholder.com/80'">
-                  <div style="flex: 1;">
-                    <p style="font-size: 0.75rem; color: var(--slate-500); margin-bottom: 0.25rem;">${swapProduct.brand}</p>
-                    <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">${swapProduct.name}</h4>
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                      <span style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem; background: var(--emerald-100); color: var(--emerald-700); border-radius: 999px; font-size: 0.75rem; font-weight: 700;">
-                        ⭐ ${swapProduct.healthScore}/100
-                      </span>
-                      <span style="font-weight: 700;">₹${swapProduct.price}</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                  <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">Why it's better:</p>
-                  <ul style="font-size: 0.85rem; color: var(--slate-600); padding-left: 1rem;">
-                    ${swap.reasons.slice(0, 3).map(r => `<li style="margin-bottom: 0.25rem;">✅ ${r}</li>`).join('')}
-                  </ul>
-                </div>
-                <button onclick="navigateToProduct('${swapProduct.id}')" style="width: 100%; padding: 0.75rem; background: var(--emerald-600); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer;">
-                  Try This Instead →
-                </button>
-              </div>
-            </div>
-          ` : ''}
-          
-          <!-- Hero Swap Reminder (for products with hero nudge) -->
-          ${hasSwapNudge ? `
-            <div class="detail-section">
-              <div style="background: linear-gradient(135deg, var(--emerald-50), var(--emerald-100)); border: 2px dashed var(--emerald-300); border-radius: var(--radius-xl); padding: 1.25rem; text-align: center;">
-                <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">👆</span>
-                <p style="font-size: 0.95rem; font-weight: 600; color: var(--emerald-800); margin-bottom: 0.25rem;">Did you notice the nudge?</p>
-                <p style="font-size: 0.85rem; color: var(--slate-600);">Swipe the product image above to discover <strong>${swapProduct.name}</strong> – a healthier alternative with a score of <strong>${swapProduct.healthScore}/100</strong></p>
-              </div>
-            </div>
-          ` : ''}
-          
-          <!-- Product Details -->
-          <div class="detail-section">
-            <h3 class="detail-section-title">📝 Product Details</h3>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--slate-100);">
-                <span style="color: var(--slate-500);">Category</span>
-                <span style="font-weight: 500;">${product.category.replace('-', ' & ').replace(/\b\w/g, c => c.toUpperCase())}</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--slate-100);">
-                <span style="color: var(--slate-500);">Unit</span>
-                <span style="font-weight: 500;">${product.unit}</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--slate-100);">
-                <span style="color: var(--slate-500);">Shelf Life</span>
-                <span style="font-weight: 500;">6 months</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
-                <span style="color: var(--slate-500);">Country of Origin</span>
-                <span style="font-weight: 500;">India</span>
-              </div>
-            </div>
-          </div>
         </div>
-        
-        <!-- Swipe for Better Swaps (only show when no hero nudge) -->
-        ${relatedProducts.length > 0 && !hasSwapNudge ? `
-          <div class="swap-carousel-section">
-            <div class="swap-carousel-header">
-              <h3>🔄 Swipe for Swaps</h3>
-              <span class="swap-carousel-hint">← Skip · Like →</span>
-            </div>
-            <div class="swap-carousel" id="swapCarousel">
-              <div class="swap-card-stack" id="swapCardStack">
-                ${relatedProducts.slice(0, 3).map((p, i) => {
-                  const scoreClass = p.healthScore >= 75 ? 'good' : p.healthScore >= 50 ? 'mid' : 'low';
-                  return `
-                    <div class="swap-tinder-card card-${i + 1}" data-id="${p.id}" data-index="${i}">
-                      <div class="swap-card-image">
-                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x140?text=Product'">
-                        <span class="swap-card-badge">${p.healthScore}/100</span>
-                      </div>
-                      <div class="swap-card-body">
-                        <span class="swap-card-brand">${p.brand}</span>
-                        <h4 class="swap-card-title">${p.name}</h4>
-                        <div class="swap-card-score">
-                          <div class="swap-card-score-bar">
-                            <div class="swap-card-score-fill ${scoreClass}" style="width: ${p.healthScore}%"></div>
-                          </div>
-                          <span style="font-size: 0.8rem; font-weight: 600; color: var(--slate-600);">${p.healthScore}/100</span>
-                        </div>
-                        <span class="swap-card-price">₹${p.price}</span>
-                      </div>
-                    </div>
-                  `;
-                }).join('')}
-              </div>
-            </div>
-            <div class="swap-actions">
-              <button class="swap-action-btn skip" onclick="swipeCard('left')" title="Skip">✕</button>
-              <button class="swap-action-btn like" onclick="swipeCard('right')" title="Add to cart">💚</button>
-            </div>
-          </div>
-        ` : ''}
         
         <!-- Sticky Cart Bar -->
         <div class="sticky-cart-bar">
@@ -1270,19 +932,160 @@
         </div>
       `;
       
-      // Update page title
       document.title = `${product.name} — Flean`;
+      
+      // Initialize nudge if applicable
+      if (showNudge) {
+        setTimeout(initNudgeAnimation, 800);
+      }
     }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // NUDGE ANIMATION & SWIPE LOGIC
+    // ═══════════════════════════════════════════════════════════════════
+    
+    let swipeState = {
+      startX: 0,
+      currentX: 0,
+      isDragging: false
+    };
+    
+    function initNudgeAnimation() {
+      const container = document.getElementById('nudgeHero');
+      const frontCard = document.getElementById('frontCard');
+      const backCard = document.getElementById('backCard');
+      
+      if (!frontCard || !container) {
+        console.warn('Nudge elements not found');
+        return;
+      }
+      
+      console.log('🎯 Initializing nudge animation...');
+      
+      // Trigger the peek animation
+      setTimeout(() => {
+        frontCard.classList.add('nudging');
+        console.log('🎬 Nudge animation started!');
+        
+        // Show hint after animation
+        setTimeout(() => {
+          container.classList.add('show-hint');
+        }, 2000);
+        
+        // Remove nudging class after animation
+        setTimeout(() => {
+          frontCard.classList.remove('nudging');
+        }, 2500);
+      }, 500);
+      
+      // Setup swipe handling
+      setupSwipeHandlers(frontCard, container);
+    }
+    
+    function setupSwipeHandlers(card, container) {
+      // Touch events
+      card.addEventListener('touchstart', (e) => {
+        swipeState.isDragging = true;
+        swipeState.startX = e.touches[0].clientX;
+        card.style.transition = 'none';
+      }, { passive: true });
+      
+      card.addEventListener('touchmove', (e) => {
+        if (!swipeState.isDragging) return;
+        
+        const deltaX = e.touches[0].clientX - swipeState.startX;
+        
+        // Only allow left swipe
+        if (deltaX > 0) return;
+        
+        swipeState.currentX = deltaX;
+        const rotation = (deltaX / 300) * 15;
+        const scale = Math.max(0.9, 1 + (deltaX / 1000));
+        
+        card.style.transform = `translateX(${deltaX}px) rotateY(${rotation}deg) scale(${scale})`;
+      }, { passive: true });
+      
+      card.addEventListener('touchend', () => {
+        if (!swipeState.isDragging) return;
+        swipeState.isDragging = false;
+        
+        if (swipeState.currentX < -80) {
+          completeSwipe(card);
+        } else {
+          resetCard(card);
+        }
+        swipeState.currentX = 0;
+      });
+      
+      // Mouse events for desktop
+      card.addEventListener('mousedown', (e) => {
+        swipeState.isDragging = true;
+        swipeState.startX = e.clientX;
+        card.style.transition = 'none';
+        card.style.cursor = 'grabbing';
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        if (!swipeState.isDragging) return;
+        
+        const deltaX = e.clientX - swipeState.startX;
+        
+        if (deltaX > 0) return;
+        
+        swipeState.currentX = deltaX;
+        const rotation = (deltaX / 300) * 15;
+        const scale = Math.max(0.9, 1 + (deltaX / 1000));
+        
+        card.style.transform = `translateX(${deltaX}px) rotateY(${rotation}deg) scale(${scale})`;
+      });
+      
+      document.addEventListener('mouseup', () => {
+        if (!swipeState.isDragging) return;
+        swipeState.isDragging = false;
+        card.style.cursor = 'grab';
+        
+        if (swipeState.currentX < -80) {
+          completeSwipe(card);
+        } else {
+          resetCard(card);
+        }
+        swipeState.currentX = 0;
+      });
+    }
+    
+    function resetCard(card) {
+      card.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      card.style.transform = 'translateX(0) rotateY(0) scale(1)';
+    }
+    
+    function completeSwipe(card) {
+      card.classList.add('swiped-out');
+      
+      // Haptic feedback
+      if (navigator.vibrate) navigator.vibrate([20, 50, 20]);
+      
+      // Show toast
+      showToast('🎉 Great choice!', 'Loading healthier alternative...');
+      
+      // Navigate to swap product
+      const swapId = card.dataset.swapId;
+      setTimeout(() => {
+        window.location.href = `product.html?id=${swapId}`;
+      }, 600);
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // UTILITY FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════
     
     function shareProduct() {
       if (navigator.share) {
         navigator.share({
-          title: 'Check out this healthy product on Flean!',
+          title: 'Check out this product on Flean!',
           url: window.location.href
         });
       } else {
-        // Fallback - copy to clipboard
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard?.writeText(window.location.href);
         showToast('Link copied!', 'Share this product with friends');
       }
     }
@@ -1292,9 +1095,6 @@
       isFavorite = !isFavorite;
       const btn = document.getElementById('favBtn');
       btn.textContent = isFavorite ? '❤️' : '🤍';
-      btn.style.animation = 'none';
-      btn.offsetHeight;
-      btn.style.animation = 'badge-pop 0.3s ease-out';
       
       if (isFavorite) {
         showToast('Added to favorites', 'Find it in your profile');
@@ -1309,360 +1109,9 @@
       }
     });
     
-    // Tinder-style Swap Card Logic
-    let currentSwapIndex = 0;
-    let swapProducts = [];
-    
-    function initSwipeCards() {
-      const cards = document.querySelectorAll('.swap-tinder-card');
-      swapProducts = Array.from(cards).map(card => card.dataset.id);
-      
-      cards.forEach(card => {
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
-        
-        card.addEventListener('touchstart', (e) => {
-          if (card.classList.contains('card-1')) {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-          }
-        });
-        
-        card.addEventListener('touchmove', (e) => {
-          if (!isDragging) return;
-          currentX = e.touches[0].clientX - startX;
-          card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
-        });
-        
-        card.addEventListener('touchend', () => {
-          if (!isDragging) return;
-          isDragging = false;
-          
-          if (Math.abs(currentX) > 100) {
-            swipeCard(currentX > 0 ? 'right' : 'left');
-          } else {
-            card.style.transform = '';
-          }
-        });
-        
-        // Mouse events for desktop
-        card.addEventListener('mousedown', (e) => {
-          if (card.classList.contains('card-1')) {
-            startX = e.clientX;
-            isDragging = true;
-            card.style.cursor = 'grabbing';
-          }
-        });
-        
-        document.addEventListener('mousemove', (e) => {
-          if (!isDragging || !card.classList.contains('card-1')) return;
-          currentX = e.clientX - startX;
-          card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
-        });
-        
-        document.addEventListener('mouseup', () => {
-          if (!isDragging) return;
-          isDragging = false;
-          card.style.cursor = 'grab';
-          
-          if (Math.abs(currentX) > 100) {
-            swipeCard(currentX > 0 ? 'right' : 'left');
-          } else {
-            card.style.transform = '';
-          }
-          currentX = 0;
-        });
-      });
-    }
-    
-    function swipeCard(direction) {
-      const topCard = document.querySelector('.swap-tinder-card.card-1');
-      if (!topCard) return;
-      
-      const productId = topCard.dataset.id;
-      
-      // Animate the swipe
-      topCard.classList.add(direction === 'right' ? 'swiping-right' : 'swiping-left');
-      
-      // If swiped right (liked), add to cart
-      if (direction === 'right') {
-        addToCart(productId);
-      }
-      
-      // After animation, reorganize cards
-      setTimeout(() => {
-        topCard.remove();
-        
-        const remainingCards = document.querySelectorAll('.swap-tinder-card');
-        if (remainingCards.length === 0) {
-          // Show empty state
-          const stack = document.getElementById('swapCardStack');
-          if (stack) {
-            stack.innerHTML = `
-              <div class="swap-empty-state">
-                <span>✨</span>
-                <p>You've seen all swaps!</p>
-              </div>
-            `;
-          }
-          return;
-        }
-        
-        // Update card positions
-        remainingCards.forEach((card, index) => {
-          card.className = 'swap-tinder-card card-' + (index + 1);
-          card.style.transform = '';
-        });
-        
-        // Reinitialize swipe
-        initSwipeCards();
-      }, 300);
-    }
-    
-    // ═══════════════════════════════════════════════════════════════════
-    // MAGNETIC PEEK - Hero Swipe Nudge System
-    // ═══════════════════════════════════════════════════════════════════
-    
-    let heroSwipeState = {
-      isDragging: false,
-      startX: 0,
-      currentX: 0,
-      cardElement: null,
-      containerElement: null,
-      swapProductId: null,
-      hasNudged: false,
-      hasCompleted: false
-    };
-    
-    function initHeroSwipeNudge() {
-      const container = document.getElementById('heroSwapContainer');
-      const card = document.getElementById('heroMainCard');
-      
-      if (!container || !card) return;
-      
-      heroSwipeState.cardElement = card;
-      heroSwipeState.containerElement = container;
-      heroSwipeState.swapProductId = container.dataset.swapId;
-      
-      // Touch events
-      card.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
-      card.addEventListener('touchmove', handleHeroTouchMove, { passive: false });
-      card.addEventListener('touchend', handleHeroTouchEnd);
-      
-      // Mouse events for desktop
-      card.addEventListener('mousedown', handleHeroMouseDown);
-      document.addEventListener('mousemove', handleHeroMouseMove);
-      document.addEventListener('mouseup', handleHeroMouseUp);
-      
-      // Trigger the nudge animation after a delay
-      setTimeout(triggerNudgeAnimation, 1500);
-    }
-    
-    function triggerNudgeAnimation() {
-      const container = heroSwipeState.containerElement;
-      const card = heroSwipeState.cardElement;
-      
-      if (!container || !card || heroSwipeState.hasNudged) return;
-      
-      heroSwipeState.hasNudged = true;
-      
-      // Add nudging class to trigger the animation
-      container.classList.add('nudging');
-      card.classList.add('nudging');
-      
-      // Haptic feedback at peak of nudge
-      setTimeout(() => {
-        if (navigator.vibrate) navigator.vibrate([15, 50, 10]);
-      }, 750);
-      
-      // Remove the class after animation completes
-      setTimeout(() => {
-        card.classList.remove('nudging');
-        // Keep container nudging class for a bit to show the pill
-        setTimeout(() => {
-          container.classList.remove('nudging');
-        }, 2000);
-      }, 3000);
-      
-      // Re-nudge periodically (subtle reminder)
-      setTimeout(() => {
-        if (!heroSwipeState.hasCompleted) {
-          triggerSubtleReminder();
-        }
-      }, 15000);
-    }
-    
-    function triggerSubtleReminder() {
-      const container = heroSwipeState.containerElement;
-      const card = heroSwipeState.cardElement;
-      
-      if (!container || !card) return;
-      
-      // Quick subtle nudge
-      card.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      card.style.transform = 'translateX(-30px) rotateY(-4deg) scale(0.99)';
-      container.classList.add('nudging');
-      
-      if (navigator.vibrate) navigator.vibrate(10);
-      
-      setTimeout(() => {
-        card.style.transform = 'translateX(0) rotateY(0) scale(1)';
-        setTimeout(() => {
-          container.classList.remove('nudging');
-          card.style.transition = 'transform 0.1s ease-out';
-        }, 600);
-      }, 800);
-    }
-    
-    function handleHeroTouchStart(e) {
-      if (!heroSwipeState.cardElement) return;
-      
-      heroSwipeState.isDragging = true;
-      heroSwipeState.startX = e.touches[0].clientX;
-      heroSwipeState.currentX = 0;
-      heroSwipeState.containerElement.classList.add('swiping');
-    }
-    
-    function handleHeroTouchMove(e) {
-      if (!heroSwipeState.isDragging) return;
-      
-      const deltaX = e.touches[0].clientX - heroSwipeState.startX;
-      
-      // Only allow left swipe (negative deltaX)
-      if (deltaX > 10) {
-        heroSwipeState.currentX = 0;
-        updateHeroCardPosition(0);
-        return;
-      }
-      
-      heroSwipeState.currentX = deltaX;
-      updateHeroCardPosition(deltaX);
-      
-      // Prevent scroll while swiping
-      if (Math.abs(deltaX) > 10) {
-        e.preventDefault();
-      }
-    }
-    
-    function handleHeroTouchEnd() {
-      if (!heroSwipeState.isDragging) return;
-      
-      heroSwipeState.isDragging = false;
-      heroSwipeState.containerElement.classList.remove('swiping');
-      
-      // Check if swipe threshold reached
-      const threshold = -100;
-      if (heroSwipeState.currentX < threshold) {
-        completeHeroSwipe();
-      } else {
-        resetHeroCard();
-      }
-    }
-    
-    function handleHeroMouseDown(e) {
-      if (!heroSwipeState.cardElement) return;
-      
-      heroSwipeState.isDragging = true;
-      heroSwipeState.startX = e.clientX;
-      heroSwipeState.currentX = 0;
-      heroSwipeState.cardElement.style.cursor = 'grabbing';
-      heroSwipeState.containerElement.classList.add('swiping');
-    }
-    
-    function handleHeroMouseMove(e) {
-      if (!heroSwipeState.isDragging) return;
-      
-      const deltaX = e.clientX - heroSwipeState.startX;
-      
-      // Only allow left swipe
-      if (deltaX > 10) {
-        heroSwipeState.currentX = 0;
-        updateHeroCardPosition(0);
-        return;
-      }
-      
-      heroSwipeState.currentX = deltaX;
-      updateHeroCardPosition(deltaX);
-    }
-    
-    function handleHeroMouseUp() {
-      if (!heroSwipeState.isDragging) return;
-      
-      heroSwipeState.isDragging = false;
-      if (heroSwipeState.cardElement) {
-        heroSwipeState.cardElement.style.cursor = 'grab';
-      }
-      heroSwipeState.containerElement?.classList.remove('swiping');
-      
-      // Check if swipe threshold reached
-      const threshold = -100;
-      if (heroSwipeState.currentX < threshold) {
-        completeHeroSwipe();
-      } else {
-        resetHeroCard();
-      }
-    }
-    
-    function updateHeroCardPosition(deltaX) {
-      const card = heroSwipeState.cardElement;
-      if (!card) return;
-      
-      // Calculate rotation based on swipe distance
-      const rotation = (deltaX / window.innerWidth) * 25;
-      const scale = 1 - (Math.abs(deltaX) / window.innerWidth) * 0.1;
-      
-      card.style.transform = `translateX(${deltaX}px) rotateY(${rotation}deg) scale(${Math.max(0.9, scale)})`;
-    }
-    
-    function resetHeroCard() {
-      const card = heroSwipeState.cardElement;
-      if (!card) return;
-      
-      card.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      card.style.transform = 'translateX(0) rotateY(0) scale(1)';
-      
-      setTimeout(() => {
-        card.style.transition = 'transform 0.1s ease-out';
-      }, 400);
-    }
-    
-    function completeHeroSwipe() {
-      const card = heroSwipeState.cardElement;
-      if (!card) return;
-      
-      heroSwipeState.hasCompleted = true;
-      
-      // Haptic feedback for completion
-      if (navigator.vibrate) navigator.vibrate([20, 30, 40]);
-      
-      // Animate card out
-      card.classList.add('swiping-out');
-      
-      // Show success feedback
-      showToast('🎉 Great choice!', 'Loading healthier alternative...');
-      
-      // Navigate to swap product
-      setTimeout(() => {
-        if (heroSwipeState.swapProductId) {
-          navigateToProduct(heroSwipeState.swapProductId);
-        }
-      }, 500);
-    }
-    
-    // ═══════════════════════════════════════════════════════════════════
-    // INITIALIZATION
-    // ═══════════════════════════════════════════════════════════════════
-    
-    // Init on load
+    // Initialize on load
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        renderEnhancedProductDetail();
-        setTimeout(() => {
-          initSwipeCards();
-          initHeroSwipeNudge();
-        }, 100);
-      }, 500);
+      setTimeout(renderProduct, 300);
     });
   </script>
 </body>

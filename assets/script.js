@@ -1183,7 +1183,8 @@ function initPage() {
       break;
 
     case 'product':
-      renderProductDetail();
+      // Product page uses enhanced rendering in product.html
+      // Don't call renderProductDetail() here - it's handled by renderEnhancedProductDetail()
       break;
 
     case 'profile':
@@ -1196,6 +1197,8 @@ function initPage() {
 document.addEventListener('DOMContentLoaded', initPage);
 
 // Export for global access
+window.products = products;
+window.productSwaps = productSwaps;
 window.addToCart = addToCart;
 window.updateCart = updateCart;
 window.navigateToProduct = navigateToProduct;
