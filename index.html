@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#fdfbf7">
-  <title>Flean — Premium Grocery & Meals</title>
+  <title>Flean — Radically Clean. Scientifically Yours.</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body data-page="home">
@@ -22,20 +22,27 @@
     <!-- Mode Toggle -->
     <div class="mode-toggle-container" id="homeContainer" data-mode="grocery">
       <div class="mode-indicator"></div>
-      <button class="mode-toggle-btn active" id="toggleGrocery" onclick="setMode('grocery')">Grocery</button>
-      <button class="mode-toggle-btn" id="toggleMeals" onclick="setMode('meals')">Meals</button>
+      <button class="mode-toggle-btn active" id="toggleGrocery" onclick="setMode('grocery')">Clean Pantry</button>
+      <button class="mode-toggle-btn" id="toggleMeals" onclick="setMode('meals')">Fresh Meals</button>
     </div>
 
     <!-- Search -->
     <div class="search-container">
       <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" placeholder="Search for Exotic fruits">
+      <input type="text" class="search-input" placeholder="Search 'sugar free' or 'high protein'...">
     </div>
   </header>
 
   <!-- Categories (Grocery Only) -->
   <div class="chip-row" id="categoryScroll">
     <!-- Injected via JS -->
+  </div>
+
+  <!-- Trust Bar -->
+  <div class="trust-bar">
+    <div class="trust-item">🛡️ 300+ Additives Banned</div>
+    <div class="trust-item">🧠 AI Health Scored</div>
+    <div class="trust-item">🌿 Clean Label Only</div>
   </div>
 
   <!-- Hero Banner -->
@@ -73,7 +80,7 @@
 
   <!-- Product Feed -->
   <section class="feed-header">
-    <h3 id="feedTitle">Explore Now</h3>
+    <h3 id="feedTitle">Scientifically Curated</h3>
   </section>
 
   <div id="productFeed">
@@ -83,14 +90,67 @@
   <!-- Sticky Cart -->
   <div class="sticky-cart">
     <div class="cart-items-preview">
-      <img src="assets/images/dish1.png" class="cart-thumb">
+      <div class="cart-thumb" style="background:white; display:flex; align-items:center; justify-content:center;">🛍️</div>
       <div style="font-weight:700">1 item Added</div>
     </div>
     <div style="display:flex; align-items:center; gap:12px;">
-      <span style="font-size:0.8rem; opacity:0.9">Saving ₹30</span>
+      <span style="font-size:0.8rem; opacity:0.9">Score 94/100</span>
       <button onclick="window.location.href='cart.html'" style="font-weight:800; display:flex; align-items:center; gap:4px;">
         View Cart ›
       </button>
+    </div>
+  </div>
+
+  <!-- Personalize FAB -->
+  <button class="fab" id="personalizationFAB">
+    <span>✨</span> Personalize
+  </button>
+
+  <!-- Personalization Overlay -->
+  <div class="overlay" id="personalizationOverlay">
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2>Tailor Your Feed</h2>
+        <button class="btn-icon" id="closeOverlay">✕</button>
+      </div>
+      <div class="overlay-body">
+        <div class="pref-section">
+          <h4>Goal</h4>
+          <div class="chip-row" style="padding:0; flex-wrap:wrap;">
+            <button class="chip active">Weight Loss</button>
+            <button class="chip">Muscle Gain</button>
+            <button class="chip">Maintenance</button>
+          </div>
+        </div>
+        <div class="pref-section">
+          <h4>Daily Protein</h4>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span>Target</span>
+            <span id="proteinVal">60g</span>
+          </div>
+          <input type="range" class="slider" min="30" max="150" value="60">
+        </div>
+        <div class="pref-section">
+          <h4>Max Calories / Meal</h4>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span>Limit</span>
+            <span id="calVal">500 kcal</span>
+          </div>
+          <input type="range" class="slider" id="calSlider" min="300" max="1000" value="500">
+        </div>
+        <div class="pref-section">
+          <h4>Dietary Exclusions</h4>
+          <div class="chip-row" style="padding:0; flex-wrap:wrap;">
+            <button class="chip active">No Palm Oil</button>
+            <button class="chip">Gluten Free</button>
+            <button class="chip">Dairy Free</button>
+            <button class="chip">No Added Sugar</button>
+          </div>
+        </div>
+      </div>
+      <div class="overlay-footer">
+        <button class="btn-primary" style="width:100%" id="savePreferences">Save & Refresh Feed</button>
+      </div>
     </div>
   </div>
 

@@ -10,9 +10,56 @@
 <body data-page="profile">
 
   <div class="profile-header">
-    <img src="assets/images/Personalize_Icon.png" class="profile-pic">
+    <div class="score-ring-container">
+      <svg class="score-ring" id="scoreRing" viewBox="0 0 100 100" style="--score: 0">
+        <circle class="bg" cx="50" cy="50" r="45"></circle>
+        <circle class="progress" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <div class="score-value">
+        <strong>0</strong>
+        <span>Health Score</span>
+      </div>
+    </div>
+    
     <h2 style="margin-bottom:4px;">Priyam</h2>
     <p style="font-size:0.9rem;">+91 98765 43210</p>
+    
+    <div class="stats-row">
+      <div class="stat-item">
+        <strong>Top 15%</strong>
+        <span>Clean Eaters</span>
+      </div>
+      <div class="stat-item">
+        <strong>12</strong>
+        <span>Additives Avoided</span>
+      </div>
+      <div class="stat-item">
+        <strong>4</strong>
+        <span>Swaps Made</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="badges-section">
+    <h3 style="padding: 0 var(--space-lg); margin-bottom: var(--space-md);">Your Badges</h3>
+    <div class="chip-row">
+      <div class="badge-card">
+        <div class="badge-icon">🛡️</div>
+        <span>Label Reader</span>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon">🌿</div>
+        <span>Palm Oil Free</span>
+      </div>
+      <div class="badge-card locked">
+        <div class="badge-icon">💪</div>
+        <span>Protein Pro</span>
+      </div>
+      <div class="badge-card locked">
+        <div class="badge-icon">🧠</div>
+        <span>Smart Shopper</span>
+      </div>
+    </div>
   </div>
 
   <div class="menu-list">
