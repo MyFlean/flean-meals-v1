@@ -2,532 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f6b52">
-  <meta name="description" content="India's first health-scored grocery platform. Smart swaps, 300+ banned additives, delivered in 10 minutes.">
-  <title>Flean — India's Healthiest Grocery Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#fdfbf7">
+  <title>Flean — Premium Grocery & Meals</title>
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="home">
-  <!-- Splash Screen -->
-  <div class="splash-screen" id="splashScreen">
-    <div class="splash-content">
-      <div class="splash-logo">🥬</div>
-      <h1 class="splash-brand">Flean</h1>
-      <p class="splash-tagline">Healthy groceries, scored.</p>
-      <div class="splash-loader">
-        <div class="loader-dot"></div>
-        <div class="loader-dot"></div>
-        <div class="loader-dot"></div>
-      </div>
-    </div>
-  </div>
 
   <!-- Header -->
-  <header class="header" id="mainHeader">
-    <div class="header-top">
-      <div class="location-picker" id="locationPicker">
-        <span class="location-icon">📍</span>
-        <div class="location-text">
-          <span class="location-label">Delivering guilt-free to</span>
-          <span class="location-address">Amrapali Sapphire, Noida <span class="dropdown-arrow">▼</span></span>
-        </div>
+  <header class="header">
+    <div class="header-top-row">
+      <div class="location-pill" onclick="alert('Location picker coming soon!')">
+        <span class="location-sub">489B, HSR Layout</span>
+        <span>▼</span>
       </div>
-      <div class="header-actions">
-        <button class="header-btn notification-btn" aria-label="Notifications">
-          🔔
-          <span class="notification-badge">3</span>
-        </button>
-        <button class="header-btn cart-btn" id="cartBtn" aria-label="Cart" onclick="window.location.href='cart.html'">
-          🛒
-          <span class="cart-badge" id="cartBadge">0</span>
-        </button>
-      </div>
+      <button class="rewards-btn">Get Rewards</button>
     </div>
     
-    <div class="header-brand">
-      <div class="brand-row">
-        <h1>Flean</h1>
-        <span class="header-pill pulse-glow">50,000+ products scored</span>
-      </div>
-      <p class="tagline">India's first health-scored grocery platform</p>
+    <!-- Mode Toggle -->
+    <div class="mode-toggle-container" id="homeContainer" data-mode="grocery">
+      <div class="mode-indicator"></div>
+      <button class="mode-toggle-btn active" id="toggleGrocery" onclick="setMode('grocery')">Grocery</button>
+      <button class="mode-toggle-btn" id="toggleMeals" onclick="setMode('meals')">Meals</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" placeholder="Search for Exotic fruits">
     </div>
   </header>
 
-  <!-- Premium Hero Section -->
-  <section class="hero-highlights" id="heroHighlights">
-    <div class="hero-card hero-card-primary animate-on-scroll">
-      <div class="hero-card-icon">🛡️</div>
-      <div class="hero-card-content">
-        <h3>300+ Additives We <span class="text-emerald">Ghosted</span></h3>
-        <p>Palm oil, trans fats, MSG — they're not getting a callback. Ever.</p>
-      </div>
+  <!-- Categories (Grocery Only) -->
+  <div class="chip-row" id="categoryScroll">
+    <!-- Injected via JS -->
+  </div>
+
+  <!-- Hero Banner -->
+  <div class="hero-banner" id="heroBanner">
+    <!-- Injected via JS -->
+  </div>
+
+  <!-- Collections Grid (Tailored to your taste) -->
+  <section class="feed-header">
+    <h3>Tailored to your taste</h3>
+  </section>
+  
+  <div class="collections-grid">
+    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
+      <div class="collection-title">High-fibre heroes</div>
+      <div class="collection-sub">Easy on the gut</div>
+      <img src="assets/images/Burrito_Bowl_Supreme.jpg" class="collection-img" alt="Fiber">
     </div>
-    <div class="hero-card animate-on-scroll" style="animation-delay: 0.1s">
-      <div class="hero-card-icon">🧠</div>
-      <div class="hero-card-content">
-        <h3>AI That Actually <span class="text-emerald">Read</span> the Label</h3>
-        <p>Our algorithm analyzed 50,000+ products so you don't have to squint.</p>
-      </div>
+    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
+      <div class="collection-title">Vegan and vibin</div>
+      <div class="collection-sub">Top-tier collection</div>
+      <img src="assets/images/Bowl Street Kitchen.png" class="collection-img" alt="Vegan">
     </div>
-    <div class="hero-card animate-on-scroll" style="animation-delay: 0.2s">
-      <div class="hero-card-icon">🔄</div>
-      <div class="hero-card-content">
-        <h3>Swaps, Not <span class="text-emerald">Lectures</span></h3>
-        <p>Found something unhealthy? We'll suggest better. No guilt trips.</p>
-      </div>
+    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
+      <div class="collection-title">Keto, done right</div>
+      <div class="collection-sub">Carbs on the low</div>
+      <img src="assets/images/KetoGoal.png" class="collection-img" alt="Keto">
     </div>
+    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
+      <div class="collection-title">Protein Power</div>
+      <div class="collection-sub">Less doubt</div>
+      <img src="assets/images/Protein Plus Co. Kitchen.png" class="collection-img" alt="Protein">
+    </div>
+  </div>
+
+  <!-- Product Feed -->
+  <section class="feed-header">
+    <h3 id="feedTitle">Explore Now</h3>
   </section>
 
-  <!-- Search Bar -->
-  <section class="search-shell">
-    <div class="search-bar" role="search" id="searchBar">
-      <span class="search-icon" aria-hidden="true">🔍</span>
-      <input type="search" id="productSearch" placeholder="Search 'guilt-free snacks' or 'not-so-guilty pleasures'..." autocomplete="off">
-      <button class="search-mic pulse-mic" type="button" aria-label="Voice search">
-        🎙️
+  <div id="productFeed">
+    <!-- Injected via JS -->
+  </div>
+
+  <!-- Sticky Cart -->
+  <div class="sticky-cart">
+    <div class="cart-items-preview">
+      <img src="assets/images/dish1.png" class="cart-thumb">
+      <div style="font-weight:700">1 item Added</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:0.8rem; opacity:0.9">Saving ₹30</span>
+      <button onclick="window.location.href='cart.html'" style="font-weight:800; display:flex; align-items:center; gap:4px;">
+        View Cart ›
       </button>
     </div>
-    <div class="search-suggestions" id="searchSuggestions">
-      <div class="suggestion-header">
-        <span>🔥 Trending searches</span>
-      </div>
-      <div class="suggestion-chips">
-        <button class="suggestion-chip" data-query="protein bars">Protein Bars</button>
-        <button class="suggestion-chip" data-query="millet">Millet Snacks</button>
-        <button class="suggestion-chip" data-query="organic">Organic Staples</button>
-        <button class="suggestion-chip" data-query="sugar free">Sugar Free</button>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <!-- Promo Banner -->
-  <section class="promo-carousel" id="promoCarousel">
-    <div class="promo-track">
-      <div class="promo-slide active">
-        <div class="promo-content promo-green">
-          <span class="promo-badge">WELCOME</span>
-          <h3>₹100 OFF Your First Order</h3>
-          <p>Start your guilt-free journey</p>
-          <span class="promo-code">FLEAN100</span>
-        </div>
-      </div>
-      <div class="promo-slide">
-        <div class="promo-content promo-gold">
-          <span class="promo-badge">🧠 AI PICK</span>
-          <h3>Score 80+ Only</h3>
-          <p>Shop from our AI's top picks</p>
-          <span class="promo-code">TOPCHOICE</span>
-        </div>
-      </div>
-      <div class="promo-slide">
-        <div class="promo-content promo-emerald">
-          <span class="promo-badge">SWAP & SAVE</span>
-          <h3>Made a Smart Swap?</h3>
-          <p>Get 10% off the healthier option</p>
-          <span class="promo-code">SMARTSWAP</span>
-        </div>
-      </div>
-    </div>
-    <div class="promo-dots">
-      <span class="promo-dot active"></span>
-      <span class="promo-dot"></span>
-      <span class="promo-dot"></span>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Categories Grid -->
-    <section class="category-section">
-      <div class="section-heading">
-        <div>
-          <h2>Shop by aisle</h2>
-          <p class="section-note">Tap to explore health-scored products</p>
-        </div>
-        <button class="text-button see-all-btn">See all →</button>
-      </div>
-      <div class="categories-grid" id="categoryGrid">
-        <!-- Categories injected via JavaScript -->
-      </div>
-    </section>
-
-    <!-- Quick Access Row -->
-    <section class="quick-access-section">
-      <div class="quick-access-row">
-        <div class="quick-card" onclick="filterByTag('high-protein')">
-          <span class="quick-icon">💪</span>
-          <span class="quick-label">High Protein</span>
-          <span class="quick-count">240+ items</span>
-        </div>
-        <div class="quick-card" onclick="filterByTag('organic')">
-          <span class="quick-icon">🌿</span>
-          <span class="quick-label">100% Organic</span>
-          <span class="quick-count">180+ items</span>
-        </div>
-        <div class="quick-card" onclick="filterByTag('sugar-free')">
-          <span class="quick-icon">🚫</span>
-          <span class="quick-label">Zero Sugar</span>
-          <span class="quick-count">150+ items</span>
-        </div>
-        <div class="quick-card" onclick="filterByTag('keto')">
-          <span class="quick-icon">🥑</span>
-          <span class="quick-label">Keto Friendly</span>
-          <span class="quick-count">90+ items</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Product Feed -->
-    <section class="feed-section">
-      <div class="section-heading with-actions">
-        <div>
-          <h2>Smart grocery feed</h2>
-          <p class="section-note">Personalized picks with health scores</p>
-        </div>
-        <div class="feed-actions">
-          <button class="filter-btn" id="filterBtn">
-            <span>⚙️</span> Filters
-          </button>
-          <button class="text-button" id="clearFilters" type="button">Reset</button>
-        </div>
-      </div>
-      <div id="activeFilterChip" class="active-filter-chip" hidden></div>
-      
-      <!-- Feed Loading Skeleton -->
-      <div class="feed-skeleton" id="feedSkeleton">
-        <div class="skeleton-card">
-          <div class="skeleton-image shimmer"></div>
-          <div class="skeleton-content">
-            <div class="skeleton-line shimmer"></div>
-            <div class="skeleton-line short shimmer"></div>
-            <div class="skeleton-line shorter shimmer"></div>
-          </div>
-        </div>
-        <div class="skeleton-card">
-          <div class="skeleton-image shimmer"></div>
-          <div class="skeleton-content">
-            <div class="skeleton-line shimmer"></div>
-            <div class="skeleton-line short shimmer"></div>
-            <div class="skeleton-line shorter shimmer"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="feed" id="feed">
-        <!-- Products rendered via JavaScript -->
-      </div>
-      
-      <button class="load-more-btn" id="loadMoreBtn">
-        <span class="load-more-text">Load more products</span>
-        <span class="load-more-spinner"></span>
-      </button>
-    </section>
-
-    <!-- Flean Mandate -->
-    <section class="mandate-section">
-      <div class="mandate-card glass-card">
-        <div class="mandate-badge">✨ The Flean Promise</div>
-        <h3 class="mandate-title">Radical transparency.<br>Scientific curation.</h3>
-        <div class="mandate-points">
-          <div class="mandate-point">
-            <span class="mandate-icon">🛡️</span>
-            <div>
-              <strong>300+ additives banned</strong>
-              <p>Palm oil, trans fats, MSG — permanently blacklisted</p>
-            </div>
-          </div>
-          <div class="mandate-point">
-            <span class="mandate-icon">🧠</span>
-            <div>
-              <strong>Every product scored by AI</strong>
-              <p>Research-backed algorithm rates on 100-point scale</p>
-            </div>
-          </div>
-          <div class="mandate-point">
-            <span class="mandate-icon">🔄</span>
-            <div>
-              <strong>Swaps, not sermons</strong>
-              <p>Better options without the "I told you so"</p>
-            </div>
-          </div>
-        </div>
-        <button class="mandate-cta" onclick="window.location.href='profile.html'">
-          Learn more about our standards →
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Floating Action Button -->
-  <button class="fab" id="personalizationFAB" aria-label="Personalize your feed">
-    <span class="fab-icon">✨</span>
-    <span class="fab-text">Make it yours</span>
-  </button>
-
-  <!-- Bottom Navigation -->
+  <!-- Bottom Nav -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item active">
       <span class="nav-icon">🏠</span>
-      <span class="nav-label">Home</span>
-      <span class="nav-indicator"></span>
+      <span>Home</span>
     </a>
     <a href="flean_finds.html" class="nav-item">
       <span class="nav-icon">💎</span>
-      <span class="nav-label">Flean Finds</span>
+      <span>Finds</span>
     </a>
     <a href="profile.html" class="nav-item">
       <span class="nav-icon">👤</span>
-      <span class="nav-label">Profile</span>
+      <span>Profile</span>
     </a>
   </nav>
-
-  <!-- Cart Notification (Toast) -->
-  <div class="cart-toast" id="cartToast">
-    <div class="toast-content">
-      <span class="toast-icon">✅</span>
-      <div class="toast-text">
-        <strong id="toastTitle">Added to cart</strong>
-        <span id="toastSubtitle">Healthy choice! Score: 85/100</span>
-      </div>
-    </div>
-    <button class="toast-action" onclick="window.location.href='#cart'">View Cart</button>
-  </div>
-
-  <!-- Smart Swap Modal -->
-  <div class="swap-modal" id="swapModal">
-    <div class="swap-modal-backdrop" onclick="closeSwapModal()"></div>
-    <div class="swap-modal-content">
-      <div class="swap-modal-header">
-        <div class="swap-modal-badge">⚡ Healthier Alternative Found!</div>
-        <button class="swap-modal-close" onclick="closeSwapModal()">×</button>
-      </div>
-      <div class="swap-modal-body" id="swapModalBody">
-        <!-- Content injected via JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Location Picker Modal -->
-  <div class="location-modal" id="locationModal">
-    <div class="location-modal-backdrop" onclick="closeLocationModal()"></div>
-    <div class="location-modal-content">
-      <div class="location-modal-header">
-        <h3>📍 Select delivery location</h3>
-        <button class="location-modal-close" onclick="closeLocationModal()">×</button>
-      </div>
-      <div class="location-search">
-        <input type="text" placeholder="Search your society, tower...">
-      </div>
-      <div class="location-options">
-        <button class="location-option" onclick="selectLocation('Amrapali Sapphire, Noida')">
-          <span class="location-option-icon">🏠</span>
-          <div class="location-option-text">
-            <strong>Amrapali Sapphire</strong>
-            <span>Sector 45, Noida</span>
-          </div>
-        </button>
-        <button class="location-option" onclick="selectLocation('Parsavnath Prestige, Noida')">
-          <span class="location-option-icon">🏢</span>
-          <div class="location-option-text">
-            <strong>Parsavnath Prestige</strong>
-            <span>Sector 93A, Noida</span>
-          </div>
-        </button>
-        <button class="location-option" onclick="selectLocation('Silicon City, Noida')">
-          <span class="location-option-icon">🏢</span>
-          <div class="location-option-text">
-            <strong>Silicon City</strong>
-            <span>Sector 126, Noida</span>
-          </div>
-        </button>
-        <button class="location-option" onclick="selectLocation('Advant Tower, Noida')">
-          <span class="location-option-icon">🏢</span>
-          <div class="location-option-text">
-            <strong>Advant Tower</strong>
-            <span>Sector 142, Noida</span>
-          </div>
-        </button>
-      </div>
-      <button class="location-gps-btn">
-        <span>🎯</span> Use current location
-      </button>
-    </div>
-  </div>
-
-  <!-- Personalization Overlay -->
-  <div class="overlay" id="personalizationOverlay">
-    <div class="overlay-content">
-      <div class="overlay-header">
-        <div class="overlay-header-content">
-          <span class="overlay-badge">✨ Make it yours</span>
-          <h2>Tell Us Your Food Mood</h2>
-          <p>No judgment, just better recommendations</p>
-        </div>
-        <button class="close-btn" id="closeOverlay" aria-label="Close">×</button>
-      </div>
-      
-      <div class="overlay-body">
-        <!-- Health Goals -->
-        <div class="pref-section">
-          <div class="pref-section-heading">
-            <h3>🎯 Health Goals</h3>
-            <p>What are you optimizing for?</p>
-          </div>
-          <div class="goal-chips">
-            <label class="goal-chip">
-              <input type="checkbox" name="goal" value="weightLoss">
-              <span>⚖️ Weight Loss</span>
-            </label>
-            <label class="goal-chip">
-              <input type="checkbox" name="goal" value="muscleGain">
-              <span>💪 Muscle Gain</span>
-            </label>
-            <label class="goal-chip">
-              <input type="checkbox" name="goal" value="heartHealth">
-              <span>❤️ Heart Health</span>
-            </label>
-            <label class="goal-chip">
-              <input type="checkbox" name="goal" value="diabetes">
-              <span>🩺 Diabetes Care</span>
-            </label>
-            <label class="goal-chip">
-              <input type="checkbox" name="goal" value="energy">
-              <span>⚡ More Energy</span>
-            </label>
-            <label class="goal-chip">
-              <input type="checkbox" name="goal" value="gut">
-              <span>🦠 Gut Health</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Nutrition Preferences -->
-        <div class="pref-section">
-          <div class="pref-section-heading">
-            <h3>📊 Nutrition Vibes</h3>
-            <p>Slide to your happy place</p>
-          </div>
-          <div class="slider-group">
-            <label>
-              <div class="slider-label">
-                <span>Protein focus</span>
-                <span class="slider-value" id="proteinValue">30g</span>
-              </div>
-              <input type="range" id="proteinSlider" min="10" max="50" step="5" value="30">
-            </label>
-          </div>
-          <div class="slider-group">
-            <label>
-              <div class="slider-label">
-                <span>Daily carbs</span>
-                <span class="slider-value" id="carbsValue">45g</span>
-              </div>
-              <input type="range" id="carbsSlider" min="10" max="80" step="5" value="45">
-            </label>
-          </div>
-          <div class="slider-group">
-            <label>
-              <div class="slider-label">
-                <span>Fibre intake</span>
-                <span class="slider-value" id="fibreValue">15g</span>
-              </div>
-              <input type="range" id="fibreSlider" min="5" max="30" step="5" value="15">
-            </label>
-          </div>
-        </div>
-
-        <!-- Avoidants -->
-        <div class="pref-section">
-          <div class="pref-section-heading">
-            <h3>🚫 Your Red Flags</h3>
-            <p>Things you're breaking up with</p>
-          </div>
-          <div class="avoid-grid">
-            <div class="palm-oil-container">
-              <label class="checkbox-label always-on">
-                <input type="checkbox" name="avoid" value="noPalmOil" id="noPalmOilCheckbox" checked disabled>
-                <span>🛡️ No Palm Oil</span>
-              </label>
-              <span class="palm-oil-note">Always on. Non-negotiable.</span>
-            </div>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noSugar">
-              <span>🍬 No Added Sugar</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noRefinedFlour">
-              <span>🌾 No Refined Flour</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noArtificial">
-              <span>🎨 No Artificial Colors</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noSweeteners">
-              <span>🧪 No Artificial Sweeteners</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noTransFats">
-              <span>🚫 No Trans Fats</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noMSG">
-              <span>⚗️ No MSG</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="avoid" value="noGluten">
-              <span>🌿 Gluten Free</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Desirables -->
-        <div class="pref-section">
-          <div class="pref-section-heading">
-            <h3>✨ Your Green Flags</h3>
-            <p>Things that make you swipe right</p>
-          </div>
-          <div class="desire-grid">
-            <label class="checkbox-label desire">
-              <input type="checkbox" name="desire" value="coldPressedOil">
-              <span>🫒 Cold Pressed Oils</span>
-            </label>
-            <label class="checkbox-label desire">
-              <input type="checkbox" name="desire" value="organic">
-              <span>🌱 Certified Organic</span>
-            </label>
-            <label class="checkbox-label desire">
-              <input type="checkbox" name="desire" value="wholeGrain">
-              <span>🌾 Whole Grains</span>
-            </label>
-            <label class="checkbox-label desire">
-              <input type="checkbox" name="desire" value="minimallyProcessed">
-              <span>🥗 Minimally Processed</span>
-            </label>
-            <label class="checkbox-label desire">
-              <input type="checkbox" name="desire" value="lowGlycemic">
-              <span>📉 Low Glycemic</span>
-            </label>
-            <label class="checkbox-label desire">
-              <input type="checkbox" name="desire" value="probiotics">
-              <span>🦠 Probiotics</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="overlay-footer">
-        <button class="save-btn" id="savePreferences">
-          <span class="save-btn-icon">✨</span>
-          Lock it in. Let's go!
-        </button>
-      </div>
-    </div>
-  </div>
 
   <script src="assets/script.js"></script>
 </body>

@@ -247,11 +247,13 @@
     // Redirect after splash animation
     setTimeout(() => {
       if (isAuthenticated === 'true') {
-        window.location.href = 'index.html';
-      } else if (hasOnboarded === 'true') {
-        window.location.href = 'login.html';
+        if (hasOnboarded === 'true') {
+          window.location.href = 'index.html';
+        } else {
+          window.location.href = 'welcome.html';
+        }
       } else {
-        window.location.href = 'welcome.html';
+        window.location.href = 'login.html';
       }
     }, 2500);
   </script>

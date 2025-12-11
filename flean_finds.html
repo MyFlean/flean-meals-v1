@@ -2,110 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f6b52">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#fdfbf7">
   <title>Flean Finds — Curated Collections</title>
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="finds">
-  <!-- Header -->
+
   <header class="header">
-    <div class="header-top">
-      <a href="index.html" class="back-link">← Back</a>
-      <div class="header-actions">
-        <button class="header-btn cart-btn" onclick="window.location.href='index.html'">
-          🛒
-          <span class="cart-badge" id="cartBadge">0</span>
-        </button>
-      </div>
+    <div class="header-top-row">
+      <h2 style="font-size:1.5rem; color:var(--deep-green);">Flean Finds</h2>
+      <button class="btn-icon" onclick="window.location.href='index.html'">✕</button>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="finds-hero">
-    <span class="eyebrow">💎 Research-Backed Picks</span>
-    <h1>Flean Finds</h1>
-    <p>Collections so good, even your mom would approve. (Finally.)</p>
-  </section>
-
-  <!-- Featured Collection -->
-  <section style="padding: 1.5rem;">
-    <div style="background: linear-gradient(135deg, var(--emerald-700) 0%, var(--emerald-900) 100%); border-radius: var(--radius-xl); padding: 2rem; color: white; position: relative; overflow: hidden;">
-      <div style="position: absolute; top: -30%; right: -10%; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
-      <span style="display: inline-block; padding: 0.25rem 0.75rem; background: rgba(255,255,255,0.2); border-radius: 999px; font-size: 0.75rem; font-weight: 700; margin-bottom: 1rem;">🔥 TRENDING THIS WEEK</span>
-      <h2 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.5rem;">Party Season Essentials</h2>
-      <p style="opacity: 0.9; margin-bottom: 1.5rem; font-size: 0.9rem;">Snacks that slap without the guilt trap 🎉</p>
-      <button onclick="window.location.href='index.html?collection=party-snacks'" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: white; color: var(--emerald-800); border-radius: 999px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer;">
-        Explore Collection →
-      </button>
+  <section style="padding: var(--space-lg);">
+    <div style="background:var(--deep-green); border-radius:var(--radius-xl); padding:var(--space-xl); color:white; position:relative; overflow:hidden; min-height:240px; display:flex; flex-direction:column; justify-content:center;">
+      <h1 style="font-size:2rem; margin-bottom:8px; position:relative; z-index:2;">Fresh &<br>Fabulous</h1>
+      <p style="opacity:0.9; margin-bottom:16px; position:relative; z-index:2;">Handpicked for the season</p>
+      <img src="assets/images/Fresh Greens Co. Kitchen.png" style="position:absolute; right:-20px; bottom:-20px; width:160px; height:160px; border-radius:50%; border:4px solid rgba(255,255,255,0.1); transform:rotate(-15deg);">
     </div>
   </section>
 
-  <!-- Collections Grid -->
-  <section class="collections-section">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-      <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">All Collections</h2>
-      <span style="font-size: 0.85rem; color: var(--slate-500);">8 collections</span>
-    </div>
-    <div class="collections-grid" id="collectionsGrid">
-      <!-- Collections rendered via JS -->
-    </div>
-  </section>
+  <div class="feed-header">
+    <h3>All Collections</h3>
+  </div>
 
-  <!-- Editorial Section -->
-  <section style="padding: 1.5rem;">
-    <div style="background: var(--bg-card); border-radius: var(--radius-xl); padding: 2rem; border: 1px solid var(--slate-200);">
-      <span style="display: inline-block; padding: 0.25rem 0.75rem; background: var(--gold-light); color: #92400e; border-radius: 999px; font-size: 0.7rem; font-weight: 700; margin-bottom: 1rem;">🧠 THE SCIENCE</span>
-      <h3 style="font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 0.5rem;">How Our AI Curates</h3>
-      <p style="color: var(--slate-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
-        Every Flean Find is vetted by our proprietary algorithm trained on peer-reviewed nutrition research. We analyze health scores, ingredient quality, and real user reviews.
-      </p>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--emerald-700);">
-          <span>✅</span> Score 70+ only
-        </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--emerald-700);">
-          <span>✅</span> Zero banned stuff
-        </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--emerald-700);">
-          <span>✅</span> Actually tastes good
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="collections-grid" id="findsGrid">
+    <!-- Injected via JS -->
+  </div>
 
-  <!-- Newsletter -->
-  <section style="padding: 1.5rem;">
-    <div style="background: linear-gradient(135deg, var(--emerald-50) 0%, white 100%); border: 2px dashed var(--emerald-300); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
-      <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">📬</span>
-      <h3 style="font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 0.5rem;">Sunday Health Drops</h3>
-      <p style="color: var(--slate-600); font-size: 0.9rem; margin-bottom: 1.5rem;">Weekly finds that won't make you unsubscribe. Promise.</p>
-      <div style="display: flex; gap: 0.5rem; max-width: 320px; margin: 0 auto;">
-        <input type="email" placeholder="Enter your email" style="flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--slate-200); border-radius: var(--radius-lg); font-size: 0.9rem;">
-        <button style="padding: 0.75rem 1.25rem; background: var(--emerald-600); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer;">
-          Subscribe
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottom Navigation -->
+  <!-- Bottom Nav -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="nav-icon">🏠</span>
-      <span class="nav-label">Home</span>
+      <span>Home</span>
     </a>
     <a href="flean_finds.html" class="nav-item active">
       <span class="nav-icon">💎</span>
-      <span class="nav-label">Flean Finds</span>
-      <span class="nav-indicator"></span>
+      <span>Finds</span>
     </a>
     <a href="profile.html" class="nav-item">
       <span class="nav-icon">👤</span>
-      <span class="nav-label">Profile</span>
+      <span>Profile</span>
     </a>
   </nav>
 
