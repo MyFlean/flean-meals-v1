@@ -99,6 +99,43 @@
       border-radius: var(--radius-full);
       font-weight: 700;
     }
+
+    /* Floating Scanner Button */
+    .floating-scanner {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      box-shadow: 0 8px 24px rgba(6, 95, 70, 0.4);
+      cursor: pointer;
+      z-index: 80;
+      transition: transform 0.2s ease;
+    }
+
+    .floating-scanner:active {
+      transform: scale(0.95);
+    }
+
+    .floating-scanner::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px dashed rgba(16, 185, 129, 0.5);
+      animation: scanner-spin 10s linear infinite;
+    }
+
+    @keyframes scanner-spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body data-page="product">
@@ -110,6 +147,11 @@
 
   <div id="pdpContainer">
     <!-- Injected via JS -->
+  </div>
+
+  <!-- Floating Scanner Button -->
+  <div class="floating-scanner" onclick="window.location.href='scanner.html'" title="Scan a product">
+    📷
   </div>
 
   <script src="assets/script.js"></script>

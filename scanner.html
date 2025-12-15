@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>Scan Product — Flean</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep-green: #047857;
+      --emerald: #10b981;
+      --cream-50: #f8f7f4;
+      --glass-dark: rgba(20, 20, 20, 0.6);
+      --glass-light: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 255, 255, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background: #000;
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       PREMIUM CAMERA UI
+       ═══════════════════════════════════════════════════════════════════ */
+    
+    .scanner-viewport {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #1a1a2e 0%, #0f3460 100%);
+      overflow: hidden;
+    }
+
+    /* Simulated Camera Feed with sophisticated grain/noise */
+    .camera-feed {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%),
+        url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+');
+      filter: contrast(1.1) brightness(0.9);
+      animation: camera-drift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes camera-drift {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    /* UI Layer */
+    .ui-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      padding-top: calc(20px + env(safe-area-inset-top));
+      padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    }
+
+    /* Header */
+    .scanner-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .glass-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--glass-light);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .glass-btn:active {
+      transform: scale(0.92);
+      background: rgba(255,255,255,0.2);
+    }
+
+    .scanner-title-pill {
+      padding: 8px 20px;
+      background: var(--glass-dark);
+      backdrop-filter: blur(12px);
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      font-size: 0.95rem;
+    }
+
+    /* Central Focus Frame - Minimalist */
+    .focus-frame-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      height: 280px;
+      pointer-events: none;
+    }
+
+    .focus-corner {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(255,255,255,0.8);
+      transition: all 0.5s ease;
+    }
+
+    .tl { top: 0; left: 0; border-right: 0; border-bottom: 0; border-radius: 24px 0 0 0; }
+    .tr { top: 0; right: 0; border-left: 0; border-bottom: 0; border-radius: 0 24px 0 0; }
+    .bl { bottom: 0; left: 0; border-right: 0; border-top: 0; border-radius: 0 0 0 24px; }
+    .br { bottom: 0; right: 0; border-left: 0; border-top: 0; border-radius: 0 0 24px 0; }
+
+    /* Breathing Glow */
+    .focus-frame-container::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.05);
+      animation: breathe 3s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(0.95); opacity: 0.3; }
+      50% { transform: scale(1); opacity: 0.6; }
+    }
+
+    /* Scanning Logic Indicator */
+    .scan-status {
+      position: absolute;
+      bottom: -60px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Footer Controls */
+    .controls-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .mode-switcher {
+      display: flex;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      padding: 4px;
+      border-radius: 999px;
+    }
+
+    .mode-btn {
+      padding: 8px 24px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mode-btn.active {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .main-controls {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .shutter-ring {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .shutter-btn {
+      width: 64px;
+      height: 64px;
+      background: white;
+      border-radius: 50%;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .shutter-ring:active .shutter-btn {
+      transform: scale(0.85);
+      background: var(--emerald);
+    }
+
+    /* Scanning Overlay (Analysis Phase) */
+    .analysis-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .analysis-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loader-ring {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .loader-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .loader-circle-bg {
+      fill: none;
+      stroke: rgba(255,255,255,0.1);
+      stroke-width: 4;
+    }
+
+    .loader-circle {
+      fill: none;
+      stroke: var(--emerald);
+      stroke-width: 4;
+      stroke-dasharray: 251;
+      stroke-dashoffset: 251;
+      transition: stroke-dashoffset 2s ease-in-out;
+    }
+
+    .analysis-overlay.active .loader-circle {
+      stroke-dashoffset: 0;
+    }
+
+    .analysis-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease 0.2s;
+    }
+
+    .analysis-overlay.active .analysis-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .analysis-sub {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease 0.4s;
+    }
+
+    .analysis-overlay.active .analysis-sub {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scanning Animation State */
+    .scanner-viewport.active .focus-corner {
+      border-color: var(--emerald);
+      box-shadow: 0 0 15px var(--emerald);
+    }
+
+  </style>
+</head>
+<body>
+  
+  <div class="scanner-viewport" id="viewport">
+    <div class="camera-feed"></div>
+    
+    <div class="ui-layer">
+      <!-- Header -->
+      <div class="scanner-header">
+        <button class="glass-btn" onclick="window.history.back()">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="scanner-title-pill">Intelligent Scan</div>
+        <button class="glass-btn" onclick="toggleFlash()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Focus Frame -->
+      <div class="focus-frame-container">
+        <div class="focus-corner tl"></div>
+        <div class="focus-corner tr"></div>
+        <div class="focus-corner bl"></div>
+        <div class="focus-corner br"></div>
+        <div class="scan-status">Align Product in Frame</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-wrapper">
+        <div class="mode-switcher">
+          <button class="mode-btn active">Product</button>
+          <button class="mode-btn">Barcode</button>
+          <button class="mode-btn">Ingredients</button>
+        </div>
+
+        <div class="main-controls">
+          <button class="glass-btn" style="width:40px; height:40px; opacity:0.8">🖼️</button>
+          
+          <div class="shutter-ring" onclick="capture()">
+            <div class="shutter-btn"></div>
+          </div>
+          
+          <button class="glass-btn" style="width:40px; height:40px; opacity:0.8">↺</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis Overlay -->
+  <div class="analysis-overlay" id="analysisOverlay">
+    <div class="loader-ring">
+      <svg viewBox="0 0 80 80">
+        <circle class="loader-circle-bg" cx="40" cy="40" r="38"></circle>
+        <circle class="loader-circle" cx="40" cy="40" r="38"></circle>
+      </svg>
+    </div>
+    <h2 class="analysis-text">Analyzing Profile...</h2>
+    <p class="analysis-sub">Checking 300+ hidden additives</p>
+  </div>
+
+  <script>
+    function capture() {
+      const viewport = document.getElementById('viewport');
+      const overlay = document.getElementById('analysisOverlay');
+      
+      // 1. Visual Feedback
+      if (navigator.vibrate) navigator.vibrate(50);
+      viewport.classList.add('active'); // Green corners
+      
+      // 2. Transition to Analysis
+      setTimeout(() => {
+        overlay.classList.add('active');
+        
+        // 3. Navigate after animation
+        setTimeout(() => {
+          window.location.href = 'scan-result.html';
+        }, 2200);
+      }, 600);
+    }
+
+    function toggleFlash() {
+      // Toggle visual state logic
+    }
+  </script>
+</body>
+</html>
