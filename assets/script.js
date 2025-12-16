@@ -6,193 +6,205 @@
 // DATA STORE
 // ═══════════════════════════════════════════════════════════════════
 
-const categories = [
-  { id: 'snacks', name: 'Snacks & Munchies', icon: '🍪' },
-  { id: 'beverages', name: 'Beverages', icon: '🥤' },
-  { id: 'breakfast', name: 'Breakfast & Cereal', icon: '🥣' },
-  { id: 'chocolates', name: 'Chocolates & Desserts', icon: '🍫' },
-  { id: 'instant', name: 'Instant Foods', icon: '🍜' },
-  { id: 'breads', name: 'Breads & Bakery', icon: '🍞' },
-  { id: 'dairy', name: 'Dairy & Alternatives', icon: '🥛' },
-  { id: 'pantry', name: 'Pantry Staples', icon: '🥫' }
+const carouselItems = [
+  {
+    id: 'clean-up',
+    title: 'Pantry Clean-Up?',
+    subtitle: 'Swap processed junk with clean alternatives.',
+    image: 'assets/images/Burrito_Bowl_Supreme.jpg',
+    bg: '#FDF6D8',
+    cta: 'Shop Clean →'
+  },
+  {
+    id: 'col-fiber',
+    title: 'High-Fibre Heroes',
+    subtitle: 'Easy on the gut. Naturally rich in fiber.',
+    image: 'assets/images/Bowl Street Kitchen.png',
+    bg: '#EFE9FA',
+    cta: 'Explore →'
+  },
+  {
+    id: 'col-vegan',
+    title: 'Vegan and Vibin',
+    subtitle: 'Top-tier, plant-based alternatives.',
+    image: 'assets/images/Fresh Greens Co. Kitchen.png',
+    bg: '#E0F2FE',
+    cta: 'View All →'
+  },
+  {
+    id: 'col-keto',
+    title: 'Keto, Done Right',
+    subtitle: 'Carbs on lock. Keep it clean and keto.',
+    image: 'assets/images/KetoGoal.png',
+    bg: '#FCE7F3',
+    cta: 'Shop Keto →'
+  },
+  {
+    id: 'col-protein',
+    title: 'Protein Power',
+    subtitle: 'Less dough, more gains. High protein.',
+    image: 'assets/images/Protein Plus Co. Kitchen.png',
+    bg: '#F0F9F4',
+    cta: 'Get Gains →'
+  },
+  {
+    id: 'col-kids',
+    title: 'Kids Fav',
+    subtitle: 'Nutrition packed snacks children love.',
+    image: 'assets/images/Millet-Bowl-13.jpg',
+    bg: '#FFF9C4',
+    cta: 'For Kids →'
+  }
 ];
 
-const meals = [
+// Pantry Mode Sections
+const pantrySections = [
   {
-    id: 'meal-bowl-1',
-    name: 'Quinoa & Roasted Veggie Salad',
-    description: 'Protein-packed quinoa bowl with roasted bell peppers, zucchini, and lemon tahini dressing.',
-    price: 249,
-    image: 'assets/images/Quinoa & Roasted Veggie Salad.png',
-    tags: ['Vegan', 'High Protein', 'Gluten Free'],
-    calories: '320 kcal',
-    time: '25 min',
-    macros: { protein: '18g', carbs: '45g', fats: '12g' }
+    title: 'Snacks, Drinks & More',
+    categories: [
+      { name: 'Snacks & Munchies', image: 'assets/images/Bowl Street Kitchen.png', id: 'snacks' },
+      { name: 'Biscuits & Cookies', image: 'assets/images/Burrito_Bowl_Supreme.jpg', id: 'cookies' },
+      { name: 'Sweets & Chocolates', image: 'assets/images/KetoGoal.png', id: 'sweets' },
+      { name: 'Juices & Beverages', image: 'assets/images/Fresh Greens Co. Kitchen.png', id: 'beverages' }
+    ]
   },
   {
-    id: 'meal-bowl-2',
-    name: 'Grilled Paneer Tikka Wrap',
-    description: 'Low-carb wrap with spicy paneer tikka, mint chutney, and crunchy onions.',
-    price: 199,
-    image: 'assets/images/Paneer Tikka Wrap.png',
-    tags: ['Keto Friendly', 'Vegetarian'],
-    calories: '410 kcal',
-    time: '20 min',
-    macros: { protein: '22g', carbs: '15g', fats: '28g' }
+    title: 'Kids Food & Nutrition',
+    categories: [
+      { name: 'Staples & Porridges', image: 'assets/images/Millet-Bowl-13.jpg', id: 'staples' },
+      { name: 'Milk & Health Mixes', image: 'assets/images/GreenBowl_kitchen.png', id: 'milk_mixes' },
+      { name: 'Ready To Cook', image: 'assets/images/Ancient Grains Kitchen.png', id: 'rtc' },
+      { name: 'Snacks & More', image: 'assets/images/Protein Plus Co. Kitchen.png', id: 'kids_snacks' }
+    ]
   },
   {
-    id: 'meal-bowl-3',
-    name: 'Burrito Bowl Supreme',
-    description: 'Brown rice, black beans, corn salsa, avocado mash, and chipotle drizzle.',
-    price: 289,
-    image: 'assets/images/Burrito_Bowl_Supreme.jpg',
-    tags: ['High Fiber', 'Vegan'],
-    calories: '450 kcal',
-    time: '30 min',
-    macros: { protein: '16g', carbs: '55g', fats: '14g' }
+    title: 'Packaged Foods',
+    categories: [
+      { name: 'Pasta & Noodles', image: 'assets/images/Nourish Cafe Kitchen.png', id: 'pasta' },
+      { name: 'Breakfast', image: 'assets/images/Paneer Tikka Wrap.png', id: 'breakfast' },
+      { name: 'Sauces & Spreads', image: 'assets/images/Quinoa & Roasted Veggie Salad.png', id: 'sauces' },
+      { name: 'Baking', image: 'assets/images/Salad Icon.png', id: 'baking' }
+    ]
   }
+];
+
+// Fresh Meals Mode Sections
+const mealsSections = [
+  {
+    title: 'Meals & Bowls',
+    categories: [
+      { name: 'Fresh Bowls', image: 'assets/images/Bowls.png', id: 'bowls' },
+      { name: 'Wraps & Rolls', image: 'assets/images/Wraps_Rolls.png', id: 'wraps' },
+      { name: 'Weight Loss', image: 'assets/images/WeightLoss.png', id: 'weight_loss' },
+      { name: 'Gourmet Salads', image: 'assets/images/Salad Icon.png', id: 'salads' }
+    ]
+  },
+  {
+    title: 'Kitchen Partners',
+    categories: [
+      { name: 'Bowl Street', image: 'assets/images/Bowl Street Kitchen.png', id: 'bowl_street' },
+      { name: 'GreenBowl', image: 'assets/images/GreenBowl_kitchen.png', id: 'greenbowl' },
+      { name: 'Nourish Cafe', image: 'assets/images/Nourish Cafe Kitchen.png', id: 'nourish' },
+      { name: 'Ancient Grains', image: 'assets/images/Ancient Grains Kitchen.png', id: 'ancient_grains' }
+    ]
+  }
+];
+
+// Meals Carousel Items
+const mealsCarouselItems = [
+  {
+    id: 'meals-protein',
+    title: 'Your daily 25g protein boost',
+    subtitle: 'Starting at ₹89/250ml',
+    image: 'assets/images/Protein Plus Co. Kitchen.png',
+    bg: '#4A7C9B',
+    cta: 'Shop now →'
+  },
+  {
+    id: 'meals-bowls',
+    title: 'Fresh Buddha Bowls',
+    subtitle: 'Healthy. Filling. Delicious.',
+    image: 'assets/images/Bowls.png',
+    bg: '#7CB798',
+    cta: 'Order now →'
+  },
+  {
+    id: 'meals-salads',
+    title: 'Gourmet Salads',
+    subtitle: 'Farm fresh ingredients daily',
+    image: 'assets/images/Fresh Greens Co. Kitchen.png',
+    bg: '#E8D5B7',
+    cta: 'Try now →'
+  }
+];
+
+const sidebarCategories = [
+  { id: 'featured', name: 'Featured', icon: '⭐' },
+  { id: 'fruits', name: 'Fruits & Vegetables', icon: '🥦' },
+  { id: 'dairy', name: 'Breads, Dairy & Eggs', icon: '🥛' },
+  { id: 'staples', name: 'Staples', icon: '🌾' },
+  { id: 'kids', name: 'Kids Food & Nutrition', icon: '👶' },
+  { id: 'snacks', name: 'Snacks & Munchies', icon: '🍪' },
+  { id: 'beverages', name: 'Beverages', icon: '🥤' },
+  { id: 'sweets', name: 'Sweets & Chocolates', icon: '🍫' },
+  { id: 'health', name: 'Health & Nutrition', icon: '💪' }
 ];
 
 const products = [
   {
-    id: 'prod-bread',
-    name: 'Whole Wheat Sourdough',
-    brand: 'The Baker\'s Dozen',
-    description: 'No maida, no preservatives. Just pure whole wheat goodness fermented naturally.',
-    category: 'breads',
-    price: 85,
-    unit: '400g',
-    image: 'https://images.unsplash.com/photo-1585476644321-b976214b606d?w=400',
-    tags: ['Gut Friendly', 'No Maida'],
-    healthScore: 92,
-    watchouts: []
+    id: 'p1',
+    name: 'Provilac High Protein Milk',
+    brand: 'Provilac',
+    price: 139,
+    originalPrice: 140,
+    size: '500 ml',
+    image: 'assets/images/Protein Plus Co. Kitchen.png',
+    badges: ['With Natural Protein'],
+    collection: 'col-protein'
   },
   {
-    id: 'prod-chips',
-    name: 'Salted Potato Chips',
-    brand: 'Lay\'s',
-    description: 'Classic salted chips. Fried in palm oil.',
-    category: 'snacks',
-    price: 20,
-    unit: 'Pack',
-    image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400',
-    tags: ['Fried'],
-    healthScore: 30,
-    watchouts: ['Palm Oil', 'High Sodium'],
-    swapId: 'prod-nuts'
+    id: 'p2',
+    name: 'High Protein Milk Small',
+    brand: 'Provilac',
+    price: 89,
+    originalPrice: 90,
+    size: '250 ml',
+    image: 'assets/images/Protein Plus Co. Kitchen.png',
+    badges: ['Bestseller'],
+    collection: 'col-protein'
   },
   {
-    id: 'prod-nuts',
-    name: 'Roasted Almonds',
-    brand: 'Farmley',
-    description: 'Crunchy roasted almonds with a pinch of rock salt.',
-    category: 'snacks',
-    price: 199,
-    unit: '100g',
-    image: 'https://images.unsplash.com/photo-1613728913344-8cee3b7071f3?w=400',
-    tags: ['Roasted', 'Protein'],
-    healthScore: 94,
-    watchouts: []
+    id: 'p3',
+    name: 'Matcha Protein',
+    brand: 'Provilac',
+    price: 250,
+    originalPrice: 0,
+    size: '250 ml',
+    image: 'assets/images/GreenBowl_kitchen.png',
+    badges: ['25g Protein'],
+    collection: 'col-protein'
   },
   {
-    id: 'prod-muesli',
-    name: 'Millet Muesli',
-    brand: 'Soulfull',
-    description: 'Crunchy breakfast muesli with 5 millets, nuts, and seeds.',
-    category: 'breakfast',
-    price: 299,
-    unit: '700g',
-    image: 'https://images.unsplash.com/photo-1517093157656-b9eccef91cb1?w=400',
-    tags: ['Whole Grain', 'No Added Sugar'],
-    healthScore: 87,
-    watchouts: []
+    id: 'p4',
+    name: 'Kesar Elaichi',
+    brand: 'Provilac',
+    price: 89,
+    originalPrice: 0,
+    size: '250 ml',
+    image: 'assets/images/Ancient Grains Kitchen.png',
+    badges: ['26g Protein'],
+    collection: 'col-protein'
   },
   {
-    id: 'prod-chocolate',
-    name: 'Dark Chocolate 70%',
-    brand: 'Amul',
-    description: 'Rich dark chocolate.',
-    category: 'chocolates',
-    price: 100,
-    unit: '150g',
-    image: 'https://images.unsplash.com/photo-1511381978029-18b5735434b7?w=400',
-    tags: ['Antioxidants'],
-    healthScore: 65,
-    watchouts: ['Added Sugar', 'Emulsifiers']
-  },
-  {
-    id: 'prod-kombucha',
-    name: 'Kombucha - Ginger',
-    brand: 'Atmosphere',
-    description: 'Probiotic sparkling tea.',
-    category: 'beverages',
-    price: 220,
-    unit: 'Bottle',
-    image: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=400',
-    tags: ['Probiotic', 'Low Sugar'],
-    healthScore: 96,
-    watchouts: []
-  },
-  {
-    id: 'prod-protein-bar',
-    name: 'Whey Protein Bar',
-    brand: 'The Whole Truth',
-    description: 'Double cocoa protein bar with no added sugar.',
-    category: 'snacks',
-    price: 90,
-    unit: '52g',
-    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400',
-    tags: ['20g Protein', 'Clean Label'],
-    healthScore: 95,
-    watchouts: []
-  },
-  {
-    id: 'prod-oat-milk',
-    name: 'Oat Milk',
+    id: 'p5',
+    name: 'Almond Milk',
     brand: 'OatMlk',
-    description: 'Dairy-free plant milk.',
-    category: 'dairy',
     price: 299,
-    unit: '1L',
-    image: 'https://images.unsplash.com/photo-1600189020840-e9918c25268d?w=400',
-    tags: ['Vegan', 'Lactose Free'],
-    healthScore: 88,
-    watchouts: []
-  }
-];
-
-const collections = [
-  {
-    id: 'col-fiber',
-    title: 'High-fibre heroes',
-    subtitle: 'Easy on the gut',
-    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200',
-    bg: '#FDF6D8',
-    productIds: ['prod-bread', 'prod-muesli']
-  },
-  {
-    id: 'col-vegan',
-    title: 'Vegan and vibin',
-    subtitle: 'Our top-tier collection',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200',
-    bg: '#EFE9FA',
-    productIds: ['prod-kombucha', 'prod-oat-milk']
-  },
-  {
-    id: 'col-keto',
-    title: 'Keto, done right',
-    subtitle: 'Carbs on the low',
-    image: 'https://images.unsplash.com/photo-1606756790138-7c13c0dbd907?w=200',
-    bg: '#FCE7F3',
-    productIds: ['prod-nuts', 'prod-protein-bar']
-  },
-  {
-    id: 'col-protein',
-    title: 'More protein',
-    subtitle: 'Your power boosters',
-    image: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=200',
-    bg: '#E0F2FE',
-    productIds: ['prod-nuts', 'prod-protein-bar']
+    originalPrice: 320,
+    size: '1 L',
+    image: 'assets/images/Nourish Cafe Kitchen.png',
+    badges: ['Vegan'],
+    collection: 'col-vegan'
   }
 ];
 
@@ -201,11 +213,9 @@ const collections = [
 // ═══════════════════════════════════════════════════════════════════
 
 const state = {
-  mode: 'grocery', // 'grocery' or 'meals'
-  category: 'all',
   cart: JSON.parse(localStorage.getItem('fleanCart') || '[]'),
-  search: '',
-  preferences: JSON.parse(localStorage.getItem('fleanPreferences') || '{}')
+  selectedCategory: 'featured',
+  mode: 'pantry' // 'pantry' or 'meals'
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -219,180 +229,198 @@ function initApp() {
   
   if (page === 'home') {
     renderHome();
-    setupHomeListeners();
-    initPersonalization();
-  } else if (page === 'finds') {
-    renderCollectionsPage();
-  } else if (page === 'profile') {
-    renderProfileScore(); // Gamification logic
-  } else if (page === 'product') {
-    // handled in product.html
+  } else if (page === 'categories') {
+    renderCategoriesPage();
+  } else if (page === 'collection') {
+    renderCollectionPage();
   }
 }
 
 function renderHome() {
-  // 1. Setup Toggle
-  const toggleBtnGrocery = document.getElementById('toggleGrocery');
-  const toggleBtnMeals = document.getElementById('toggleMeals');
+  const isMeals = state.mode === 'meals';
+  const currentCarousel = isMeals ? mealsCarouselItems : carouselItems;
+  const currentSections = isMeals ? mealsSections : pantrySections;
   
-  if (toggleBtnGrocery && toggleBtnMeals) {
-    if (state.mode === 'grocery') {
-      toggleBtnGrocery.classList.add('active');
-      toggleBtnMeals.classList.remove('active');
-      document.getElementById('homeContainer').setAttribute('data-mode', 'grocery');
-    } else {
-      toggleBtnMeals.classList.add('active');
-      toggleBtnGrocery.classList.remove('active');
-      document.getElementById('homeContainer').setAttribute('data-mode', 'meals');
-    }
-  }
-
-  // 2. Render Categories (Grocery Only)
-  const catContainer = document.getElementById('categoryScroll');
-  if (catContainer) {
-    if (state.mode === 'grocery') {
-      catContainer.style.display = 'flex';
-      catContainer.innerHTML = `
-        <button class="chip ${state.category === 'all' ? 'active' : ''}" onclick="setCategory('all')">All</button>
-        ${categories.map(c => `
-          <button class="chip ${state.category === c.id ? 'active' : ''}" onclick="setCategory('${c.id}')">${c.name}</button>
-        `).join('')}
-      `;
-    } else {
-      catContainer.style.display = 'none';
-    }
-  }
-
-  // 3. Render Hero Banner
-  renderHero();
-
-  // 4. Render Feed
-  renderFeed();
-}
-
-function renderHero() {
-  const hero = document.getElementById('heroBanner');
-  if (!hero) return;
-
-  if (state.mode === 'grocery') {
-    hero.innerHTML = `
-      <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=600" class="hero-img" alt="Grocery">
-      <div class="hero-content">
-        <div class="hero-tag">✨ Curated for You</div>
-        <h2 class="hero-title">Pantry Clean-Up?</h2>
-        <p>Swap processed junk with clean, lab-tested alternatives.</p>
-        <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('productFeed').scrollIntoView()">
-          Shop Clean →
-        </button>
-      </div>
-    `;
-  } else {
-    hero.innerHTML = `
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" class="hero-img" alt="Meals">
-      <div class="hero-content">
-        <div class="hero-tag">👨‍🍳 Chef Curated</div>
-        <h2 class="hero-title">Macros On Point</h2>
-        <p>High protein, low carb, or balanced. You choose.</p>
-        <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('productFeed').scrollIntoView()">
-          Order Meal →
-        </button>
-      </div>
-    `;
-  }
-}
-
-function renderFeed() {
-  const feed = document.getElementById('productFeed');
-  if (!feed) return;
-
-  if (state.mode === 'grocery') {
-    // Filter Products
-    let filtered = products;
-    if (state.category !== 'all') {
-      filtered = products.filter(p => p.category === state.category);
-    }
-    
-    // Render Grid
-    feed.className = 'product-grid';
-    feed.innerHTML = filtered.map(p => `
-      <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'">
-        <div class="prod-img-container">
-          <img src="${p.image}" class="prod-img" alt="${p.name}">
-          <div class="health-badge ${p.healthScore > 80 ? 'good' : 'mid'}">
-            <strong>${p.healthScore}</strong>
+  // 1. Render Carousel
+  const track = document.getElementById('collectionCarousel');
+  const dotsContainer = document.getElementById('carouselDots');
+  
+  if (track && dotsContainer) {
+    track.innerHTML = currentCarousel.map((item, index) => `
+      <div class="carousel-card" style="background: linear-gradient(135deg, ${item.bg} 0%, ${adjustColor(item.bg, -20)} 100%);" onclick="window.location.href='collection.html?id=${item.id}&title=${encodeURIComponent(item.title)}'">
+        <div class="carousel-card-inner">
+          <div class="carousel-text-group">
+            <h3 class="carousel-title-overlay">${item.title}</h3>
+            <p class="carousel-sub-overlay">${item.subtitle}</p>
           </div>
-        </div>
-        <div class="prod-brand">${p.brand}</div>
-        <div class="prod-title">${p.name}</div>
-        <div class="prod-sub">${p.unit}</div>
-        <div class="prod-footer">
-          <div>
-            <span class="prod-price">₹${p.price}</span>
+          <div class="carousel-image-wrapper">
+             <img src="${item.image}" class="carousel-img-poster" alt="${item.title}" onerror="this.style.display='none'">
           </div>
-          <button class="add-btn-mini" onclick="event.stopPropagation(); addToCart('${p.id}')">+</button>
+          <button class="carousel-btn-overlay">
+            ${item.cta}
+          </button>
         </div>
       </div>
     `).join('');
-  } else {
-    // Render Meals List
-    feed.className = ''; // Remove grid class for list view
-    feed.innerHTML = meals.map(m => `
-      <div class="meal-card-large" onclick="alert('Meal details coming soon!')">
-        <div style="position:relative;">
-          <img src="${m.image}" class="meal-img-large" alt="${m.name}" onerror="this.src='https://via.placeholder.com/400x240?text=Meal'">
-          <div style="position:absolute; bottom:16px; right:16px; background:white; padding:4px 12px; border-radius:99px; font-weight:700; font-size:0.8rem; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-            🔥 ${m.calories}
-          </div>
-        </div>
-        <div class="meal-content">
-          <div class="meal-tags">
-            ${m.tags.map(t => `<span class="meal-tag">${t}</span>`).join('')}
-          </div>
-          <h3 style="font-size:1.25rem; margin-bottom:4px;">${m.name}</h3>
-          <p style="font-size:0.9rem; margin-bottom:12px;">${m.description}</p>
-          
-          <div class="meal-macros">
-            <div class="macro-pill">💪 ${m.macros.protein} Protein</div>
-            <div class="macro-pill">🌾 ${m.macros.carbs} Carbs</div>
-            <div class="macro-pill">🥑 ${m.macros.fats} Fats</div>
-          </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
-            <div style="font-weight:800; font-size:1.1rem;">₹${m.price}</div>
-            <button class="btn-primary" style="padding: 8px 16px; font-size:0.9rem;">Add +</button>
-          </div>
+    dotsContainer.innerHTML = currentCarousel.map((_, i) => `
+      <div class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></div>
+    `).join('');
+
+    track.addEventListener('scroll', () => {
+      const scrollLeft = track.scrollLeft;
+      const cardWidth = track.offsetWidth * 0.85;
+      const index = Math.round(scrollLeft / cardWidth);
+      
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        if (i === index) d.classList.add('active');
+        else d.classList.remove('active');
+      });
+    });
+  }
+
+  // 2. Render Category Sections
+  const sectionsContainer = document.getElementById('categorySections');
+  if (sectionsContainer) {
+    sectionsContainer.innerHTML = currentSections.map(section => `
+      <div class="category-section">
+        <h3 class="category-header-title">${section.title}</h3>
+        <div class="category-scroll-row">
+          ${section.categories.map(cat => `
+            <div class="category-card-small" onclick="window.location.href='categories.html?cat=${cat.id}'">
+              <img src="${cat.image}" class="cat-img-small" alt="${cat.name}" onerror="this.src='https://via.placeholder.com/150'">
+              <div class="cat-label-small">${cat.name}</div>
+            </div>
+          `).join('')}
         </div>
       </div>
     `).join('');
   }
 }
 
-function renderCollectionsPage() {
-  const grid = document.getElementById('findsGrid');
-  if (!grid) return;
+// Helper to darken/lighten color
+function adjustColor(hex, percent) {
+  if (!hex) return '#ccc';
+  hex = hex.replace('#', '');
+  const num = parseInt(hex, 16);
+  const r = Math.min(255, Math.max(0, (num >> 16) + percent));
+  const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + percent));
+  const b = Math.min(255, Math.max(0, (num & 0x0000FF) + percent));
+  return '#' + (0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1);
+}
 
-  grid.innerHTML = collections.map(c => `
-    <div class="collection-card" style="background:${c.bg}">
-      <h3 class="collection-title">${c.title}</h3>
-      <div class="collection-sub">${c.subtitle}</div>
-      <img src="${c.image}" class="collection-img" alt="${c.title}">
+// Mode Switcher
+function switchMode(mode) {
+  state.mode = mode;
+  
+  // Update tab UI
+  document.querySelectorAll('.mode-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.mode === mode);
+  });
+  
+  // Re-render home content
+  renderHome();
+  
+  // Scroll carousel to start
+  const track = document.getElementById('collectionCarousel');
+  if (track) track.scrollTo({ left: 0, behavior: 'smooth' });
+}
+
+function renderCategoriesPage() {
+  const sidebar = document.getElementById('catSidebar');
+  const content = document.getElementById('catContent');
+  
+  if (!sidebar || !content) return;
+  
+  // Render Sidebar
+  sidebar.innerHTML = sidebarCategories.map(cat => `
+    <div class="sidebar-item ${state.selectedCategory === cat.id ? 'active' : ''}" onclick="selectCategory('${cat.id}')">
+      <div class="sidebar-icon" style="font-size:1.5rem; display:flex; align-items:center; justify-content:center;">${cat.icon}</div>
+      <div class="sidebar-text">${cat.name}</div>
     </div>
   `).join('');
+  
+  // Render Content
+  const currentCat = sidebarCategories.find(c => c.id === state.selectedCategory);
+  const title = currentCat ? currentCat.name : 'Category';
+  
+  // Mock subcategories data (In a real app, this would come from a data structure)
+  // Using the reference image logic: Image + Title, Clean Card
+  const subcategories = [
+    { name: 'Munchies & Snacks', image: 'assets/images/Bowl Street Kitchen.png' },
+    { name: 'Chocolates', image: 'assets/images/KetoGoal.png' },
+    { name: 'Bars & Bites', image: 'assets/images/Burrito_Bowl_Supreme.jpg' },
+    { name: 'Biscuits & Cookies', image: 'assets/images/Millet-Bowl-13.jpg' },
+    { name: 'Chikki & Date bites', image: 'assets/images/Protein Plus Co. Kitchen.png' },
+    { name: 'Indian Sweets', image: 'assets/images/Salad Icon.png' }
+  ];
+
+  content.innerHTML = `
+    <div style="padding:24px 20px;">
+      <h3 style="margin-bottom:24px; text-transform:uppercase; letter-spacing:1px; font-size:0.8rem; color:var(--gray-neutral); font-weight:600;">
+        ${title.toUpperCase()}
+      </h3>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        ${subcategories.map(sub => `
+           <div class="subcategory-card" onclick="window.location.href='collection.html?title=${encodeURIComponent(sub.name)}'">
+            <div class="subcategory-img-wrapper">
+              <img src="${sub.image}" class="subcategory-img" onerror="this.src='https://via.placeholder.com/150'">
+            </div>
+            <div class="subcategory-name">${sub.name}</div>
+           </div>
+        `).join('')}
+      </div>
+      
+      <!-- Empty Spacer for scroll -->
+      <div style="height:40px;"></div>
+    </div>
+  `;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// ACTIONS
-// ═══════════════════════════════════════════════════════════════════
-
-function setMode(mode) {
-  state.mode = mode;
-  state.category = 'all'; // Reset category on mode switch
-  renderHome();
+function selectCategory(id) {
+  state.selectedCategory = id;
+  renderCategoriesPage();
 }
 
-function setCategory(id) {
-  state.category = id;
-  renderHome(); // Re-render to update chips active state and feed
+function renderCollectionPage() {
+  const params = new URLSearchParams(window.location.search);
+  const colId = params.get('id');
+  const colTitle = params.get('title');
+  
+  if (colTitle) {
+    const el = document.getElementById('collectionTitle');
+    if(el) el.innerText = colTitle;
+  }
+  
+  const grid = document.getElementById('productsGrid');
+  if (grid) {
+    // Show all products for demo
+    const filtered = products; 
+    
+    // Soft pastel backgrounds for cards
+    const bgColors = ['#E8F5E9', '#FCE4EC', '#E3F2FD', '#FFF8E1', '#F3E5F5', '#E0F2F1'];
+
+    grid.innerHTML = filtered.map((p, index) => {
+       const bgColor = bgColors[index % bgColors.length];
+       return `
+      <div class="product-card-large" style="background-color: ${bgColor};">
+        <div class="product-img-wrapper">
+           <img src="${p.image}" class="product-img-large" onerror="this.src='https://via.placeholder.com/120'">
+        </div>
+        <div class="product-weight">${p.size}</div>
+        <div class="product-title-large">${p.name}</div>
+        <div class="product-desc-large">Roasted crunchy goodness</div>
+        <div class="price-row">
+          <div class="price-group">
+            <span class="price-large">₹${p.price}</span>
+            ${p.originalPrice > 0 ? `<span class="original-price-large">₹${p.originalPrice}</span>` : ''}
+          </div>
+          <div class="add-btn-large" onclick="event.stopPropagation(); addToCart('${p.id}')">+</div>
+        </div>
+      </div>
+    `}).join('');
+  }
 }
 
 function addToCart(id) {
@@ -403,85 +431,18 @@ function addToCart(id) {
   localStorage.setItem('fleanCart', JSON.stringify(state.cart));
   updateCartBadge();
   
-  // Show sticky cart
   const sticky = document.querySelector('.sticky-cart');
   if (sticky) sticky.classList.add('visible');
   
-  // Haptic
   if(navigator.vibrate) navigator.vibrate(10);
 }
 
 function updateCartBadge() {
   const total = state.cart.reduce((a, b) => a + b.qty, 0);
-  const badges = document.querySelectorAll('.cart-badge'); // If any
+  // Optional: Update badge if added in UI
 }
-
-function setupHomeListeners() {
-  // Listeners if needed
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// PERSONALIZATION & GAMIFICATION
-// ═══════════════════════════════════════════════════════════════════
-
-function initPersonalization() {
-  const fab = document.getElementById('personalizationFAB');
-  const overlay = document.getElementById('personalizationOverlay');
-  
-  if (!fab || !overlay) return;
-  
-  fab.addEventListener('click', () => {
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  });
-  
-  document.getElementById('closeOverlay')?.addEventListener('click', () => {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-
-  document.getElementById('savePreferences')?.addEventListener('click', () => {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    alert('Preferences Saved! Feed tailored.');
-  });
-  
-  // Range sliders logic
-  const ranges = document.querySelectorAll('input[type="range"]');
-  ranges.forEach(range => {
-    range.addEventListener('input', (e) => {
-      e.target.nextElementSibling.innerText = e.target.value + (e.target.id === 'calSlider' ? ' kcal' : 'g');
-    });
-  });
-}
-
-function renderProfileScore() {
-  const scoreRing = document.getElementById('scoreRing');
-  if (!scoreRing) return;
-  
-  // Simple animation for demo
-  let score = 0;
-  const target = 78;
-  const interval = setInterval(() => {
-    score += 2;
-    if (score >= target) {
-      score = target;
-      clearInterval(interval);
-    }
-    scoreRing.style.setProperty('--score', score);
-    scoreRing.querySelector('strong').innerText = score;
-  }, 20);
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', initApp);
-
-// Expose to window
-window.setMode = setMode;
-window.setCategory = setCategory;
+window.selectCategory = selectCategory;
 window.addToCart = addToCart;
-window.products = products;
-window.collections = collections;
+window.switchMode = switchMode;

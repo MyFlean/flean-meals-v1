@@ -7,22 +7,26 @@
   <title>Profile — Flean</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body data-page="profile">
+<body data-page="profile" style="padding-bottom: 40px;">
+
+  <!-- Back Button Header -->
+  <div style="padding: 16px; background: var(--cream-50); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);">
+    <button onclick="window.history.back()" style="display: flex; align-items: center; gap: 8px; font-size: 1rem; color: var(--charcoal); font-weight: 500;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back
+    </button>
+  </div>
 
   <div class="profile-header">
-    <div class="score-ring-container">
-      <svg class="score-ring" id="scoreRing" viewBox="0 0 100 100" style="--score: 0">
-        <circle class="bg" cx="50" cy="50" r="45"></circle>
-        <circle class="progress" cx="50" cy="50" r="45"></circle>
-      </svg>
-      <div class="score-value">
-        <strong>0</strong>
-        <span>Health Score</span>
-      </div>
+    <div class="profile-avatar-large">
+      <img src="assets/images/Salad Icon.png" alt="Priyam">
+      <div class="edit-badge">✏️</div>
     </div>
     
-    <h2 style="margin-bottom:4px;">Priyam</h2>
-    <p style="font-size:0.9rem;">+91 98765 43210</p>
+    <h2 style="margin-bottom:4px; font-family: var(--font-body); font-size: 1.3rem;">Priyam</h2>
+    <p style="font-size:0.85rem; color: var(--gray-neutral);">+91 98765 43210</p>
     
     <div class="stats-row">
       <div class="stat-item">
@@ -103,28 +107,9 @@
     </div>
   </div>
 
-  <p style="text-align:center; font-size:0.75rem; margin-top:32px; color:var(--sand-400);">
+  <p style="text-align:center; font-size:0.75rem; margin-top:32px; padding-bottom: 20px; color:var(--gray-neutral); opacity: 0.6;">
     Version 1.0.0 (Premium Build)
   </p>
-
-  <!-- Bottom Nav -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
-      <span class="nav-icon">🏠</span>
-      <span>Home</span>
-    </a>
-    
-    <div class="nav-scanner-wrapper">
-      <div class="nav-scanner-btn" onclick="window.location.href='scanner.html'">
-        <span class="nav-scanner-icon">📷</span>
-      </div>
-    </div>
-
-    <a href="profile.html" class="nav-item active">
-      <span class="nav-icon">👤</span>
-      <span>Profile</span>
-    </a>
-  </nav>
 
   <script src="assets/script.js"></script>
 </body>

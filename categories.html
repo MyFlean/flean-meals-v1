@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#fdfbf7">
+  <title>Categories — Flean</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="categories">
+
+  <!-- Header -->
+  <header class="header" style="position:sticky; top:0; background:var(--cream-50); z-index:100; padding:16px;">
+    <div style="font-family:var(--font-heading); font-size:1.5rem; font-weight:700; margin-bottom:16px;">All Categories</div>
+    <div class="search-container">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </span>
+      <input type="text" class="search-input" placeholder="Search categories">
+    </div>
+  </header>
+
+  <div class="categories-page-container">
+    <!-- Left Sidebar -->
+    <div class="cat-sidebar" id="catSidebar">
+      <!-- Injected JS -->
+    </div>
+
+    <!-- Right Content -->
+    <div class="cat-content-area" id="catContent">
+      <!-- Injected JS -->
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </span>
+      <span>Home</span>
+    </a>
+    
+    <div class="nav-scanner-wrapper">
+      <div class="nav-scanner-btn" onclick="window.location.href='scanner.html'">
+        <svg class="nav-scanner-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </div>
+    </div>
+
+    <a href="categories.html" class="nav-item active">
+      <span class="nav-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      </span>
+      <span>Category</span>
+    </a>
+  </nav>
+
+  <script src="assets/script.js"></script>
+  <script>
+    // Inline logic for Category Page specific rendering (to avoid re-writing large script.js)
+    // Or call a function from script.js if I update it.
+    // I will modify script.js to include this data and logic properly as it's cleaner.
+  </script>
+</body>
+</html>
+

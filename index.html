@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#fdfbf7">
   <title>Flean — Radically Clean. Scientifically Yours.</title>
   <link rel="stylesheet" href="assets/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="home">
 
@@ -16,74 +17,55 @@
         <span class="location-sub">489B, HSR Layout</span>
         <span>▼</span>
       </div>
-      <button class="rewards-btn">Get Rewards</button>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="rewards-btn">Get Rewards</button>
+        <div class="profile-icon-header" onclick="window.location.href='profile.html'">
+          <img src="assets/images/Salad Icon.png" alt="Profile" onerror="this.src='https://via.placeholder.com/40'">
+        </div>
+      </div>
     </div>
     
-    <!-- Mode Toggle -->
-    <div class="mode-toggle-container" id="homeContainer" data-mode="grocery">
-      <div class="mode-indicator"></div>
-      <button class="mode-toggle-btn active" id="toggleGrocery" onclick="setMode('grocery')">Clean Pantry</button>
-      <button class="mode-toggle-btn" id="toggleMeals" onclick="setMode('meals')">Fresh Meals</button>
+    <!-- Mode Tabs: Clean Pantry / Fresh Meals -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="pantry" onclick="switchMode('pantry')">Clean Pantry</button>
+      <button class="mode-tab" data-mode="meals" onclick="switchMode('meals')">Fresh Meals</button>
     </div>
-
+    
     <!-- Search -->
     <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" placeholder="Search 'sugar free' or 'high protein'...">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search 'sugar free' or 'high protein'...">
     </div>
   </header>
 
-  <!-- Categories (Grocery Only) -->
-  <div class="chip-row" id="categoryScroll">
-    <!-- Injected via JS -->
-  </div>
-
-  <!-- Trust Bar -->
-  <div class="trust-bar">
-    <div class="trust-item">🛡️ 300+ Additives Banned</div>
-    <div class="trust-item">🧠 AI Health Scored</div>
-    <div class="trust-item">🌿 Clean Label Only</div>
-  </div>
-
-  <!-- Hero Banner -->
-  <div class="hero-banner" id="heroBanner">
-    <!-- Injected via JS -->
-  </div>
-
-  <!-- Collections Grid (Tailored to your taste) -->
-  <section class="feed-header">
-    <h3>Tailored to your taste</h3>
-  </section>
-  
-  <div class="collections-grid">
-    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
-      <div class="collection-title">High-fibre heroes</div>
-      <div class="collection-sub">Easy on the gut</div>
-      <img src="assets/images/Burrito_Bowl_Supreme.jpg" class="collection-img" alt="Fiber">
+  <!-- Trust Badges Section -->
+  <div class="trust-bar-container">
+    <div class="trust-item-card">
+      <span class="trust-icon">🛡️</span>
+      <span class="trust-text">300+ Additives Banned</span>
     </div>
-    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
-      <div class="collection-title">Vegan and vibin</div>
-      <div class="collection-sub">Top-tier collection</div>
-      <img src="assets/images/Bowl Street Kitchen.png" class="collection-img" alt="Vegan">
+    <div class="trust-item-card">
+      <span class="trust-icon">🧠</span>
+      <span class="trust-text">AI Health Scored</span>
     </div>
-    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
-      <div class="collection-title">Keto, done right</div>
-      <div class="collection-sub">Carbs on the low</div>
-      <img src="assets/images/KetoGoal.png" class="collection-img" alt="Keto">
-    </div>
-    <div class="collection-card" onclick="window.location.href='flean_finds.html'">
-      <div class="collection-title">Protein Power</div>
-      <div class="collection-sub">Less doubt</div>
-      <img src="assets/images/Protein Plus Co. Kitchen.png" class="collection-img" alt="Protein">
+    <div class="trust-item-card">
+      <span class="trust-icon">🌿</span>
+      <span class="trust-text">Clean Label Only</span>
     </div>
   </div>
 
-  <!-- Product Feed -->
-  <section class="feed-header">
-    <h3 id="feedTitle">Scientifically Curated</h3>
-  </section>
+  <!-- Pantry Clean-Up Carousel -->
+  <div class="carousel-container">
+    <div class="carousel-track" id="collectionCarousel">
+      <!-- Injected via JS -->
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
 
-  <div id="productFeed">
+  <!-- Category-wise Product Sections -->
+  <div id="categorySections">
     <!-- Injected via JS -->
   </div>
 
@@ -101,75 +83,29 @@
     </div>
   </div>
 
-  <!-- Personalize FAB -->
-  <button class="fab" id="personalizationFAB">
-    <span>✨</span> Personalize
-  </button>
-
-  <!-- Personalization Overlay -->
-  <div class="overlay" id="personalizationOverlay">
-    <div class="overlay-content">
-      <div class="overlay-header">
-        <h2>Tailor Your Feed</h2>
-        <button class="btn-icon" id="closeOverlay">✕</button>
-      </div>
-      <div class="overlay-body">
-        <div class="pref-section">
-          <h4>Goal</h4>
-          <div class="chip-row" style="padding:0; flex-wrap:wrap;">
-            <button class="chip active">Weight Loss</button>
-            <button class="chip">Muscle Gain</button>
-            <button class="chip">Maintenance</button>
-          </div>
-        </div>
-        <div class="pref-section">
-          <h4>Daily Protein</h4>
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span>Target</span>
-            <span id="proteinVal">60g</span>
-          </div>
-          <input type="range" class="slider" min="30" max="150" value="60">
-        </div>
-        <div class="pref-section">
-          <h4>Max Calories / Meal</h4>
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span>Limit</span>
-            <span id="calVal">500 kcal</span>
-          </div>
-          <input type="range" class="slider" id="calSlider" min="300" max="1000" value="500">
-        </div>
-        <div class="pref-section">
-          <h4>Dietary Exclusions</h4>
-          <div class="chip-row" style="padding:0; flex-wrap:wrap;">
-            <button class="chip active">No Palm Oil</button>
-            <button class="chip">Gluten Free</button>
-            <button class="chip">Dairy Free</button>
-            <button class="chip">No Added Sugar</button>
-          </div>
-        </div>
-      </div>
-      <div class="overlay-footer">
-        <button class="btn-primary" style="width:100%" id="savePreferences">Save & Refresh Feed</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Bottom Nav -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item active">
-      <span class="nav-icon">🏠</span>
+      <span class="nav-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </span>
       <span>Home</span>
     </a>
     
     <div class="nav-scanner-wrapper">
       <div class="nav-scanner-btn" onclick="window.location.href='scanner.html'">
-        <span class="nav-scanner-icon">📸</span>
+        <svg class="nav-scanner-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
       </div>
     </div>
 
-    <a href="profile.html" class="nav-item">
-      <span class="nav-icon">👤</span>
-      <span>Profile</span>
+    <a href="categories.html" class="nav-item">
+      <span class="nav-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      </span>
+      <span>Category</span>
     </a>
   </nav>
 
