@@ -815,7 +815,36 @@
     }
 
     function finishOnboarding() {
+      // Collect all selected preferences
+      const selectedChips = document.querySelectorAll('.chip.selected');
+      const preferences = {
+        goals: [],
+        dietary: [],
+        avoid: [],
+        all: []
+      };
+      
+      selectedChips.forEach(chip => {
+        const section = chip.closest('.chip-section');
+        const sectionTitle = section.querySelector('.chip-section-title').textContent.toLowerCase();
+        const chipText = chip.textContent.replace('✓', '').trim().split(' ').slice(1).join(' '); // Remove emoji and checkmark
+        
+        preferences.all.push(chipText);
+        
+        if (sectionTitle.includes('goal')) {
+          preferences.goals.push(chipText);
+        } else if (sectionTitle.includes('diet')) {
+          preferences.dietary.push(chipText);
+        } else if (sectionTitle.includes('no')) {
+          preferences.avoid.push(chipText);
+        }
+      });
+      
+      // Save to localStorage
+      localStorage.setItem('userPreferences', JSON.stringify(preferences));
       localStorage.setItem('hasCompletedOnboarding', 'true');
+      localStorage.setItem('onboardingDate', new Date().toISOString());
+      
       window.location.href = 'index.html';
     }
   </script>

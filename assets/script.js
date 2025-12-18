@@ -208,6 +208,60 @@ const products = [
   }
 ];
 
+// Personalized Products Database (mapped to preferences)
+const personalizedProducts = {
+  'Muscle Gain': [
+    { id: 'pf1', name: 'High Protein Peanut Butter', image: 'assets/images/Protein Plus Co. Kitchen.png', match: 'Muscle Gain', tags: ['32g Protein'] },
+    { id: 'pf2', name: 'Protein Oats Mix', image: 'assets/images/Ancient Grains Kitchen.png', match: 'Muscle Gain', tags: ['25g Protein'] }
+  ],
+  'Weight Loss': [
+    { id: 'pf3', name: 'Low-Cal Granola', image: 'assets/images/Millet-Bowl-13.jpg', match: 'Weight Loss', tags: ['120 Cal'] },
+    { id: 'pf4', name: 'Slim Shake Mix', image: 'assets/images/Fresh Greens Co. Kitchen.png', match: 'Weight Loss', tags: ['High Fiber'] }
+  ],
+  'Healthy Life': [
+    { id: 'pf5', name: 'Organic Quinoa', image: 'assets/images/Quinoa & Roasted Veggie Salad.png', match: 'Healthy Life', tags: ['Organic'] },
+    { id: 'pf6', name: 'Superfood Seeds Mix', image: 'assets/images/Salad Icon.png', match: 'Healthy Life', tags: ['Nutrient Dense'] }
+  ],
+  'Keto': [
+    { id: 'pf7', name: 'Keto Bread', image: 'assets/images/KetoGoal.png', match: 'Keto', tags: ['2g Carbs'] },
+    { id: 'pf8', name: 'Almond Flour', image: 'assets/images/Nourish Cafe Kitchen.png', match: 'Keto', tags: ['Low Carb'] }
+  ],
+  'Vegan': [
+    { id: 'pf9', name: 'Oat Milk Barista', image: 'assets/images/GreenBowl_kitchen.png', match: 'Vegan', tags: ['Plant Based'] },
+    { id: 'pf10', name: 'Vegan Protein Bar', image: 'assets/images/Bowl Street Kitchen.png', match: 'Vegan', tags: ['20g Protein'] }
+  ],
+  'Intermittent': [
+    { id: 'pf11', name: 'Black Coffee Blend', image: 'assets/images/Burrito_Bowl_Supreme.jpg', match: 'Intermittent', tags: ['Zero Cal'] }
+  ],
+  'Paleo': [
+    { id: 'pf12', name: 'Grass-Fed Jerky', image: 'assets/images/Protein Plus Co. Kitchen.png', match: 'Paleo', tags: ['Whole30'] }
+  ],
+  'No Palm Oil': [
+    { id: 'pf13', name: 'Clean Cookies', image: 'assets/images/Millet-Bowl-13.jpg', match: 'Palm Oil Free', tags: ['No Palm Oil'] }
+  ],
+  'No Added Sugar': [
+    { id: 'pf14', name: 'Sugar-Free Chocolate', image: 'assets/images/KetoGoal.png', match: 'No Sugar', tags: ['0g Sugar'] }
+  ],
+  'Gluten Free': [
+    { id: 'pf15', name: 'GF Pasta', image: 'assets/images/Nourish Cafe Kitchen.png', match: 'Gluten Free', tags: ['Certified GF'] },
+    { id: 'pf16', name: 'Rice Flour', image: 'assets/images/Ancient Grains Kitchen.png', match: 'Gluten Free', tags: ['Naturally GF'] }
+  ]
+};
+
+// Preference Icons
+const preferenceIcons = {
+  'Muscle Gain': '💪',
+  'Weight Loss': '⚖️',
+  'Healthy Life': '🧘',
+  'Keto': '🥑',
+  'Intermittent': '⏰',
+  'Vegan': '🌱',
+  'Paleo': '🥩',
+  'No Palm Oil': '🛡️',
+  'No Added Sugar': '🍬',
+  'Gluten Free': '🌾'
+};
+
 // ═══════════════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════════════
@@ -215,7 +269,8 @@ const products = [
 const state = {
   cart: JSON.parse(localStorage.getItem('fleanCart') || '[]'),
   selectedCategory: 'featured',
-  mode: 'pantry' // 'pantry' or 'meals'
+  mode: 'pantry', // 'pantry' or 'meals'
+  userPreferences: JSON.parse(localStorage.getItem('userPreferences') || 'null')
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -228,11 +283,130 @@ function initApp() {
   updateCartBadge();
   
   if (page === 'home') {
+    renderPersonalization();
     renderHome();
   } else if (page === 'categories') {
     renderCategoriesPage();
   } else if (page === 'collection') {
     renderCollectionPage();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PERSONALIZATION ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+function renderPersonalization() {
+  const prefs = state.userPreferences;
+  if (!prefs || !prefs.all || prefs.all.length === 0) return;
+  
+  // Show "Personalized" indicator in header
+  const indicator = document.getElementById('personalizedIndicator');
+  if (indicator) indicator.style.display = 'inline-block';
+  
+  // Show personalized greeting
+  const greetingEl = document.getElementById('personalizedGreeting');
+  const userNameEl = document.getElementById('userName');
+  const badgesEl = document.getElementById('preferenceBadges');
+  
+  if (greetingEl) {
+    greetingEl.style.display = 'block';
+    
+    // Get user name from localStorage
+    const userName = localStorage.getItem('userName') || 'there';
+    if (userNameEl) userNameEl.textContent = userName;
+    
+    // Render preference badges (max 4)
+    if (badgesEl) {
+      const displayPrefs = prefs.all.slice(0, 4);
+      badgesEl.innerHTML = displayPrefs.map(p => {
+        const icon = preferenceIcons[p] || '✓';
+        return `<span class="pref-badge"><span class="pref-badge-icon">${icon}</span> ${p}</span>`;
+      }).join('');
+    }
+  }
+  
+  // Show "For You" section
+  const forYouSection = document.getElementById('forYouSection');
+  const forYouGrid = document.getElementById('forYouGrid');
+  
+  if (forYouSection && forYouGrid) {
+    // Gather personalized products based on preferences
+    let personalizedItems = [];
+    
+    prefs.all.forEach(pref => {
+      const items = personalizedProducts[pref];
+      if (items) {
+        personalizedItems = [...personalizedItems, ...items];
+      }
+    });
+    
+    // Remove duplicates and limit to 4
+    const uniqueItems = [];
+    const seenIds = new Set();
+    for (const item of personalizedItems) {
+      if (!seenIds.has(item.id) && uniqueItems.length < 4) {
+        seenIds.add(item.id);
+        uniqueItems.push(item);
+      }
+    }
+    
+    if (uniqueItems.length > 0) {
+      forYouSection.style.display = 'block';
+      
+      forYouGrid.innerHTML = uniqueItems.map(item => `
+        <div class="for-you-card" onclick="window.location.href='collection.html?title=${encodeURIComponent(item.name)}'">
+          <span class="for-you-card-badge">${item.tags[0] || 'Match'}</span>
+          <img src="${item.image}" class="for-you-card-img" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80'">
+          <div class="for-you-card-title">${item.name}</div>
+          <div class="for-you-card-match">Matches: ${item.match}</div>
+        </div>
+      `).join('');
+    }
+  }
+  
+  // Reorder carousel based on preferences (if Keto is selected, show Keto carousel first)
+  reorderCarouselByPreferences();
+}
+
+function reorderCarouselByPreferences() {
+  const prefs = state.userPreferences;
+  if (!prefs || !prefs.all) return;
+  
+  // Map preference keywords to carousel IDs
+  const prefToCarouselMap = {
+    'Keto': 'col-keto',
+    'Vegan': 'col-vegan',
+    'Muscle Gain': 'col-protein',
+    'Healthy Life': 'col-fiber',
+    'Weight Loss': 'col-fiber'
+  };
+  
+  // Find matching carousel items
+  const matchedIds = [];
+  prefs.all.forEach(p => {
+    const carId = prefToCarouselMap[p];
+    if (carId && !matchedIds.includes(carId)) {
+      matchedIds.push(carId);
+    }
+  });
+  
+  // Reorder carouselItems array - matched items first
+  if (matchedIds.length > 0) {
+    const matched = [];
+    const others = [];
+    
+    carouselItems.forEach(item => {
+      if (matchedIds.includes(item.id)) {
+        matched.push(item);
+      } else {
+        others.push(item);
+      }
+    });
+    
+    // Clear and repopulate
+    carouselItems.length = 0;
+    carouselItems.push(...matched, ...others);
   }
 }
 

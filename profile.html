@@ -66,6 +66,26 @@
     </div>
   </div>
 
+  <!-- Personalization Section (For Demo) -->
+  <div id="personalizationSection" class="menu-list" style="margin-bottom: var(--space-md); display: none;">
+    <div style="padding: 12px 20px; display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #e6f4f1 0%, #d4edda 100%); border-radius: 12px 12px 0 0;">
+      <span style="font-size: 1.3rem;">✨</span>
+      <div>
+        <strong style="font-size: 0.9rem; color: var(--charcoal);">Your Preferences</strong>
+        <p style="font-size: 0.75rem; color: var(--gray-neutral); margin-top: 2px;">Personalized experience active</p>
+      </div>
+    </div>
+    <div id="currentPreferences" style="padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 6px; background: white;">
+      <!-- Injected by JS -->
+    </div>
+    <div class="menu-item" onclick="resetOnboarding()" style="color: var(--deep-green);">
+      <span style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:1.2rem">🔄</span> Re-personalize (Demo)
+      </span>
+      <span style="color:var(--sand-400)">›</span>
+    </div>
+  </div>
+
   <div class="menu-list">
     <div class="menu-item" onclick="window.location.href='orders.html'">
       <span style="display:flex; align-items:center; gap:12px;">
@@ -112,5 +132,38 @@
   </p>
 
   <script src="assets/script.js"></script>
+  <script>
+    // Profile-specific personalization display
+    function initProfilePersonalization() {
+      const prefs = JSON.parse(localStorage.getItem('userPreferences') || 'null');
+      const section = document.getElementById('personalizationSection');
+      const container = document.getElementById('currentPreferences');
+      
+      if (prefs && prefs.all && prefs.all.length > 0 && section && container) {
+        section.style.display = 'block';
+        
+        const icons = {
+          'Muscle Gain': '💪', 'Weight Loss': '⚖️', 'Healthy Life': '🧘',
+          'Keto': '🥑', 'Intermittent': '⏰', 'Vegan': '🌱', 'Paleo': '🥩',
+          'No Palm Oil': '🛡️', 'No Added Sugar': '🍬', 'Gluten Free': '🌾'
+        };
+        
+        container.innerHTML = prefs.all.map(p => `
+          <span style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; background: #f0f9f4; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: var(--deep-green);">
+            ${icons[p] || '✓'} ${p}
+          </span>
+        `).join('');
+      }
+    }
+    
+    function resetOnboarding() {
+      localStorage.removeItem('userPreferences');
+      localStorage.removeItem('hasCompletedOnboarding');
+      window.location.href = 'welcome.html';
+    }
+    
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', initProfilePersonalization);
+  </script>
 </body>
 </html>

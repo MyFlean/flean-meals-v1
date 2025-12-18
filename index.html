@@ -26,9 +26,14 @@
     </div>
     
     <!-- Mode Tabs: Clean Pantry / Fresh Meals -->
-    <div class="mode-tabs">
-      <button class="mode-tab active" data-mode="pantry" onclick="switchMode('pantry')">Clean Pantry</button>
-      <button class="mode-tab" data-mode="meals" onclick="switchMode('meals')">Fresh Meals</button>
+    <div class="mode-tabs-container">
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="pantry" onclick="switchMode('pantry')">Clean Pantry</button>
+        <button class="mode-tab" data-mode="meals" onclick="switchMode('meals')">Fresh Meals</button>
+      </div>
+      <span id="personalizedIndicator" class="personalized-indicator" style="display: none;">
+        ✨ Personalized
+      </span>
     </div>
     
     <!-- Search -->
@@ -39,6 +44,19 @@
       <input type="text" class="search-input" id="searchInput" placeholder="Search 'sugar free' or 'high protein'...">
     </div>
   </header>
+
+  <!-- Personalized Greeting (shows if user has preferences) -->
+  <div id="personalizedGreeting" class="personalized-greeting" style="display: none;">
+    <div class="greeting-content">
+      <div class="greeting-text">
+        <span class="greeting-hello">Hey <span id="userName">there</span> 👋</span>
+        <h2 class="greeting-headline">Your Clean Picks are Ready</h2>
+      </div>
+      <div class="preference-badges" id="preferenceBadges">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
 
   <!-- Trust Badges Section -->
   <div class="trust-bar-container">
@@ -62,6 +80,19 @@
       <!-- Injected via JS -->
     </div>
     <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+
+  <!-- Personalized "For You" Section (shows if user has preferences) -->
+  <div id="forYouSection" class="for-you-section" style="display: none;">
+    <div class="for-you-header">
+      <div>
+        <span class="for-you-tag">✨ CURATED FOR YOU</span>
+        <h3 class="for-you-title">Based on Your Preferences</h3>
+      </div>
+    </div>
+    <div class="for-you-grid" id="forYouGrid">
+      <!-- Injected via JS -->
+    </div>
   </div>
 
   <!-- Category-wise Product Sections -->

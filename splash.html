@@ -244,6 +244,13 @@
     const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
     const isAuthenticated = localStorage.getItem('isAuthenticated');
     
+    // For demo purposes: allow quick start by clicking splash
+    document.body.addEventListener('click', () => {
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userName', 'Priyam');
+      window.location.href = 'welcome.html';
+    });
+    
     // Redirect after splash animation
     setTimeout(() => {
       if (isAuthenticated === 'true') {
@@ -253,7 +260,10 @@
           window.location.href = 'welcome.html';
         }
       } else {
-        window.location.href = 'login.html';
+        // For VC demo: auto-authenticate and go to onboarding
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('userName', 'Priyam');
+        window.location.href = 'welcome.html';
       }
     }, 2500);
   </script>
