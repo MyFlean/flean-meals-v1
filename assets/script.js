@@ -616,7 +616,84 @@ function updateCartBadge() {
   // Optional: Update badge if added in UI
 }
 
-document.addEventListener('DOMContentLoaded', initApp);
+// ═══════════════════════════════════════════════════════════════════
+// SEARCH FUNCTIONALITY
+// ═══════════════════════════════════════════════════════════════════
+
+function initSearchBar() {
+  const searchInput = document.getElementById('searchInput');
+  
+  if (!searchInput) return;
+  
+  // Navigate to search results page on focus
+  searchInput.addEventListener('focus', () => {
+    window.location.href = 'search_results.html';
+  });
+  
+  // Alternative: Search on enter key
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && searchInput.value.trim().length > 0) {
+      const query = encodeURIComponent(searchInput.value.trim());
+      window.location.href = `search_results.html?q=${query}`;
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// ANIMATED SEARCH MARQUEE (Home Page)
+// ═══════════════════════════════════════════════════════════════════
+
+const HOME_MARQUEE_ITEMS = [
+  { text: 'organic snacks', icon: '🌿' },
+  { text: 'protein bars', icon: '💪' },
+  { text: 'sugar free', icon: '🍬' },
+  { text: 'gluten free', icon: '🌾' },
+  { text: 'healthy chips', icon: '🥔' },
+  { text: 'oats & muesli', icon: '🥣' },
+  { text: 'almond milk', icon: '🥛' },
+  { text: 'peanut butter', icon: '🥜' },
+  { text: 'dark chocolate', icon: '🍫' },
+  { text: 'green tea', icon: '🍵' },
+  { text: 'quinoa', icon: '🌾' },
+  { text: 'coconut water', icon: '🥥' },
+  { text: 'keto snacks', icon: '🥑' },
+  { text: 'vegan treats', icon: '🥬' },
+  { text: 'high protein', icon: '🏋️' },
+  { text: 'low calorie', icon: '🔥' }
+];
+
+function initHomeMarquee() {
+  const track = document.getElementById('homeMarqueeTrack');
+  if (!track) return;
+
+  const createChips = () => {
+    return HOME_MARQUEE_ITEMS.map(item => `
+      <button class="marquee-chip" onclick="window.location.href='search_results.html?q=${encodeURIComponent(item.text)}'">
+        <span class="marquee-chip-icon">${item.icon}</span>
+        <span>${item.text}</span>
+      </button>
+    `).join('');
+  };
+
+  // Duplicate for seamless infinite scroll
+  const chipsHTML = createChips();
+  track.innerHTML = chipsHTML + chipsHTML;
+
+  // Add glow to random chips
+  setTimeout(() => {
+    const chips = track.querySelectorAll('.marquee-chip');
+    [3, 8, 13, 18, 23].forEach(i => {
+      if (chips[i]) chips[i].classList.add('glow');
+    });
+  }, 300);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initApp();
+  initSearchBar();
+  initHomeMarquee();
+});
+
 window.selectCategory = selectCategory;
 window.addToCart = addToCart;
 window.switchMode = switchMode;

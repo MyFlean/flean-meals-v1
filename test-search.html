@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Test - Flean</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2D5F3F;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #6B7280;
+      margin-bottom: 30px;
+    }
+    .test-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .test-input:focus {
+      outline: none;
+      border-color: #2D5F3F;
+    }
+    .btn {
+      padding: 12px 24px;
+      background: #2D5F3F;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .btn:hover {
+      background: #1a4d2e;
+    }
+    .btn-secondary {
+      background: #6B7280;
+    }
+    .results-container {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      display: none;
+    }
+    .result-item {
+      padding: 12px;
+      background: white;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      border-left: 3px solid #2D5F3F;
+    }
+    .result-name {
+      font-weight: 600;
+      color: #1F2937;
+    }
+    .result-brand {
+      font-size: 14px;
+      color: #6B7280;
+    }
+    .result-price {
+      font-weight: 700;
+      color: #2D5F3F;
+      margin-top: 4px;
+    }
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #6B7280;
+    }
+    .error {
+      background: #FEE;
+      color: #C00;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+    .success {
+      background: #EFE;
+      color: #0A0;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+    .quick-tests {
+      margin-top: 20px;
+      padding: 20px;
+      background: #FFF8E1;
+      border-radius: 8px;
+    }
+    .quick-tests h3 {
+      margin-top: 0;
+      color: #1F2937;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🔍 Elasticsearch Search Test</h1>
+    <p class="subtitle">Test your Flean Meals product search integration</p>
+
+    <input 
+      type="text" 
+      class="test-input" 
+      id="searchQuery" 
+      placeholder="Enter search query (e.g., chips, protein, sugar free)"
+      value="chips"
+    >
+
+    <button class="btn" onclick="runSearch()">🔍 Test Search</button>
+    <button class="btn btn-secondary" onclick="clearResults()">Clear</button>
+
+    <div class="quick-tests">
+      <h3>Quick Test Queries:</h3>
+      <button class="btn" onclick="quickTest('chips')">chips</button>
+      <button class="btn" onclick="quickTest('protein')">protein</button>
+      <button class="btn" onclick="quickTest('sugar free')">sugar free</button>
+      <button class="btn" onclick="quickTest('oats')">oats</button>
+      <button class="btn" onclick="quickTest('milk')">milk</button>
+      <button class="btn" onclick="quickTest('chps')">chps (typo test)</button>
+    </div>
+
+    <div class="results-container" id="resultsContainer">
+      <h3>Search Results</h3>
+      <div id="resultsContent"></div>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/search-service.js"></script>
+  <script>
+    async function runSearch() {
+      const query = document.getElementById('searchQuery').value;
+      const container = document.getElementById('resultsContainer');
+      const content = document.getElementById('resultsContent');
+
+      if (!query.trim()) {
+        content.innerHTML = '<div class="error">Please enter a search query</div>';
+        container.style.display = 'block';
+        return;
+      }
+
+      // Show loading
+      container.style.display = 'block';
+      content.innerHTML = '<div class="loading">⏳ Searching for "' + query + '"...</div>';
+
+      try {
+        const startTime = Date.now();
+        const results = await searchService.search(query);
+        const endTime = Date.now();
+        const duration = endTime - startTime;
+
+        const products = searchService.parseResults(results);
+        
+        if (products.length === 0) {
+          content.innerHTML = '<div class="error">No results found for "' + query + '"</div>';
+          return;
+        }
+
+        let html = '<div class="success">✅ Found ' + products.length + ' results in ' + duration + 'ms</div>';
+        
+        products.forEach(product => {
+          html += `
+            <div class="result-item">
+              <div class="result-name">${product.name}</div>
+              <div class="result-brand">${product.brand}</div>
+              <div class="result-price">₹${product.price}</div>
+            </div>
+          `;
+        });
+
+        content.innerHTML = html;
+
+        // Log full response to console for debugging
+        console.log('Search Query:', query);
+        console.log('ES Response:', results);
+        console.log('Parsed Products:', products);
+
+      } catch (error) {
+        console.error('Search error:', error);
+        content.innerHTML = '<div class="error">❌ Error: ' + error.message + '</div>';
+      }
+    }
+
+    function quickTest(query) {
+      document.getElementById('searchQuery').value = query;
+      runSearch();
+    }
+
+    function clearResults() {
+      document.getElementById('resultsContainer').style.display = 'none';
+      document.getElementById('resultsContent').innerHTML = '';
+      document.getElementById('searchQuery').value = '';
+      document.getElementById('searchQuery').focus();
+    }
+
+    // Allow Enter key to search
+    document.getElementById('searchQuery').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        runSearch();
+      }
+    });
+
+    // Focus input on load
+    window.addEventListener('load', () => {
+      document.getElementById('searchQuery').focus();
+    });
+  </script>
+</body>
+</html>
+

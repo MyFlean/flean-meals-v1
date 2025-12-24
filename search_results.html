@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#fdfbf7">
+  <title>Search Results — Flean</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="search-results">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top-row">
+      <button class="back-btn" onclick="goBack()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <h2 style="font-size: 1.1rem; font-weight: 700; flex: 1; text-align: center; margin-right: 24px;">Search Results</h2>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="search-container">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+      <button class="search-clear-btn" id="clearSearchBtn" style="display: none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Search Info Bar -->
+  <div class="search-info-bar" id="searchInfoBar" style="display: none;">
+    <div style="font-size: 0.85rem; color: var(--gray-neutral);">
+      <span id="resultsCount">0</span> results for "<span id="searchQuery"></span>"
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar" id="filterBar" style="display: none;">
+    <div class="filter-scroll">
+      <!-- Healthy Only Toggle -->
+      <label class="filter-toggle">
+        <input type="checkbox" id="healthyOnlyToggle">
+        <span class="toggle-slider"></span>
+        <span class="toggle-label">🌿 Healthy Only</span>
+      </label>
+      
+      <!-- Quick filter chips -->
+      <button class="filter-chip" onclick="applyDietaryFilter('ORGANIC')">Organic</button>
+      <button class="filter-chip" onclick="applyDietaryFilter('GLUTEN FREE')">Gluten Free</button>
+      <button class="filter-chip" onclick="applyDietaryFilter('VEGAN')">Vegan</button>
+      <button class="filter-chip" onclick="applyDietaryFilter('HIGH PROTEIN')">High Protein</button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" id="loadingContainer" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p style="margin-top: 12px; color: var(--gray-neutral);">Searching products...</p>
+  </div>
+
+  <!-- Animated Search Marquee -->
+  <div class="search-marquee-wrapper" id="searchMarquee">
+    <div class="marquee-label">✨ Trending Searches</div>
+    <div class="search-marquee-container">
+      <div class="search-marquee-track" id="marqueeTrack">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State (Initial) -->
+  <div class="empty-state" id="emptyStateInitial">
+    <div class="empty-state-icon">🔍</div>
+    <h3>Search for Products</h3>
+    <p>Try searching for "chips", "protein", "sugar free", or any product you're looking for</p>
+    
+    <!-- Popular Searches -->
+    <div style="margin-top: 24px;">
+      <div style="font-size: 0.8rem; font-weight: 600; color: var(--gray-neutral); margin-bottom: 12px;">Popular Searches</div>
+      <div class="popular-searches" id="popularSearches">
+        <button class="search-chip" onclick="performSearch('chips')">chips</button>
+        <button class="search-chip" onclick="performSearch('protein')">protein</button>
+        <button class="search-chip" onclick="performSearch('sugar free')">sugar free</button>
+        <button class="search-chip" onclick="performSearch('oats')">oats</button>
+        <button class="search-chip" onclick="performSearch('milk')">milk</button>
+        <button class="search-chip" onclick="performSearch('cookies')">cookies</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results State -->
+  <div class="empty-state" id="emptyStateNoResults" style="display: none;">
+    <div class="empty-state-icon">😕</div>
+    <h3>No products found</h3>
+    <p>Try adjusting your search or browse our categories</p>
+    <button onclick="window.location.href='categories.html'" style="margin-top: 16px; padding: 10px 24px; background: var(--deep-green); color: white; border-radius: 24px; font-weight: 600;">
+      Browse Categories
+    </button>
+  </div>
+
+  <!-- Error State -->
+  <div class="empty-state" id="errorState" style="display: none;">
+    <div class="empty-state-icon">⚠️</div>
+    <h3>Something went wrong</h3>
+    <p id="errorMessage">Please try again</p>
+    <button onclick="retrySearch()" style="margin-top: 16px; padding: 10px 24px; background: var(--deep-green); color: white; border-radius: 24px; font-weight: 600;">
+      Retry Search
+    </button>
+  </div>
+
+  <!-- Results Grid -->
+  <div class="search-results-container" id="searchResultsContainer" style="display: none;">
+    <div class="products-grid-2col" id="resultsGrid">
+      <!-- Results will be injected here -->
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </span>
+      <span>Home</span>
+    </a>
+    
+    <div class="nav-scanner-wrapper">
+      <div class="nav-scanner-btn" onclick="window.location.href='scanner.html'">
+        <svg class="nav-scanner-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </div>
+    </div>
+
+    <a href="categories.html" class="nav-item">
+      <span class="nav-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+      </span>
+      <span>Category</span>
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="assets/config.js"></script>
+  <script src="assets/search-service.js"></script>
+  <script src="assets/search-ui.js"></script>
+</body>
+</html>
+

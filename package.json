@@ -1,0 +1,15 @@
+{
+  "name": "flean-meals",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static site with Elasticsearch search proxy",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
+
